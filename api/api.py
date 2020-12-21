@@ -27,11 +27,17 @@ def getskillsbyoccupation(occupation):
 
 	status = ""
 	statuscode = 200
-	records = func.searchskillsbyoccupation(occupation)
-	if len(records) > 0:
-		status = "The skills for the occupations that matched the query found"
+	if func.isId(occupation) == 'occupation':
+		records = func.searchskillsbyoccupation_exact(occupation)
+		status = "Exact occupation id detected for lookup. "
 	else:
-		status = "No occupations matched the query"
+		records = func.searchskillsbyoccupation_fuzzy(occupation)
+		status = "Search with input query performed. "
+
+	if len(records) > 0:
+		status += "The skills for the occupations that matched the query found."
+	else:
+		status += "No occupations matched the query."
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyskillsbyoccupation(records))
 
@@ -41,12 +47,19 @@ def getskills(skill):
 
 	status = ""
 	statuscode = 200
-	records = func.searchskills(skill)
-	if len(records) > 0:
-		status = "The skills that matched the query found"
+
+	if func.isId(skill) == 'skill':
+		records = func.searchskills_exact(skill)
+		status = "Exact skill id detected for lookup. "
 	else:
-		status = "No skills matched the query"
-		
+		records = func.searchskills_fuzzy(skill)
+		status = "Search with input query performed. "
+
+	if len(records) > 0:
+		status += "The skills that matched the query found."
+	else:
+		status += "No skills matched the query."
+
 	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
 
 

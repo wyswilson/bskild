@@ -22,19 +22,13 @@ import math
 config = configparser.ConfigParser()
 config.read('conf.ini')
 
-apisecretkey	= config['auth']['secretkey']
 logfile 		= config['path']['log']
-productdir 		= config['path']['products']
-imagepath 		= config['path']['images']
+idprefix 		= config['path']['idprefix']
 mysqlhost 		= config['mysql']['host']
 mysqlport 		= config['mysql']['port']
 mysqluser 		= config['mysql']['user']
 mysqlpassword 	= config['mysql']['password']
 mysqldb 		= config['mysql']['db']
-defaultbrandid 		= config['default']['brandid']
-defaultbrandname 	= config['default']['brandname']
-defaultretailercity = config['default']['retailercity']
-defaultdateexpiry 	= config['default']['dateexpiry']
 useragents 		= json.loads(config['scraper']['useragents'].replace('\n',''))
 
 db = mysql.connector.connect(
@@ -183,7 +177,43 @@ def jsonifyskillsbyoccupation(records):
 
 	return results
 
-def searchskills(skill):
+def searchskills_exact(skillid):
+	conceptUri = "%s/skill/%s" % (idprefix,skillid)
+
+	query1 = """
+		SELECT
+			(score1*1.5 + score2) AS score,
+			skillId,skillName,skillDesc,skillType,
+			skillGenerality,skillOptionality,
+			occupationId,occupationName,occupationDesc
+		FROM (
+			SELECT
+				s.conceptUri AS skillId,
+				s.preferredLabel AS skillName,
+				s.description AS skillDesc,
+				s.skillType AS skillType,
+				s.reuseLevel AS skillGenerality,
+				os.relationType AS skillOptionality,
+				o.conceptUri AS occupationId,
+				o.preferredLabel AS occupationName,
+				o.description AS occupationDesc,
+				100 aS score1,
+				100 aS score2
+			FROM skills AS s
+			JOIN occupations_skills AS os
+			ON s.conceptUri = os.skillUri
+			JOIN occupations AS o
+			ON os.occupationUri = o.conceptUri
+			WHERE s.conceptUri = %s
+		) AS innertmp 
+	"""
+	cursor = _execute(db,query1,(conceptUri,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
+
+def searchskills_fuzzy(skill):
 	query1 = """
 		SELECT
 			(score1*1.5 + score2) AS score,
@@ -220,7 +250,36 @@ def searchskills(skill):
 
 	return records	
 
-def searchskillsbyoccupation(occupation):
+def searchskillsbyoccupation_exact(occupationid):
+	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+	query1 = """
+		SELECT         
+			(o.score1 + o.score2*5) AS score,
+			og.code AS groupId, og.preferredLabel as groupName,
+			o.conceptUri AS `id`, o.preferredLabel AS `name`, o.altLabels AS syns, o.description AS `desc`,
+			os.skillUri AS skillId, s.preferredLabel AS skillName, s.description AS skillDesc, s.skillType, s.reuseLevel AS skillGenerality
+		FROM (         
+			SELECT conceptUri,iscoGroup,preferredLabel,altLabels,description,
+			100 aS score1,
+			100 aS score2
+			FROM occupations
+			WHERE conceptUri = %s
+			ORDER BY 6 desc
+		) AS o         
+		JOIN occupations_skills AS os
+		ON o.conceptUri = os.occupationUri
+		JOIN skills AS s
+		ON os.skillUri = s.conceptUri
+		JOIN occupations_groups AS og
+		ON o.iscoGroup = og.code
+	"""
+	cursor = _execute(db,query1,(conceptUri,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records
+
+def searchskillsbyoccupation_fuzzy(occupation):
 	query1 = """
 		SELECT         
 			(o.score1 + o.score2*5) AS score,
@@ -251,3 +310,24 @@ def searchskillsbyoccupation(occupation):
 	cursor.close()
 
 	return records
+
+def isId(idstr):
+	idtest1 = "%s/occupation/%s" % (idprefix,idstr)
+	idtest2 = "%s/skill/%s" % (idprefix,idstr)
+	query1 = """
+		SELECT conceptUri,'occupation' AS entitytype FROM occupations
+		WHERE conceptUri = %s
+		UNION
+		SELECT conceptUri,'skill' AS entitytype FROM skills
+		WHERE conceptUri = %s
+	"""
+	cursor = _execute(db,query1,(idtest1,idtest2))
+	records = cursor.fetchall()
+	cursor.close()
+
+	concepttype = ''
+	if records:
+		idresolved = records[0][0]
+		concepttype = records[0][1]
+
+	return concepttype
