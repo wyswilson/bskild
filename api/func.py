@@ -80,6 +80,11 @@ def jsonifyoutput(statuscode,message,responsetype,records):
 def jsonifyskills(records):
 	results = []
 	occupationsbyskill = {}
+	distinctskills = {}
+	distinctskills_desc = {}
+	distinctskills_type = {}
+	distinctskills_generality = {}
+	distinctskills_optionality = {}
 	for record in records:
 		score	  		= record[0]
 		skillId  		= record[1]
@@ -131,9 +136,9 @@ def jsonifyskills(records):
 
 def jsonifyskillsbyoccupation(records):
 	results = []
+	skillsbyoccupation = {}
 	distinctoccupations = {}
 	distinctoccupations_desc = {}
-	skillsbyoccupation = {}
 	for record in records:
 		score	  		= record[0]
 		groupId  		= record[1]
