@@ -178,7 +178,7 @@ def jsonifyskillsbyoccupation(records):
 
 	return results
 
-def getskills(skill):
+def searchskills(skill):
 	query1 = """
 		SELECT
 			(score1 + score2) AS score,
