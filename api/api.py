@@ -21,7 +21,6 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
-
 @app.route('/skills/occupation/<occupation>', methods=['GET'])
 def getskillsbyoccupation(occupation):
 	print('hit [getskillsbyoccupation]')
@@ -37,5 +36,5 @@ def getskillsbyoccupation(occupation):
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyskillsbyoccupation(records))
 
 if __name__ == "__main__":
-	app.run(debug=True,host='0.0.0.0',port=88)
-	#waitress.serve(app, host="0.0.0.0", port=88)
+	app.run(debug=True,host='0.0.0.0',port=99)
+	#waitress.serve(app, host="0.0.0.0", port=99)
