@@ -35,6 +35,21 @@ def getskillsbyoccupation(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyskillsbyoccupation(records))
 
+@app.route('/skills/<skill>', methods=['GET'])
+def getskills(skill):
+	print('hit [getskills]')
+
+	status = ""
+	statuscode = 200
+	records = func.searchskills(skill)
+	if len(records) > 0:
+		status = "The skills that matched the query found"
+	else:
+		status = "No skills matched the query"
+
+	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskillsbyoccupation(records))
+
+
 if __name__ == "__main__":
 	app.run(debug=True,host='0.0.0.0',port=8888)
 	#waitress.serve(app, host="0.0.0.0", port=8888)
