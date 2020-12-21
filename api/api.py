@@ -35,7 +35,7 @@ def getskillsbyoccupation(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyskillsbyoccupation(records))
 
-@app.route('/skills/<skill>', methods=['GET'])
+@app.route('/skill/<skill>', methods=['GET'])
 def getskills(skill):
 	print('hit [getskills]')
 
