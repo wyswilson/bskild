@@ -1,0 +1,1196 @@
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+ERROR:api:Exception on /skills/java [GET]
+Traceback (most recent call last):
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask_cors\extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\wyswi\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+TypeError: getskills() got an unexpected keyword argument 'skill'
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:22] "[35m[1mGET /skills/java HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:22] "[37mGET /skills/java?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:22] "[37mGET /skills/java?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:22] "[37mGET /skills/java?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:23] "[37mGET /skills/java?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:23] "[37mGET /skills/java?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:43:59] "[37mGET /skills/java HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:48:07] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:53:15] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:53:18] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:01] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:02] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:02] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:02] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:02] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:02] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:12] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:12] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:12] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:12] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:13] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:13] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 11:54:29] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:19] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:20] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:20] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:20] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:20] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:20] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:04:40] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:05:18] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:08:58] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:08:59] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:08:59] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:08:59] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:08:59] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:08:59] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:09:17] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:10:08] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:11:07] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:11:44] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:05] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:05] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:05] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:05] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:06] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:06] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:12:18] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:13:15] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:13:46] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:14:06] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:14:32] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:15:44] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:18] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:55] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:55] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:55] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:55] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:56] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:22:56] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:23:48] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:23:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:23:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:23:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:23:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:23:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:24:19] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:24:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:24:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:24:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:24:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:24:19] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:14] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:15] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:15] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:15] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:15] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:15] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:47] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:26:49] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:27:39] "[35m[1mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:27:40] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:27:40] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:27:40] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:27:40] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:27:40] "[37mGET /skills/occupation/data%20scientist?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:28:19] "[37mGET /skills/occupation/data%20scientist HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:28:36] "[37mGET /skills/occupation/milliner HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:28:54] "[37mGET /skills/occupation/project%20manager HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:31:28] "[37mGET /skills/occupation/project%20manager HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:31:35] "[37mGET /skills/occupation/babi HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:32:21] "[37mGET /skills/occupation/project%20manager HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:32:28] "[37mGET /skills/occupation/project%20manager HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:32:37] "[37mGET /skills/occupation/bookkeeper HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:32:43] "[37mGET /skills/occupation/book%20keeper HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+INFO:werkzeug: * Restarting with stat
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:flask_cors.core:Unknown option passed to Flask-CORS: support_credentials
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 522-852-778
+INFO:werkzeug: * Running on http://0.0.0.0:88/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:34:04] "[35m[1mGET /skills/occupation/book%20keeper HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:34:05] "[37mGET /skills/occupation/book%20keeper?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:34:05] "[37mGET /skills/occupation/book%20keeper?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:34:05] "[37mGET /skills/occupation/book%20keeper?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:34:05] "[37mGET /skills/occupation/book%20keeper?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Dec/2020 12:34:05] "[37mGET /skills/occupation/book%20keeper?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\wyswi\\OneDrive\\Server\\bskilld\\api\\func.py', reloading
+INFO:werkzeug: * Restarting with stat
