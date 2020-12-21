@@ -186,7 +186,7 @@ def jsonifyskillsbyoccupation(records):
 def searchskills(skill):
 	query1 = """
 		SELECT
-			(score1 + score2) AS score,
+			(score1*1.5 + score2) AS score,
 			skillId,skillName,skillDesc,skillType,
 			skillGenerality,skillOptionality,
 			occupationId,occupationName,occupationDesc
@@ -210,7 +210,7 @@ def searchskills(skill):
 			ON os.occupationUri = o.conceptUri
 			WHERE MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE)
 		) AS innertmp 
-		WHERE (score1 + score2) > 10
+		WHERE score1 > 10
 		ORDER BY 1 DESC
 	"""
 	skillwordwildcard = "%s*" % skill
@@ -234,7 +234,6 @@ def searchskillsbyoccupation(occupation):
 			FROM occupations
 			WHERE MATCH (preferredLabel,altLabels) AGAINST (%s IN BOOLEAN MODE)
 			ORDER BY 6 desc
-			LIMIT 10    
 		) AS o         
 		JOIN occupations_skills AS os
 		ON o.conceptUri = os.occupationUri
