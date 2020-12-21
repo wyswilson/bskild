@@ -77,6 +77,11 @@ def jsonifyoutput(statuscode,message,responsetype,records):
 	response = flask.jsonify(respobj),statuscode
 	return response
 
+def jsonifyskills(records):
+	results = []
+
+	return results
+	
 def jsonifyskillsbyoccupation(records):
 	results = []
 	distinctoccupations = {}
@@ -127,7 +132,36 @@ def jsonifyskillsbyoccupation(records):
 	return results
 
 def getskills(skill):
+	query1 = """
+		SELECT         
+			(o.score1 + o.score2*5) AS score,
+			og.code AS groupId, og.preferredLabel as groupName,
+			o.conceptUri AS `id`, o.preferredLabel AS `name`, o.altLabels AS syns, o.description AS `desc`,
+			os.skillUri AS skillId, s.preferredLabel AS skillName, s.description AS skillDesc, s.skillType, s.reuseLevel AS skillReuseLevel
+		FROM (         
+			SELECT conceptUri,iscoGroup,preferredLabel,altLabels,description,
+			MATCH (preferredLabel,altLabels) AGAINST (%s IN BOOLEAN MODE) aS score1,
+			MATCH (preferredLabel,altLabels,description) AGAINST (%s IN BOOLEAN MODE) aS score2
+			FROM occupations
+			WHERE MATCH (preferredLabel,altLabels) AGAINST (%s IN BOOLEAN MODE)
+			ORDER BY 6 desc
+			LIMIT 10    
+		) AS o         
+		JOIN occupations_skills AS os
+		ON o.conceptUri = os.occupationUri
+		JOIN skills AS s
+		ON os.skillUri = s.conceptUri
+		JOIN occupations_groups AS og
+		ON o.iscoGroup = og.code
+		WHERE score1 > 10
+		ORDER BY 1 desc
+	"""
+	occwordprox = "\"%s\" @3" % occupation
+	cursor = _execute(db,query1,(occupation,occwordprox,occupation))
+	records = cursor.fetchall()
+	cursor.close()
 
+	return records	
 
 
 def searchskillsbyoccupation(occupation):

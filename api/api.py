@@ -47,7 +47,7 @@ def getskills(skill):
 	else:
 		status = "No skills matched the query"
 
-	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskillsbyoccupation(records))
+	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
 
 
 if __name__ == "__main__":
