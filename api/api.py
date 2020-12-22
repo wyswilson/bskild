@@ -21,26 +21,6 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
-@app.route('/skills/occupation/<occupation>', methods=['GET'])
-def getskillsbyoccupation(occupation):
-	print('hit [getskillsbyoccupation]')
-
-	status = ""
-	statuscode = 200
-	if func.isId(occupation) == 'occupation':
-		records = func.searchskillsbyoccupation_exact(occupation)
-		status = "Exact occupation id detected for lookup. "
-	else:
-		records = func.searchskillsbyoccupation_fuzzy(occupation)
-		status = "Search with input query performed. "
-
-	if len(records) > 0:
-		status += "The skills for the occupations that matched the query found."
-	else:
-		status += "No occupations matched the query."
-
-	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyskillsbyoccupation(records))
-
 @app.route('/skill/<skill>', methods=['GET'])
 def getskills(skill):
 	print('hit [getskills]')
@@ -61,6 +41,27 @@ def getskills(skill):
 		status += "No skills matched the query."
 
 	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
+
+@app.route('/occupation/<occupation>', methods=['GET'])
+def getoccupations(occupation):
+	print('hit [getoccupations]')
+
+	status = ""
+	statuscode = 200
+
+	if func.isId(occupation) == 'occupation':
+		records = func.searchoccupations_exact(occupation)
+		status = "Exact occupation id detected for lookup. "
+	else:
+		records = func.searchoccupations_fuzzy(occupation)
+		status = "Search with input query performed. "
+
+	if len(records) > 0:
+		status += "The occupations that matched the query found."
+	else:
+		status += "No occupations matched the query."
+
+	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
 
 if __name__ == "__main__":

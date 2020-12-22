@@ -128,31 +128,30 @@ def jsonifyskills(records):
 
 	return results
 
-def jsonifyskillsbyoccupation(records):
+def jsonifyoccupations(records):
 	results = []
 	skillsbyoccupation = {}
 	distinctoccupations = {}
 	distinctoccupations_desc = {}
 	for record in records:
 		score	  		= record[0]
-		groupId  		= record[1]
-		groupName		= record[2]
-		occupationId   	= record[3]
-		occupationName  = record[4]
-		occupationAlt	= record[5]
-		occupationDesc	= record[6]
-		skillId	   	= record[7]
-		skillName	= record[8]
-		skillDesc	= record[9]
-		skillType	= record[10]
-		skillReuse	= record[11]
+		occupationId   	= record[1]
+		occupationName  = record[2]
+		occupationDesc	= record[3]
+		skillId	   	= record[4]
+		skillName	= record[5]
+		skillDesc	= record[6]
+		skillType	= record[7]
+		skillGenerality		= record[8]
+		skillOptionality	= record[9]
 
 		skilldetails = {}
 		skilldetails['id'] = skillId
 		skilldetails['name'] = skillName
 		skilldetails['desc'] = skillDesc
 		skilldetails['type'] = skillType
-		skilldetails['generality'] = skillReuse
+		skilldetails['generality'] = skillGenerality
+		skilldetails['optionality'] = skillOptionality
 
 		if occupationId in skillsbyoccupation:
 			skillsbyoccupation[occupationId].append(skilldetails)
@@ -176,6 +175,84 @@ def jsonifyskillsbyoccupation(records):
 		results.append(occupation)
 
 	return results
+
+def searchoccupations_exact(occupationid):
+	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+
+	query1 = """
+	SELECT
+		(score1 + score2*5 + score3) AS score,
+		occupationId,occupationName,occupationDesc,
+		skillId,skillName,skillDesc,skillType,
+		skillGenerality,skillOptionality			
+	FROM (
+		SELECT
+			o.conceptUri AS occupationId,
+			o.preferredLabel AS occupationName,
+			o.description AS occupationDesc,
+			s.conceptUri AS skillId,
+			s.preferredLabel AS skillName,
+			s.description AS skillDesc,
+			s.skillType AS skillType,
+			s.reuseLevel AS skillGenerality,
+			os.relationType AS skillOptionality,
+			100 aS score1,
+			100 aS score2,
+			100 aS score3
+		FROM occupations AS o
+		JOIN occupations_skills AS os
+		ON o.conceptUri = os.occupationUri
+		JOIN skills AS s
+		ON os.skillUri = s.conceptUri
+		WHERE o.conceptUri = %s
+	) AS innertmp 
+	WHERE score1 > 10
+	ORDER BY 1 DESC
+	"""
+	cursor = _execute(db,query1,(conceptUri,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
+
+def searchoccupations_fuzzy(occupation):
+	query1 = """
+	SELECT
+		(score1 + score2*5 + score3) AS score,
+		occupationId,occupationName,occupationDesc,
+		skillId,skillName,skillDesc,skillType,
+		skillGenerality,skillOptionality			
+	FROM (
+		SELECT
+			o.conceptUri AS occupationId,
+			o.preferredLabel AS occupationName,
+			o.description AS occupationDesc,
+			s.conceptUri AS skillId,
+			s.preferredLabel AS skillName,
+			s.description AS skillDesc,
+			s.skillType AS skillType,
+			s.reuseLevel AS skillGenerality,
+			os.relationType AS skillOptionality,
+			MATCH (o.preferredLabel,o.altLabels) AGAINST (%s IN BOOLEAN MODE) aS score1,
+			MATCH (o.preferredLabel) AGAINST (%s IN BOOLEAN MODE) aS score2,
+			MATCH (o.description) AGAINST (%s IN BOOLEAN MODE) aS score3
+		FROM occupations AS o
+		JOIN occupations_skills AS os
+		ON o.conceptUri = os.occupationUri
+		JOIN skills AS s
+		ON os.skillUri = s.conceptUri
+		WHERE MATCH (o.preferredLabel,o.altLabels) AGAINST (%s IN BOOLEAN MODE)
+	) AS innertmp 
+	WHERE score1 > 10
+	ORDER BY 1 DESC
+	"""
+	occwordwildcard = "%s*" % occupation
+	occwordprox = "\"%s\" @3" % occupation
+	cursor = _execute(db,query1,(occwordwildcard,occwordprox,occwordwildcard,occwordwildcard))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
 
 def searchskills_exact(skillid):
 	conceptUri = "%s/skill/%s" % (idprefix,skillid)
@@ -249,67 +326,6 @@ def searchskills_fuzzy(skill):
 	cursor.close()
 
 	return records	
-
-def searchskillsbyoccupation_exact(occupationid):
-	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
-	query1 = """
-		SELECT         
-			(o.score1 + o.score2*5) AS score,
-			og.code AS groupId, og.preferredLabel as groupName,
-			o.conceptUri AS `id`, o.preferredLabel AS `name`, o.altLabels AS syns, o.description AS `desc`,
-			os.skillUri AS skillId, s.preferredLabel AS skillName, s.description AS skillDesc, s.skillType, s.reuseLevel AS skillGenerality
-		FROM (         
-			SELECT conceptUri,iscoGroup,preferredLabel,altLabels,description,
-			100 aS score1,
-			100 aS score2
-			FROM occupations
-			WHERE conceptUri = %s
-			ORDER BY 6 desc
-		) AS o         
-		JOIN occupations_skills AS os
-		ON o.conceptUri = os.occupationUri
-		JOIN skills AS s
-		ON os.skillUri = s.conceptUri
-		JOIN occupations_groups AS og
-		ON o.iscoGroup = og.code
-	"""
-	cursor = _execute(db,query1,(conceptUri,))
-	records = cursor.fetchall()
-	cursor.close()
-
-	return records
-
-def searchskillsbyoccupation_fuzzy(occupation):
-	query1 = """
-		SELECT         
-			(o.score1 + o.score2*5) AS score,
-			og.code AS groupId, og.preferredLabel as groupName,
-			o.conceptUri AS `id`, o.preferredLabel AS `name`, o.altLabels AS syns, o.description AS `desc`,
-			os.skillUri AS skillId, s.preferredLabel AS skillName, s.description AS skillDesc, s.skillType, s.reuseLevel AS skillGenerality
-		FROM (         
-			SELECT conceptUri,iscoGroup,preferredLabel,altLabels,description,
-			MATCH (preferredLabel,altLabels) AGAINST (%s IN BOOLEAN MODE) aS score1,
-			MATCH (preferredLabel,altLabels,description) AGAINST (%s IN BOOLEAN MODE) aS score2
-			FROM occupations
-			WHERE MATCH (preferredLabel,altLabels) AGAINST (%s IN BOOLEAN MODE)
-			ORDER BY 6 desc
-		) AS o         
-		JOIN occupations_skills AS os
-		ON o.conceptUri = os.occupationUri
-		JOIN skills AS s
-		ON os.skillUri = s.conceptUri
-		JOIN occupations_groups AS og
-		ON o.iscoGroup = og.code
-		WHERE score1 > 10
-		ORDER BY 1 desc
-	"""
-	occwordwildcard = "%s*" % occupation
-	occwordprox = "\"%s\" @3" % occupation
-	cursor = _execute(db,query1,(occwordwildcard,occwordprox,occwordwildcard))
-	records = cursor.fetchall()
-	cursor.close()
-
-	return records
 
 def isId(idstr):
 	idtest1 = "%s/occupation/%s" % (idprefix,idstr)
