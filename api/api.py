@@ -21,49 +21,96 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
-@app.route('/skill/<skill>', methods=['GET'])
+@app.route('/skills/<skill>', methods=['GET'])
 def getskills(skill):
 	print('hit [getskills]')
 
 	status = ""
 	statuscode = 200
 
-	if func.isId(skill) == 'skill':
-		records = func.searchskills_exact(skill)
-		status = "Exact skill id detected for lookup. "
+	id_,conceptype = func.isExact(skill)
+	if conceptype == 'skill' and id_ != '':
+		records = func.searchskills_exact(id_)
+		status = "Exact skill lookup. "
 	else:
 		records = func.searchskills_fuzzy(skill)
-		status = "Search with input query performed. "
+		status = "Fuzzy search with query. "
 
 	if len(records) > 0:
-		status += "The skills that matched the query found."
+		status += "Found skills matching the query."
 	else:
-		status += "No skills matched the query."
+		status += "No skills matching the query."
 
 	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
 
-@app.route('/occupation/<occupation>', methods=['GET'])
+@app.route('/occupations/<occupation>', methods=['GET'])
 def getoccupations(occupation):
 	print('hit [getoccupations]')
 
 	status = ""
 	statuscode = 200
 
-	if func.isId(occupation) == 'occupation':
-		records = func.searchoccupations_exact(occupation)
-		status = "Exact occupation id detected for lookup. "
+	id_,conceptype = func.isExact(occupation)
+	if conceptype == 'occupation' and id_ != '':
+		records = func.searchoccupations_exact(id_)
+		status = "Exact occupation lookup. "
 	else:
 		records = func.searchoccupations_fuzzy(occupation)
-		status = "Search with input query performed. "
+		status = "Fuzzy search with query. "
 
 	if len(records) > 0:
-		status += "The occupations that matched the query found."
+		status += "Found occupations matching the query."
 	else:
-		status += "No occupations matched the query."
+		status += "No occupations matching the query."
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
+@app.route('/occupations/<occupation>/alternative', methods=['GET'])
+def getaltoccupations(occupation):
+	print('hit [getaltoccupations]')
 
+	status = ""
+	statuscode = 200
+
+	id_,conceptype = func.isExact(occupation)
+	if conceptype == 'occupation' and id_ != '':
+		records = func.searchoccupationalt_exact(id_)
+		status = "Exact occupation lookup. "
+	else:
+		records = []
+		status = "Exact occupation id or name required. "
+
+	if len(records) > 0:
+		status += "Found occupations matching the query."
+	else:
+		status += "No occupations matching the query."
+
+	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupationsnoskills(records))
+
+
+@app.route('/occupations/<occupation>/related', methods=['GET'])
+def getrelatedoccupations(occupation):
+	print('hit [getrelatedoccupations]')
+
+	status = ""
+	statuscode = 200
+
+	id_,conceptype = func.isExact(occupation)
+	if conceptype == 'occupation' and id_ != '':
+		records = func.searchoccupationrelated_exact(id_)
+		status = "Exact occupation lookup. "
+	else:
+		records = []
+		status = "Exact occupation id or name required. "
+
+	if len(records) > 0:
+		status += "Found occupations matching the query."
+	else:
+		status += "No occupations matching the query."
+
+	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupationsnoskills(records))
+
+	
 if __name__ == "__main__":
 	app.run(debug=True,host='0.0.0.0',port=8888)
 	#waitress.serve(app, host="0.0.0.0", port=8888)

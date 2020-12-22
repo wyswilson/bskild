@@ -91,32 +91,35 @@ def jsonifyskills(records):
 		occupationName  = record[8]
 		occupationDesc  = record[9]
 
+		occupationId_ = occupationId.split("/occupation/")[1]
+		skillId_ = skillId.split("/skill/")[1]
+
 		occupationdetails = {}
-		occupationdetails['id'] = occupationId
+		occupationdetails['id'] = occupationId_
 		occupationdetails['name'] = occupationName
 		occupationdetails['desc'] = occupationDesc
 
-		if skillId in occupationsbyskill:
-			occupationsbyskill[skillId].append(occupationdetails)
+		if skillId_ in occupationsbyskill:
+			occupationsbyskill[skillId_].append(occupationdetails)
 		else:
-			occupationsbyskill[skillId] = [occupationdetails]
+			occupationsbyskill[skillId_] = [occupationdetails]
 
-		distinctskills[skillId] = skillName
-		distinctskills_desc[skillId] = skillDesc
-		distinctskills_type[skillId] = skillType
-		distinctskills_generality[skillId] = skillGenerality
-		distinctskills_optionality[skillId] = skillOptionality
+		distinctskills[skillId_] = skillName
+		distinctskills_desc[skillId_] = skillDesc
+		distinctskills_type[skillId_] = skillType
+		distinctskills_generality[skillId_] = skillGenerality
+		distinctskills_optionality[skillId_] = skillOptionality
 
-	for skillId in distinctskills:
-		skillName = distinctskills[skillId]
-		skillDesc = distinctskills_desc[skillId]
-		skillType = distinctskills_type[skillId]
-		skillGenerality = distinctskills_generality[skillId]
-		skillOptionality = distinctskills_optionality[skillId]
-		occupationdetails = occupationsbyskill[skillId]
+	for skillId__ in distinctskills:
+		skillName = distinctskills[skillId__]
+		skillDesc = distinctskills_desc[skillId__]
+		skillType = distinctskills_type[skillId__]
+		skillGenerality = distinctskills_generality[skillId__]
+		skillOptionality = distinctskills_optionality[skillId__]
+		occupationdetails = occupationsbyskill[skillId__]
 
 		skill = {}
-		skill['id'] = skillId
+		skill['id'] = skillId__
 		skill['name'] = skillName
 		skill['desc'] = skillDesc
 		skill['type'] = skillType
@@ -145,29 +148,32 @@ def jsonifyoccupations(records):
 		skillGenerality		= record[8]
 		skillOptionality	= record[9]
 
+		occupationId_ = occupationId.split("/occupation/")[1]
+		skillId_ = skillId.split("/skill/")[1]
+
 		skilldetails = {}
-		skilldetails['id'] = skillId
+		skilldetails['id'] = skillId_
 		skilldetails['name'] = skillName
 		skilldetails['desc'] = skillDesc
 		skilldetails['type'] = skillType
 		skilldetails['generality'] = skillGenerality
 		skilldetails['optionality'] = skillOptionality
 
-		if occupationId in skillsbyoccupation:
-			skillsbyoccupation[occupationId].append(skilldetails)
+		if occupationId_ in skillsbyoccupation:
+			skillsbyoccupation[occupationId_].append(skilldetails)
 		else:
-			skillsbyoccupation[occupationId] = [skilldetails]
+			skillsbyoccupation[occupationId_] = [skilldetails]
 
-		distinctoccupations[occupationId] = occupationName
-		distinctoccupations_desc[occupationId] = occupationDesc
+		distinctoccupations[occupationId_] = occupationName
+		distinctoccupations_desc[occupationId_] = occupationDesc
 	
-	for occupationId in distinctoccupations:
-		occupationName = distinctoccupations[occupationId]
-		occupationDesc = distinctoccupations_desc[occupationId]
-		skills = skillsbyoccupation[occupationId]
+	for occupationId__ in distinctoccupations:
+		occupationName = distinctoccupations[occupationId__]
+		occupationDesc = distinctoccupations_desc[occupationId__]
+		skills = skillsbyoccupation[occupationId__]
 
 		occupation = {}
-		occupation['id'] = occupationId
+		occupation['id'] = occupationId__
 		occupation['name'] = occupationName
 		occupation['desc'] = occupationDesc
 		occupation['skills'] = skills
@@ -175,6 +181,79 @@ def jsonifyoccupations(records):
 		results.append(occupation)
 
 	return results
+
+def jsonifyoccupationsnoskills(records):
+	results = []
+	for record in records:
+		occupationId	= record[0]
+		occupationName  = record[1]
+		occupationDesc  = record[2]
+		occupationAlt  	= record[3]
+
+		alts = occupationAlt.split("\n")
+
+		occupationId_ = occupationId.split("/occupation/")[1]
+
+		occupation = {}
+		occupation['id'] = occupationId_
+		occupation['name'] = occupationName
+		occupation['desc'] = occupationDesc
+		occupation['alternatives'] = alts
+
+		results.append(occupation)
+
+	return results
+
+def searchoccupationalt_exact(occupationid):
+	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+
+	query1 = """
+	SELECT
+		o.conceptUri AS occupationId,
+		o.preferredLabel AS occupationName,
+		o.description AS occupationDesc,
+		o.altLabels AS occupationAlt,
+		0 as skillOverlapCnt
+	FROM occupations AS o
+	WHERE o.conceptUri = %s
+	"""
+	cursor = _execute(db,query1,(conceptUri,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
+
+def searchoccupationrelated_exact(occupationid):
+	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+
+	query1 = """  
+		SELECT  * 
+		FROM (
+			SELECT
+				o2.conceptUri AS occupationId,
+				o2.preferredLabel AS occupationName,
+				o2.description AS occupationDesc,
+				o2.altLabels AS occupationAlt,
+				count(os2.skillUri) as skillOverlapCnt
+			FROM occupations AS o
+			JOIN occupations_skills AS os1
+			ON o.conceptUri = os1.occupationUri
+			JOIN occupations_skills AS os2
+			ON os1.skillUri = os2.skillUri AND os2.occupationUri != o.conceptUri
+			JOIN occupations AS o2
+			ON os2.occupationUri = o2.conceptUri
+			WHERE o.conceptUri = %s
+			GROUP BY 1,2,3,4
+			ORDER BY 5 desc
+		) as innerTmp
+		WHERE skillOverlapCnt > 10
+	"""
+	cursor = _execute(db,query1,(conceptUri,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	print(len(records))
+	return records	
 
 def searchoccupations_exact(occupationid):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
@@ -327,23 +406,26 @@ def searchskills_fuzzy(skill):
 
 	return records	
 
-def isId(idstr):
+def isExact(idstr):
 	idtest1 = "%s/occupation/%s" % (idprefix,idstr)
 	idtest2 = "%s/skill/%s" % (idprefix,idstr)
 	query1 = """
 		SELECT conceptUri,'occupation' AS entitytype FROM occupations
-		WHERE conceptUri = %s
+		WHERE conceptUri = %s OR preferredLabel = %s
 		UNION
 		SELECT conceptUri,'skill' AS entitytype FROM skills
-		WHERE conceptUri = %s
+		WHERE conceptUri = %s OR preferredLabel = %s
 	"""
-	cursor = _execute(db,query1,(idtest1,idtest2))
+	cursor = _execute(db,query1,(idtest1,idstr,idtest2,idstr))
 	records = cursor.fetchall()
 	cursor.close()
 
 	concepttype = ''
+	id_ = ''
 	if records:
 		idresolved = records[0][0]
 		concepttype = records[0][1]
 
-	return concepttype
+		id_ = idresolved.split("/%s/" % concepttype)[1]
+
+	return id_,concepttype
