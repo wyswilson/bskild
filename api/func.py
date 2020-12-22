@@ -71,71 +71,7 @@ def jsonifyoutput(statuscode,message,responsetype,records):
 	response = flask.jsonify(respobj),statuscode
 	return response
 
-def jsonifyskills(records):
-	results = []
-	occupationsbyskill = {}
-	distinctskills = {}
-	distinctskills_desc = {}
-	distinctskills_type = {}
-	distinctskills_generality = {}
-	distinctskills_optionality = {}
-	confidencescore = {}
-	for record in records:
-		score	  		= record[0]
-		skillId  		= record[1]
-		skillName		= record[2]
-		skillDesc   	= record[3]
-		skillType   	= record[4]			
-		skillGenerality   	= record[5]			
-		skillOptionality   	= record[6]			
-		occupationId   	= record[7]
-		occupationName  = record[8]
-		occupationDesc  = record[9]
-
-		occupationId_ = occupationId.split("/occupation/")[1]
-		skillId_ = skillId.split("/skill/")[1]
-
-		occupationdetails = {}
-		occupationdetails['id'] = occupationId_
-		occupationdetails['name'] = occupationName
-		occupationdetails['desc'] = occupationDesc
-
-		if skillId_ in occupationsbyskill:
-			occupationsbyskill[skillId_].append(occupationdetails)
-		else:
-			occupationsbyskill[skillId_] = [occupationdetails]
-
-		distinctskills[skillId_] = skillName
-		distinctskills_desc[skillId_] = skillDesc
-		distinctskills_type[skillId_] = skillType
-		distinctskills_generality[skillId_] = skillGenerality
-		distinctskills_optionality[skillId_] = skillOptionality
-		confidencescore[skillId_] = score
-
-	for skillId__ in distinctskills:
-		skillName = distinctskills[skillId__]
-		skillDesc = distinctskills_desc[skillId__]
-		skillType = distinctskills_type[skillId__]
-		skillGenerality = distinctskills_generality[skillId__]
-		skillOptionality = distinctskills_optionality[skillId__]
-		occupationdetails = occupationsbyskill[skillId__]
-		score = confidencescore[skillId__]
-
-		skill = {}
-		skill['id'] = skillId__
-		skill['name'] = skillName
-		skill['desc'] = skillDesc
-		skill['type'] = skillType
-		skill['generality'] = skillGenerality
-		skill['optionality'] = skillOptionality
-		skill['confidence'] = score
-		skill['occupations'] = occupationdetails
-
-		results.append(skill)
-
-	return results
-
-def jsonifyoccupations(records):
+def jsonifyoccupationswithskills(records):
 	results = []
 	skillsbyoccupation = {}
 	distinctoccupations = {}
@@ -146,12 +82,13 @@ def jsonifyoccupations(records):
 		occupationId   	= record[1]
 		occupationName  = record[2]
 		occupationDesc	= record[3]
-		skillId	   	= record[4]
-		skillName	= record[5]
-		skillDesc	= record[6]
-		skillType	= record[7]
-		skillGenerality		= record[8]
-		skillOptionality	= record[9]
+		occupationAlt	= record[4]
+		skillId	   	= record[5]
+		skillName	= record[6]
+		skillDesc	= record[7]
+		skillType	= record[8]
+		skillGenerality		= record[9]
+		skillOptionality	= record[10]
 
 		occupationId_ = occupationId.split("/occupation/")[1]
 		skillId_ = skillId.split("/skill/")[1]
@@ -190,20 +127,33 @@ def jsonifyoccupations(records):
 
 	return results
 
-def jsonifyoccupationsnoskills(records):
+def jsonifyoccupations(records):
 	results = []
+	distinctoccupations 		= {}
+	distinctoccupations_desc 	= {}	
+	distinctoccupations_alt 	= {}	
 	for record in records:
-		occupationId	= record[0]
-		occupationName  = record[1]
-		occupationDesc  = record[2]
-		occupationAlt  	= record[3]
+		score 			= record[0]
+		occupationId	= record[1]
+		occupationName  = record[2]
+		occupationDesc  = record[3]
+		occupationAlt  	= record[4]
 
 		alts = occupationAlt.split("\n")
 
 		occupationId_ = occupationId.split("/occupation/")[1]
+		
+		distinctoccupations[occupationId_] = occupationName
+		distinctoccupations_desc[occupationId_] = occupationDesc
+		distinctoccupations_alt[occupationId_] = alts
+
+	for occupationId__ in distinctoccupations:
+		occupationName = distinctoccupations[occupationId__]
+		occupationDesc = distinctoccupations_desc[occupationId__]
+		alts = distinctoccupations_alt[occupationId__]
 
 		occupation = {}
-		occupation['id'] = occupationId_
+		occupation['id'] = occupationId__
 		occupation['name'] = occupationName
 		occupation['desc'] = occupationDesc
 		occupation['alternatives'] = alts
@@ -212,40 +162,87 @@ def jsonifyoccupationsnoskills(records):
 
 	return results
 
-def jsonifyskillsnooccupations(records):
+def jsonifyskills(records):
 	results = []
+	distinctskills 				= {}
+	distinctskills_desc 		= {}
+	distinctskills_type 		= {}
+	distinctskills_generality 	= {}
+	distinctskills_optionality 	= {}
+	distinctskills_alt 			= {}
 	for record in records:
-		skillId		= record[0]
-		skillName  	= record[1]
-		skillDesc  	= record[2]
-		skillAlt  	= record[3]
+		score       = record[0]
+		skillId		= record[1]
+		skillName  	= record[2]
+		skillDesc  	= record[3]
+		skillType  	= record[4]
+		skillAlt  	= record[5]
+		skillGenerality  	= record[6]
+		skillOptionality  	= record[7]
 
 		alts = skillAlt.split("\n")
 
 		skillId_ = skillId.split("/skill/")[1]
 
+		distinctskills[skillId_] = skillName
+		distinctskills_desc[skillId_] = skillDesc
+		distinctskills_type[skillId_] = skillType
+		distinctskills_generality[skillId_] = skillGenerality
+		distinctskills_optionality[skillId_] = skillOptionality
+		distinctskills_alt[skillId_] = alts
+
+	for skillId__ in distinctskills:
+		skillName = distinctskills[skillId__]
+		skillDesc = distinctskills_desc[skillId__]
+		skillType = distinctskills_type[skillId__]
+		skillGenerality = distinctskills_generality[skillId__]
+		skillOptionality = distinctskills_optionality[skillId__]
+		alts = distinctskills_alt[skillId__]
+
 		skill = {}
 		skill['id'] = skillId_
 		skill['name'] = skillName
 		skill['desc'] = skillDesc
+		skill['type'] = skillType
+		skill['generality'] = skillGenerality
+		skill['optionality'] = skillOptionality
 		skill['alternatives'] = alts
 
 		results.append(skill)
 
 	return results
 
-
-def searchskillalt_exact(skillid):
+def searchskills_exact(skillid):
 	conceptUri = "%s/skill/%s" % (idprefix,skillid)
 
 	query1 = """
-	SELECT
-		s.conceptUri AS skillId,
-		s.preferredLabel AS skillName,
-		s.description AS skillDesc,
-		s.altLabels AS skillAlt
-	FROM skills AS s
-	WHERE s.conceptUri = %s
+		SELECT
+			(score1*1.5 + score2*3 + score2) AS score,
+			skillId,skillName,skillDesc,skillType,skillAlt,
+			skillGenerality,skillOptionality,
+			occupationId,occupationName,occupationDesc
+		FROM (
+			SELECT
+				s.conceptUri AS skillId,
+				s.preferredLabel AS skillName,
+				s.description AS skillDesc,
+				s.altLabels AS skillAlt,
+				s.skillType AS skillType,
+				s.reuseLevel AS skillGenerality,
+				os.relationType AS skillOptionality,
+				o.conceptUri AS occupationId,
+				o.preferredLabel AS occupationName,
+				o.description AS occupationDesc,
+				100 aS score1,
+				100 aS score2,
+				100 aS score3
+			FROM skills AS s
+			JOIN occupations_skills AS os
+			ON s.conceptUri = os.skillUri
+			JOIN occupations AS o
+			ON os.occupationUri = o.conceptUri
+			WHERE s.conceptUri = %s
+		) AS innertmp 
 	"""
 	cursor = _execute(db,query1,(conceptUri,))
 	records = cursor.fetchall()
@@ -253,20 +250,41 @@ def searchskillalt_exact(skillid):
 
 	return records	
 
-def searchoccupationalt_exact(occupationid):
-	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
-
+def searchskills_fuzzy(skill):
 	query1 = """
-	SELECT
-		o.conceptUri AS occupationId,
-		o.preferredLabel AS occupationName,
-		o.description AS occupationDesc,
-		o.altLabels AS occupationAlt,
-		0 as skillOverlapCnt
-	FROM occupations AS o
-	WHERE o.conceptUri = %s
+		SELECT
+			(score1*1.5 + score2*3 + score2) AS score,
+			skillId,skillName,skillDesc,skillType,skillAlt,
+			skillGenerality,skillOptionality,
+			occupationId,occupationName,occupationDesc
+		FROM (
+			SELECT
+				s.conceptUri AS skillId,
+				s.preferredLabel AS skillName,
+				s.description AS skillDesc,
+				s.altLabels AS skillAlt,
+				s.skillType AS skillType,
+				s.reuseLevel AS skillGenerality,
+				os.relationType AS skillOptionality,
+				o.conceptUri AS occupationId,
+				o.preferredLabel AS occupationName,
+				o.description AS occupationDesc,
+				MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE) aS score1,
+				MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE) aS score2,
+				MATCH (s.description) AGAINST (%s IN BOOLEAN MODE) aS score3
+			FROM skills AS s
+			JOIN occupations_skills AS os
+			ON s.conceptUri = os.skillUri
+			JOIN occupations AS o
+			ON os.occupationUri = o.conceptUri
+			WHERE MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE)
+		) AS innertmp 
+		WHERE score1 > 20
+		ORDER BY 1 DESC
 	"""
-	cursor = _execute(db,query1,(conceptUri,))
+	skillwordwildcard = "%s*" % skill
+	skillwordprox = "\"%s\" @3" % skill
+	cursor = _execute(db,query1,(skillwordwildcard,skillwordprox,skillwordwildcard,skillwordwildcard))
 	records = cursor.fetchall()
 	cursor.close()
 
@@ -276,7 +294,8 @@ def searchoccupationrelated_exact(occupationid):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
 
 	query1 = """  
-		SELECT  * 
+		SELECT 
+			skillOverlapCnt,occupationId,occupationName,occupationDesc,occupationAlt
 		FROM (
 			SELECT
 				o2.conceptUri AS occupationId,
@@ -310,7 +329,7 @@ def searchoccupations_exact(occupationid):
 	query1 = """
 	SELECT
 		(score1*1.5 + score2*5 + score3) AS score,
-		occupationId,occupationName,occupationDesc,
+		occupationId,occupationName,occupationDesc,occupationAlt,
 		skillId,skillName,skillDesc,skillType,
 		skillGenerality,skillOptionality			
 	FROM (
@@ -318,6 +337,7 @@ def searchoccupations_exact(occupationid):
 			o.conceptUri AS occupationId,
 			o.preferredLabel AS occupationName,
 			o.description AS occupationDesc,
+			o.altLabels AS occupationAlt,
 			s.conceptUri AS skillId,
 			s.preferredLabel AS skillName,
 			s.description AS skillDesc,
@@ -347,7 +367,7 @@ def searchoccupations_fuzzy(occupation):
 	query1 = """
 	SELECT
 		(score1*1.5 + score2*5 + score3) AS score,
-		occupationId,occupationName,occupationDesc,
+		occupationId,occupationName,occupationDesc,occupationAlt,
 		skillId,skillName,skillDesc,skillType,
 		skillGenerality,skillOptionality			
 	FROM (
@@ -355,6 +375,7 @@ def searchoccupations_fuzzy(occupation):
 			o.conceptUri AS occupationId,
 			o.preferredLabel AS occupationName,
 			o.description AS occupationDesc,
+			o.altLabels AS occupationAlt,
 			s.conceptUri AS skillId,
 			s.preferredLabel AS skillName,
 			s.description AS skillDesc,
@@ -377,82 +398,6 @@ def searchoccupations_fuzzy(occupation):
 	occwordwildcard = "%s*" % occupation
 	occwordprox = "\"%s\" @3" % occupation
 	cursor = _execute(db,query1,(occwordwildcard,occwordprox,occwordwildcard,occwordwildcard))
-	records = cursor.fetchall()
-	cursor.close()
-
-	return records	
-
-def searchskills_exact(skillid):
-	conceptUri = "%s/skill/%s" % (idprefix,skillid)
-
-	query1 = """
-		SELECT
-			(score1*1.5 + score2*3 + score2) AS score,
-			skillId,skillName,skillDesc,skillType,
-			skillGenerality,skillOptionality,
-			occupationId,occupationName,occupationDesc
-		FROM (
-			SELECT
-				s.conceptUri AS skillId,
-				s.preferredLabel AS skillName,
-				s.description AS skillDesc,
-				s.skillType AS skillType,
-				s.reuseLevel AS skillGenerality,
-				os.relationType AS skillOptionality,
-				o.conceptUri AS occupationId,
-				o.preferredLabel AS occupationName,
-				o.description AS occupationDesc,
-				100 aS score1,
-				100 aS score2,
-				100 aS score3
-			FROM skills AS s
-			JOIN occupations_skills AS os
-			ON s.conceptUri = os.skillUri
-			JOIN occupations AS o
-			ON os.occupationUri = o.conceptUri
-			WHERE s.conceptUri = %s
-		) AS innertmp 
-	"""
-	cursor = _execute(db,query1,(conceptUri,))
-	records = cursor.fetchall()
-	cursor.close()
-
-	return records	
-
-def searchskills_fuzzy(skill):
-	query1 = """
-		SELECT
-			(score1*1.5 + score2*3 + score2) AS score,
-			skillId,skillName,skillDesc,skillType,
-			skillGenerality,skillOptionality,
-			occupationId,occupationName,occupationDesc
-		FROM (
-			SELECT
-				s.conceptUri AS skillId,
-				s.preferredLabel AS skillName,
-				s.description AS skillDesc,
-				s.skillType AS skillType,
-				s.reuseLevel AS skillGenerality,
-				os.relationType AS skillOptionality,
-				o.conceptUri AS occupationId,
-				o.preferredLabel AS occupationName,
-				o.description AS occupationDesc,
-				MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE) aS score1,
-				MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE) aS score2,
-				MATCH (s.description) AGAINST (%s IN BOOLEAN MODE) aS score3
-			FROM skills AS s
-			JOIN occupations_skills AS os
-			ON s.conceptUri = os.skillUri
-			JOIN occupations AS o
-			ON os.occupationUri = o.conceptUri
-			WHERE MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE)
-		) AS innertmp 
-		WHERE score1 > 20
-		ORDER BY 1 DESC
-	"""
-	skillwordwildcard = "%s*" % skill
-	skillwordprox = "\"%s\" @3" % skill
-	cursor = _execute(db,query1,(skillwordwildcard,skillwordprox,skillwordwildcard,skillwordwildcard))
 	records = cursor.fetchall()
 	cursor.close()
 
