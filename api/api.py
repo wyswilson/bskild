@@ -22,6 +22,15 @@ flask_cors.CORS(app,
 #401#Unauthorized
 
 
+@app.route("/")
+def main():
+	print('hit [main]')
+
+	status = "invalid endpoint"
+	statuscode = 501#Not Implemented
+
+	return jsonifyoutput(statuscode,status,[])
+	
 @app.route('/occupations/<occupation>/skills', methods=['GET'])
 def getskillsbyoccupation(occupation):
 	print('hit [getskillsbyoccupation]')
