@@ -1,5 +1,6 @@
 import datetime
 import flask
+import func
 
 import time
 import functools
@@ -18,6 +19,7 @@ import werkzeug.security
 import jwt
 import string
 import math
+import boto3
 
 config = configparser.ConfigParser()
 config.read('conf.ini')
