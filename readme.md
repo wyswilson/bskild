@@ -1,5 +1,5 @@
 
-# Core Resources
+# API Documentation
 
 ## Occupations
 An [occupation](https://en.wikipedia.org/wiki/Job) or job is one's role in the labour market or economy, often a regular or principal activity performed for payment. Each `occupation` object has the following attributes.
