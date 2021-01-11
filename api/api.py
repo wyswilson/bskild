@@ -29,8 +29,8 @@ def main():
 	status = "invalid endpoint"
 	statuscode = 501#Not Implemented
 
-	return jsonifyoutput(statuscode,status,[])
-	
+	return jsonifyoutput(statuscode,status,"results",[])
+
 @app.route('/occupations/<occupation>/skills', methods=['GET'])
 def getskillsbyoccupation(occupation):
 	print('hit [getskillsbyoccupation]')
