@@ -21,50 +21,24 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
-
 @app.route("/")
 def main():
-	print('hit [main]')
+	print('hit [undefmain]')
 
 	status = "invalid endpoint"
 	statuscode = 501#Not Implemented
 
-	return jsonifyoutput(statuscode,status,"results",[])
+	return func.jsonifyoutput(statuscode,status,"results",[])
 
-@app.route('/occupations/<occupation>/skills', methods=['GET'])
-def getskillsbyoccupation(occupation):
-	print('hit [getskillsbyoccupation]')
+@app.route("/occupations")
+@app.route("/occupations/")
+def undefoccupations():
+	print('hit [undefoccupations]')
 
-	status = ""
-	statuscode = 200
-	records = []
+	status = "invalid endpoint"
+	statuscode = 501#Not Implemented
 
-	id_,conceptype = func.isExact(occupation)
-	if conceptype == 'occupation' and id_ != '':
-		records = func.searchoccupations_exact(id_)
-		status = "Exact occupation lookup"
-	else:
-		status = "Exact occupation id or name required"
-
-	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupationswithskills(records))
-
-@app.route('/skills/<skill>', methods=['GET'])
-def getskills(skill):
-	print('hit [getskills]')
-
-	status = ""
-	statuscode = 200
-	records = []
-
-	id_,conceptype = func.isExact(skill)
-	if conceptype == 'skill' and id_ != '':
-		records = func.searchskills_exact(id_)
-		status = "Exact skill lookup"
-	else:
-		records = func.searchskills_fuzzy(skill)
-		status = "Fuzzy search for skills with query"
-
-	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
+	return func.jsonifyoutput(statuscode,status,"occupations",[])
 
 @app.route('/occupations/<occupation>', methods=['GET'])
 def getoccupations(occupation):
@@ -84,6 +58,23 @@ def getoccupations(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
+@app.route('/occupations/<occupation>/skills', methods=['GET'])
+def getskillsbyoccupation(occupation):
+	print('hit [getskillsbyoccupation]')
+
+	status = ""
+	statuscode = 200
+	records = []
+
+	id_,conceptype = func.isExact(occupation)
+	if conceptype == 'occupation' and id_ != '':
+		records = func.searchoccupations_exact(id_)
+		status = "Exact occupation lookup"
+	else:
+		status = "Exact occupation id or name required"
+
+	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupationswithskills(records))
+
 @app.route('/occupations/<occupation>/related', methods=['GET'])
 def getrelatedoccupations(occupation):
 	print('hit [getrelatedoccupations]')
@@ -101,7 +92,34 @@ def getrelatedoccupations(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
-	
+@app.route("/skills")
+@app.route("/skills/")
+def undefskills():
+	print('hit [undefskills]')
+
+	status = "invalid endpoint"
+	statuscode = 501#Not Implemented
+
+	return func.jsonifyoutput(statuscode,status,"skills",[])
+
+@app.route('/skills/<skill>', methods=['GET'])
+def getskills(skill):
+	print('hit [getskills]')
+
+	status = ""
+	statuscode = 200
+	records = []
+
+	id_,conceptype = func.isExact(skill)
+	if conceptype == 'skill' and id_ != '':
+		records = func.searchskills_exact(id_)
+		status = "Exact skill lookup"
+	else:
+		records = func.searchskills_fuzzy(skill)
+		status = "Fuzzy search for skills with query"
+
+	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
+
 if __name__ == "__main__":
-	#app.run(debug=True,host='0.0.0.0',port=8888)
-	waitress.serve(app, host="0.0.0.0", port=8888)
+	app.run(debug=True,host='0.0.0.0',port=8888)
+	#waitress.serve(app, host="0.0.0.0", port=8888)
