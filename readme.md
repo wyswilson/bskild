@@ -76,18 +76,18 @@ An example response of a `skill` object:
 
 You can look up a skill by `id` as such, which will return the "communicate production plan" `skill` object:
 
-`GET /v1/skills/da56feea-941c-4ff6-b573-bb16ccbde670` (try here)[http://bskild.xyz/v1/skills/da56feea-941c-4ff6-b573-bb16ccbde670]
+`GET /v1/skills/da56feea-941c-4ff6-b573-bb16ccbde670` [try here](http://bskild.xyz/v1/skills/da56feea-941c-4ff6-b573-bb16ccbde670)
 
-`GET /v1/skills/communicate%20production%20plan` (try here)[http://bskild.xyz/v1/skills/communicate%20production%20plan]
+`GET /v1/skills/communicate%20production%20plan` [try here](http://bskild.xyz/v1/skills/communicate%20production%20plan)
 
 If you are uncertain of the exact wording of the skill's `name` or the `id`, you can perform a fuzzy look-up and the response will return all the skills that contain the word "communicate" in the `name` or the `alternatives` attributes:
 
-`GET /v1/skills/communicate` (try here)[http://bskild.xyz/v1/skills/communicate]
+`GET /v1/skills/communicate` [try here](http://bskild.xyz/v1/skills/communicate)
 
 
 You can also find out the skills required for an occupation. This only works if the parameter used to retrieve the `occupation` object is either an exact `name` or the `id` of the occupation:
 
-`GET /v1/occupations/data%20scientist/skills` (try here)[http://bskild.xyz/v1/occupations/data%20scientist/skills]
+`GET /v1/occupations/data%20scientist/skills` [try here](http://bskild.xyz/v1/occupations/data%20scientist/skills)
 
 
 If you retrieve skills via an `occupation` object, you will get the skills as a list and each nested `skill` object will have an additional attribute called `optionality` to indicate whether the corresponding skill is `essential` or `optional` for that occupation. Below is an example response of the skills list for the "data scientist" occupation.
