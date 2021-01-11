@@ -1,7 +1,14 @@
 
-# API Documentation
+# About bSkild and API Documentation
 
-## Occupations
+## Overview
+We have adopted the [ESCO](https://ec.europa.eu/esco/portal) standard and ontology for occupations and skills. We have downloaded and manages our own local copy of the ontology and will be making customisation of the data model as well as the actual data. The original data model can be found [here](https://ec.europa.eu/esco/portal/document/en/87a9f66a-1830-4c93-94f0-5daa5e00507e)
+
+The idea is to use the occupations and skills data to build out an offering that allows direct and enterprise users to understand where and how they're positioned in their (or their teams') careers and the skills gap that need to be filled.
+
+## Core Resources (API v1)
+
+### Occupations
 An [occupation](https://en.wikipedia.org/wiki/Job) or job is one's role in the labour market or economy, often a regular or principal activity performed for payment. Each `occupation` object has the following attributes.
 - `id` : 
 - `name` : The name of the occupation
@@ -27,16 +34,16 @@ An example response of an `occupation` object:
 
 You can retrieve an `occupation` by the `id` or the exact `name` (if known), both of which will return the "data scientist" `occupation` object:
 
-`GET /v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30`
+(`GET /v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30`)[http://bskild.xyz/v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30]
 
-`GET /v1/occupations/data%20scientist`
+(`GET /v1/occupations/data%20scientist`)[http://bskild.xyz/v1/occupations/data%20scientist]
 
 You can also perform a fuzzy look-up on the `name` or `alternatives` attributes and the response will return the top occupations matching the input term. Below is an example using the term "data scientists" (note that it is in the plural form):
 
-`GET /v1/occupations/data%20scientists`
+(`GET /v1/occupations/data%20scientists`)[http://bskild.xyz/v1/occupations/data%20scientists]
 
 
-## Skills
+### Skills
 A [skill](https://en.wikipedia.org/wiki/Skill) is the learned ability to perform an action with determined results with good execution often within a given amount of time, energy, or both. Skills can often be divided into domain-general and domain-specific skills. Each `skill` object has the following attributes:
 - `id`: A globally unique identifier for the skill
 - `name`: The name of the skill
