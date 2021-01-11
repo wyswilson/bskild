@@ -121,5 +121,5 @@ def getskills(skill):
 	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
 
 if __name__ == "__main__":
-	app.run(debug=True,host='0.0.0.0',port=8888)
-	#waitress.serve(app, host="0.0.0.0", port=8888)
+	#app.run(debug=True,host='0.0.0.0',port=8888)
+	waitress.serve(app, host="0.0.0.0", port=8888)
