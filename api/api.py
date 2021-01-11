@@ -21,7 +21,10 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
+
 @app.route("/")
+@app.route("/api")
+@app.route("/api/")
 def main():
 	print('hit [undefmain]')
 
@@ -30,8 +33,8 @@ def main():
 
 	return func.jsonifyoutput(statuscode,status,"results",[])
 
-@app.route("/occupations")
-@app.route("/occupations/")
+@app.route("/api/occupations")
+@app.route("/api/occupations/")
 def undefoccupations():
 	print('hit [undefoccupations]')
 
@@ -40,7 +43,7 @@ def undefoccupations():
 
 	return func.jsonifyoutput(statuscode,status,"occupations",[])
 
-@app.route('/occupations/<occupation>', methods=['GET'])
+@app.route('/api/occupations/<occupation>', methods=['GET'])
 def getoccupations(occupation):
 	print('hit [getoccupations]')
 
@@ -58,7 +61,7 @@ def getoccupations(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
-@app.route('/occupations/<occupation>/skills', methods=['GET'])
+@app.route('/api/occupations/<occupation>/skills', methods=['GET'])
 def getskillsbyoccupation(occupation):
 	print('hit [getskillsbyoccupation]')
 
@@ -75,7 +78,7 @@ def getskillsbyoccupation(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupationswithskills(records))
 
-@app.route('/occupations/<occupation>/related', methods=['GET'])
+@app.route('/api/occupations/<occupation>/related', methods=['GET'])
 def getrelatedoccupations(occupation):
 	print('hit [getrelatedoccupations]')
 
@@ -92,8 +95,8 @@ def getrelatedoccupations(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
-@app.route("/skills")
-@app.route("/skills/")
+@app.route("/api/skills")
+@app.route("/api/skills/")
 def undefskills():
 	print('hit [undefskills]')
 
@@ -102,7 +105,7 @@ def undefskills():
 
 	return func.jsonifyoutput(statuscode,status,"skills",[])
 
-@app.route('/skills/<skill>', methods=['GET'])
+@app.route('/api/skills/<skill>', methods=['GET'])
 def getskills(skill):
 	print('hit [getskills]')
 
