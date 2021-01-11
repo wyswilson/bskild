@@ -10,9 +10,9 @@ The idea is to use the occupations and skills data to build out an offering that
 
 ### Occupations
 An [occupation](https://en.wikipedia.org/wiki/Job) or job is one's role in the labour market or economy, often a regular or principal activity performed for payment. Each `occupation` object has the following attributes.
-- `id` : 
-- `name` : The name of the occupation
-- `desc` : A human-readable description of the high level responsibilities of the occupation
+- `id` : A globally unique identifier for the occupation.
+- `name` : The name of the occupation.
+- `desc` : A human-readable description of the high level responsibilities of the occupation.
 - `alternatives` : A list of other names that the occupation is also known by.
 
 An example response of an `occupation` object:
@@ -45,9 +45,9 @@ You can also perform a fuzzy look-up on the `name` or `alternatives` attributes 
 
 ### Skills
 A [skill](https://en.wikipedia.org/wiki/Skill) is the learned ability to perform an action with determined results with good execution often within a given amount of time, energy, or both. Skills can often be divided into domain-general and domain-specific skills. Each `skill` object has the following attributes:
-- `id`: A globally unique identifier for the skill
-- `name`: The name of the skill
-- `desc`: A human readable description of what the skill entails
+- `id`: A globally unique identifier for the skill.
+- `name`: The name of the skill.
+- `desc`: A human readable description of what the skill entails.
 - `type`: A value to indicate whether the skill is a `skill/competence` or `knowledge`. A `knowledge` [refers to](https://ec.europa.eu/esco/portal/document/en/87a9f66a-1830-4c93-94f0-5daa5e00507e) the body of facts, principles, theories and practices that is related to a field of work or study. Knowledge is described as theoretical and/or factual, and is the outcome of the assimilation of information through learning. As for `skill/competence`, it's the ability to apply knowledge and use know-how to complete tasks and solve problems. Skills are described as cognitive (involving the use of logical,
 intuitive and creative thinking) or practical (involving manual dexterity and the use of methods, materials, tools and instruments).
 - `reusability`: A value to refer to how widely a knowledge, skill or competence concept can be applied. A skill can either be `sector-specific`, `occupation-specific`, `cross-sector` or `transversal`. Transversal skills are relevant to a broad range of occupations and sectors. They are also known as “core skills”, “basic skills” or “soft skills”, and are not usually related directly to occupations. The rest are as the values imply.
