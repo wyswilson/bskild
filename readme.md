@@ -1,34 +1,81 @@
 
-Core Resources
-- Occupations
-This is an object representing occupations. Each object has the following attributes.
+# Core Resources
 
+## Occupations
+An [occupation](https://en.wikipedia.org/wiki/Job) or job is one's role in the labour market or economy, often a regular or principal activity performed for payment. Each `occupation` object has the following attributes.
+- `id` : 
+- `name` : The name of the occupation
+- `desc` : A human-readable description of the high level responsibilities of the occupation
+- `alternatives` : A list of other names that the occupation is also known by.
+
+An example response of an `occupation` object:
+
+```
 {
-"id": "258e46f9-0075-4a2e-adae-1ff0477e0f30",
-"name": "data scientist",
-"desc": "Data scientists find and interpret rich data sources, manage large amounts of data, merge data sources, ensure consistency of data-sets, and create visualisations to aid in understanding data. They build mathematical models using data, present and communicate data insights and findings to specialists and scientists in their team and if required, to a non-expert audience, and recommend ways to apply the data.",
-
-"alternatives": [
-"data research scientist",
-"research data scientist",
-"data scientists",
-"data expert",
-"data engineer"
-]
+   "id": "258e46f9-0075-4a2e-adae-1ff0477e0f30",
+   "name": "data scientist",
+   "desc": "Data scientists find and interpret rich data sources, manage large amounts of data, merge data sources, ensure consistency of data-sets, and create visualisations to aid in understanding data. They build mathematical models using data, present and communicate data insights and findings to specialists and scientists in their team and if required, to a non-expert audience, and recommend ways to apply the data.",
+   "alternatives": [
+      "data research scientist",
+      "research data scientist",
+      "data scientists",
+      "data expert",
+      "data engineer"
+   ]
 }
+```
 
-You can retrieve by the id of the occupation if known or as a fuzzy lookup with keywords, as such:
+You can retrieve an `occupation` by the `id` or the exact `name` (if known), both of which will return the "data scientist" `occupation` object:
 
-GET /v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30
-which will return the "data scientist" occupation object 
+`GET /v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30`
+`GET /v1/occupations/data%20scientist`
 
-GET /v1/occupations/data%20scientist
-which will return the same "data scientist" occupation object since there's an exact match on the "name" attribute of the object
+You can also perform a fuzzy look-up on the `name` or `alternatives` attributes and the response will return the top occupations matching the input term. Below is an example using the term "data scientists" (note that it is in the plural form):
 
-GET /v1/occupations/data%20scientists
-which will return the top occupations matching the keyword "data scientists" (note the plural "s").
-
+`GET /v1/occupations/data%20scientists`
 
 
+## Skills
+A [skill](https://en.wikipedia.org/wiki/Skill) is the learned ability to perform an action with determined results with good execution often within a given amount of time, energy, or both. Skills can often be divided into domain-general and domain-specific skills. Each `skill` object has the following attributes:
+- `id`: A globally unique identifier for the skill
+- `name`: The name of the skill
+- `desc`: A human readable description of what the skill entails
+- `type`: A value to indicate whether the skill is a `skill/competence` or `knowledge`. A `knowledge` [refers to](https://ec.europa.eu/esco/portal/document/en/87a9f66a-1830-4c93-94f0-5daa5e00507e) the body of facts, principles, theories and practices that is related to a field of work or study. Knowledge is described as theoretical and/or factual, and is the outcome of the assimilation of information through learning. As for `skill/competence`, it's the ability to apply knowledge and use know-how to complete tasks and solve problems. Skills are described as cognitive (involving the use of logical,
+intuitive and creative thinking) or practical (involving manual dexterity and the use of methods, materials, tools and instruments).
+- `reusability`: A value to refer to how widely a knowledge, skill or competence concept can be applied. A skill can either be `sector-specific`, `occupation-specific`, `cross-sector` or `transversal`. Transversal skills are relevant to a broad range of occupations and sectors. They are also known as “core skills”, “basic skills” or “soft skills”, and are not usually related directly to occupations. The rest are as the values imply.
+- `alternatives` : A list of other names that the skill is also known by.
 
-- Skills
+An example response of a `skill` object:
+
+```
+{
+   "id": "da56feea-941c-4ff6-b573-bb16ccbde670",
+   "name": "communicate production plan",
+   "desc": "Communicates production plan to all levels in a way that targets, processes, and requirements are clear. Ensures that information is passed to everyone involved in the process assuming their responsibility for overall success.",
+   "type": "skill/competence",
+   "reusability": "cross-sector",
+   "alternatives": [
+      "communicate preparation plan",
+      "communicate the production plan",
+      "communicate strategic plan",
+      "communicate fabrication plan",
+      "communicate a production plan",
+      "communicate manufacturing plan",
+      "communicate production plans"
+   ]
+},
+```
+
+You can look up a skill by `id` as such, which will return the "communicate production plan" `skill` object:
+
+`GET /v1/skills/da56feea-941c-4ff6-b573-bb16ccbde670`
+
+
+If you are uncertain of the exact wording of the skill's `name` or the `id`, you can perform a fuzzy look-up and the response will return all the skills that contain the word "communicate" in the `name` or the `alternatives` attributes:
+
+`GET /v1/skills/communicate`
+
+
+You can also find out the skills required for an occupation. This only works if the parameter is either an exact `name` or the `id` of an `occupation` object:
+
+`z/v1/occupations/data%20scientist/skills`
