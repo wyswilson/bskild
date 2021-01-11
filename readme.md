@@ -34,13 +34,13 @@ An example response of an `occupation` object:
 
 You can retrieve an `occupation` by the `id` or the exact `name` (if known), both of which will return the "data scientist" `occupation` object:
 
-`GET /v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30` (try here)[http://bskild.xyz/v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30]
+`GET /v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30` [try here](http://bskild.xyz/v1/occupations/258e46f9-0075-4a2e-adae-1ff0477e0f30)
 
-`GET /v1/occupations/data%20scientist` (try here)[http://bskild.xyz/v1/occupations/data%20scientist]
+`GET /v1/occupations/data%20scientist` [try here](http://bskild.xyz/v1/occupations/data%20scientist)
 
 You can also perform a fuzzy look-up on the `name` or `alternatives` attributes and the response will return the top occupations matching the input term. Below is an example using the term "data scientists" (note that it is in the plural form):
 
-`GET /v1/occupations/data%20scientists` (try here)[http://bskild.xyz/v1/occupations/data%20scientists]
+`GET /v1/occupations/data%20scientists` [try here](http://bskild.xyz/v1/occupations/data%20scientists)
 
 
 ### Skills
