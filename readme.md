@@ -80,3 +80,6 @@ If you are uncertain of the exact wording of the skill's `name` or the `id`, you
 You can also find out the skills required for an occupation. This only works if the parameter used to retrieve the `occupation` object is either an exact `name` or the `id` of the occupation:
 
 `/v1/occupations/data%20scientist/skills`
+
+
+If you retrieve skills via an `occupation` object, you will get the skills as a list and each nested `skill` object will have an additional attribute called `optionality` to indicate whether the corresponding skill is `essential` or `optional` for that occupation.
