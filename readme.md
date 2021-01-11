@@ -82,4 +82,25 @@ You can also find out the skills required for an occupation. This only works if 
 `/v1/occupations/data%20scientist/skills`
 
 
-If you retrieve skills via an `occupation` object, you will get the skills as a list and each nested `skill` object will have an additional attribute called `optionality` to indicate whether the corresponding skill is `essential` or `optional` for that occupation.
+If you retrieve skills via an `occupation` object, you will get the skills as a list and each nested `skill` object will have an additional attribute called `optionality` to indicate whether the corresponding skill is `essential` or `optional` for that occupation. Below is an example response for the skills list for the "data scientist" occupation.
+
+```
+"skills": [
+   {
+      "id": "03a74eee-2dc6-4147-8667-5cdeb65f122d",
+      "name": "manage ICT data classification",
+      "desc": "Oversee the classification system an organisation uses to organise its data. Assign an owner to each data concept or bulk of concepts and determine the value of each item of data.",
+      "type": "skill/competence",
+      "reusability": "sector-specific",
+      "optionality": "optional"
+   },
+   {
+      "id": "07889c08-7220-47c8-96f7-6068fbea00dc",
+      "name": "normalise data",
+      "desc": "Reduce data to their accurate core form (normal forms) in order to achieve such results as minimisation of dependency, elimination of redundancy, increase of consistency.",
+      "type": "skill/competence",
+      "reusability": "sector-specific",
+      "optionality": "essential"
+   },
+   ...
+```
