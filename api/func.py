@@ -89,7 +89,7 @@ def jsonifyoccupationswithskills(records):
 		skillName	= record[6]
 		skillDesc	= record[7]
 		skillType	= record[8]
-		skillGenerality		= record[9]
+		skillReusability		= record[9]
 		skillOptionality	= record[10]
 
 		occupationId_ = occupationId.split("/occupation/")[1]
@@ -100,7 +100,7 @@ def jsonifyoccupationswithskills(records):
 		skilldetails['name'] = skillName
 		skilldetails['desc'] = skillDesc
 		skilldetails['type'] = skillType
-		skilldetails['generality'] = skillGenerality
+		skilldetails['reusability'] = skillReusability
 		skilldetails['optionality'] = skillOptionality
 
 		if occupationId_ in skillsbyoccupation:
@@ -169,7 +169,7 @@ def jsonifyskills(records):
 	distinctskills 				= {}
 	distinctskills_desc 		= {}
 	distinctskills_type 		= {}
-	distinctskills_generality 	= {}
+	distinctskills_reusability 	= {}
 	distinctskills_optionality 	= {}
 	distinctskills_alt 			= {}
 	for record in records:
@@ -179,8 +179,7 @@ def jsonifyskills(records):
 		skillDesc  	= record[3]
 		skillType  	= record[4]
 		skillAlt  	= record[5]
-		skillGenerality  	= record[6]
-		skillOptionality  	= record[7]
+		skillReusability  	= record[6]
 
 		alts = skillAlt.split("\n")
 
@@ -189,16 +188,14 @@ def jsonifyskills(records):
 		distinctskills[skillId_] = skillName
 		distinctskills_desc[skillId_] = skillDesc
 		distinctskills_type[skillId_] = skillType
-		distinctskills_generality[skillId_] = skillGenerality
-		distinctskills_optionality[skillId_] = skillOptionality
+		distinctskills_reusability[skillId_] = skillReusability
 		distinctskills_alt[skillId_] = alts
 
 	for skillId__ in distinctskills:
 		skillName = distinctskills[skillId__]
 		skillDesc = distinctskills_desc[skillId__]
 		skillType = distinctskills_type[skillId__]
-		skillGenerality = distinctskills_generality[skillId__]
-		skillOptionality = distinctskills_optionality[skillId__]
+		skillReusability = distinctskills_reusability[skillId__]
 		alts = distinctskills_alt[skillId__]
 
 		skill = {}
@@ -206,8 +203,7 @@ def jsonifyskills(records):
 		skill['name'] = skillName
 		skill['desc'] = skillDesc
 		skill['type'] = skillType
-		skill['generality'] = skillGenerality
-		skill['optionality'] = skillOptionality
+		skill['reusability'] = skillReusability
 		skill['alternatives'] = alts
 
 		results.append(skill)
@@ -221,7 +217,7 @@ def searchskills_exact(skillid):
 		SELECT
 			(score1*1.5 + score2*3 + score2) AS score,
 			skillId,skillName,skillDesc,skillType,skillAlt,
-			skillGenerality,skillOptionality,
+			skillReusability,skillOptionality,
 			occupationId,occupationName,occupationDesc
 		FROM (
 			SELECT
@@ -230,7 +226,7 @@ def searchskills_exact(skillid):
 				s.description AS skillDesc,
 				s.altLabels AS skillAlt,
 				s.skillType AS skillType,
-				s.reuseLevel AS skillGenerality,
+				s.reuseLevel AS skillReusability,
 				os.relationType AS skillOptionality,
 				o.conceptUri AS occupationId,
 				o.preferredLabel AS occupationName,
@@ -257,7 +253,7 @@ def searchskills_fuzzy(skill):
 		SELECT
 			(score1*1.5 + score2*3 + score2) AS score,
 			skillId,skillName,skillDesc,skillType,skillAlt,
-			skillGenerality,skillOptionality,
+			skillReusability,skillOptionality,
 			occupationId,occupationName,occupationDesc
 		FROM (
 			SELECT
@@ -266,7 +262,7 @@ def searchskills_fuzzy(skill):
 				s.description AS skillDesc,
 				s.altLabels AS skillAlt,
 				s.skillType AS skillType,
-				s.reuseLevel AS skillGenerality,
+				s.reuseLevel AS skillReusability,
 				os.relationType AS skillOptionality,
 				o.conceptUri AS occupationId,
 				o.preferredLabel AS occupationName,
@@ -333,7 +329,7 @@ def searchoccupations_exact(occupationid):
 		(score1*1.5 + score2*5 + score3) AS score,
 		occupationId,occupationName,occupationDesc,occupationAlt,
 		skillId,skillName,skillDesc,skillType,
-		skillGenerality,skillOptionality			
+		skillReusability,skillOptionality			
 	FROM (
 		SELECT
 			o.conceptUri AS occupationId,
@@ -344,7 +340,7 @@ def searchoccupations_exact(occupationid):
 			s.preferredLabel AS skillName,
 			s.description AS skillDesc,
 			s.skillType AS skillType,
-			s.reuseLevel AS skillGenerality,
+			s.reuseLevel AS skillReusability,
 			os.relationType AS skillOptionality,
 			100 aS score1,
 			100 aS score2,
@@ -371,7 +367,7 @@ def searchoccupations_fuzzy(occupation):
 		(score1*1.5 + score2*5 + score3) AS score,
 		occupationId,occupationName,occupationDesc,occupationAlt,
 		skillId,skillName,skillDesc,skillType,
-		skillGenerality,skillOptionality			
+		skillReusability,skillOptionality			
 	FROM (
 		SELECT
 			o.conceptUri AS occupationId,
@@ -382,7 +378,7 @@ def searchoccupations_fuzzy(occupation):
 			s.preferredLabel AS skillName,
 			s.description AS skillDesc,
 			s.skillType AS skillType,
-			s.reuseLevel AS skillGenerality,
+			s.reuseLevel AS skillReusability,
 			os.relationType AS skillOptionality,
 			MATCH (o.preferredLabel,o.altLabels) AGAINST (%s IN BOOLEAN MODE) aS score1,
 			MATCH (o.preferredLabel) AGAINST (%s IN BOOLEAN MODE) aS score2,
