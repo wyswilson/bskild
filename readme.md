@@ -38,10 +38,39 @@ You can retrieve an `occupation` by the `id` or the exact `name` (if known), bot
 
 `GET /v1/occupations/data%20scientist` [[try here]](http://bskild.xyz/v1/occupations/data%20scientist)
 
-You can also perform a fuzzy look-up on the `name` or `alternatives` attributes and the response will return the top occupations matching the input term. Below is an example using the term "data scientists" (note that it is in the plural form):
+You can perform a fuzzy look-up on the `name` or `alternatives` attributes and the response will return the top occupations matching the input term. Below is an example using the term "data scientists" (note that it is in the plural form):
 
 `GET /v1/occupations/data%20scientists` [[try here]](http://bskild.xyz/v1/occupations/data%20scientists)
 
+You can also find out related occupations. Below is an example request and the response.
+
+`GET /v1/occupations/data%20scientist/related` [[try here]](http://bskild.xyz/v1/occupations/data%20scientist/related)
+
+```
+"occupations": [
+   {
+      "id": "d3edb8f8-3a06-47a0-8fb9-9b212c006aa2",
+      "name": "data analyst",
+      "desc": "Data analysts import, inspect, clean, transform, validate, model, or interpret collections of data with regard to the business goals of the company. They ensure that the data sources and repositories provide consistent and reliable data. Data analysts use different algorithms and IT tools as demanded by the situation and the current data. They might prepare reports in the form of visualisations such as graphs, charts, and dashboards.",
+      "alternatives": [
+         "data analysts",
+         "data warehousing analyst",
+         "data storage analyst",
+         "data warehouse analyst"
+      ]
+   },
+   {
+      "id": "e297ec12-4712-40a4-ad98-ba004cacb205",
+      "name": "chief data officer",
+      "desc": "Chief data officers manage companies' enterprise-wide data administration and data mining functions. They ensure data are used as a strategic business asset at the executive level and implement and support a more collaborative and aligned information management infrastructure for the benefit of the organisation at large.",
+      "alternatives": [
+         "chief analytics officer",
+         "CDO",
+         "chief data officers"
+      ]
+   },
+   ...
+```
 
 ### Skills
 A [skill](https://en.wikipedia.org/wiki/Skill) is the learned ability to perform an action with determined results with good execution often within a given amount of time, energy, or both. Skills can often be divided into domain-general and domain-specific skills. Each `skill` object has the following attributes:
