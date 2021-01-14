@@ -42,7 +42,7 @@ You can perform a fuzzy look-up on the `name` or `alternatives` attributes and t
 
 `GET /v1/occupations/data%20scientists` [[try here]](http://bskild.xyz/v1/occupations/data%20scientists)
 
-You can also find out related occupations. Below is an example request and the response.
+You can also find out related occupations. Below is an example request and the response containing occupations related to "data scientist" based on the skills overlap.
 
 `GET /v1/occupations/data%20scientist/related` [[try here]](http://bskild.xyz/v1/occupations/data%20scientist/related)
 
