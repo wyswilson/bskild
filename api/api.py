@@ -76,7 +76,7 @@ def getskillsbyoccupation(occupation):
 	id_,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupations_exact(id_)
-		status = "Exact occupation lookup"
+		status = "Exact occupation lookup for skills"
 	else:
 		status = "Exact occupation id or name required"
 
@@ -94,7 +94,7 @@ def getrelatedoccupations(occupation):
 	id_,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupationrelated_exact(id_)
-		status = "Exact occupation lookup"
+		status = "Exact occupation lookup for related occupations"
 	else:
 		status = "Exact occupation id or name required"
 
@@ -143,12 +143,12 @@ def getoccupationsbyskills(skill):
 	id_,conceptype = func.isExact(skill)
 	if conceptype == 'skill' and id_ != '':
 		records = func.searchskills_exact(id_)
-		status = "Exact skill lookup"
+		status = "Exact skill lookup for occupations"
 	else:
 		status = "Exact skill id or name required"
 
 	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskillswithoccupations(records))
 
 if __name__ == "__main__":
-	app.run(debug=True,host='0.0.0.0',port=8888)
-	#waitress.serve(app, host="0.0.0.0", port=8888)
+	#app.run(debug=True,host='0.0.0.0',port=8888)
+	waitress.serve(app, host="0.0.0.0", port=8888)
