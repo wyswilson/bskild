@@ -141,3 +141,9 @@ If you retrieve skills via an `occupation` object, you will get the skills as a 
    },
    ...
 ```
+
+
+An endpoint is also available to find out all the occupations that require a specific skill. You need to retrieve the `skill` object of interest first as shown below:
+
+
+`GET /v1/skills/communicate%20production%20plan/occupations` [[try here]](http://bskild.xyz/v1/skills/communicate%20production%20plan/occupations)

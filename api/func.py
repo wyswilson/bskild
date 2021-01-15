@@ -73,6 +73,69 @@ def jsonifyoutput(statuscode,message,responsetype,records):
 	response = flask.jsonify(respobj),statuscode
 	return response
 
+def jsonifyskillswithoccupations(records):
+	results = []
+	occupationsbyskill = {}
+	distinctskills 				= {}
+	distinctskills_desc 		= {}
+	distinctskills_type 		= {}
+	distinctskills_reusability 	= {}
+	distinctskills_optionality 	= {}
+	distinctskills_alt 			= {}
+	for record in records:
+		score       = record[0]
+		skillId		= record[1]
+		skillName  	= record[2]
+		skillDesc  	= record[3]
+		skillType  	= record[4]
+		skillAlt  	= record[5]
+		skillReusability  	= record[6]
+		skillOptionality	= record[7]
+		occupationId 		= record[8]
+		occupationName 		= record[9]
+		occupationDesc		= record[10] 
+		alts = skillAlt.split("\n")
+
+		occupationId_ = occupationId.split("/occupation/")[1]
+		skillId_ = skillId.split("/skill/")[1]
+
+		occupationdetails = {}
+		occupationdetails['id'] = occupationId_
+		occupationdetails['name'] = occupationName
+		occupationdetails['desc'] = occupationDesc
+
+		if skillId_ in occupationsbyskill:
+			occupationsbyskill[skillId_].append(occupationdetails)
+		else:
+			occupationsbyskill[skillId_] = [occupationdetails]
+
+		distinctskills[skillId_] = skillName
+		distinctskills_desc[skillId_] = skillDesc
+		distinctskills_type[skillId_] = skillType
+		distinctskills_reusability[skillId_] = skillReusability
+		distinctskills_alt[skillId_] = alts
+
+	for skillId__ in distinctskills:
+		skillName = distinctskills[skillId__]
+		skillDesc = distinctskills_desc[skillId__]
+		skillType = distinctskills_type[skillId__]
+		skillReusability = distinctskills_reusability[skillId__]
+		alts = distinctskills_alt[skillId__]
+		occupations = occupationsbyskill[skillId__]
+
+		skill = {}
+		skill['id'] = skillId_
+		skill['name'] = skillName
+		skill['desc'] = skillDesc
+		skill['type'] = skillType
+		skill['reusability'] = skillReusability
+		skill['alternatives'] = alts
+		skill['occupations'] = occupations
+
+		results.append(skill)	
+
+	return results
+
 def jsonifyoccupationswithskills(records):
 	results = []
 	skillsbyoccupation = {}
@@ -89,7 +152,7 @@ def jsonifyoccupationswithskills(records):
 		skillName	= record[6]
 		skillDesc	= record[7]
 		skillType	= record[8]
-		skillReusability		= record[9]
+		skillReusability	= record[9]
 		skillOptionality	= record[10]
 
 		occupationId_ = occupationId.split("/occupation/")[1]
@@ -140,7 +203,6 @@ def jsonifyoccupations(records):
 		occupationName  = record[2]
 		occupationDesc  = record[3]
 		occupationAlt  	= record[4]
-
 		alts = occupationAlt.split("\n")
 
 		occupationId_ = occupationId.split("/occupation/")[1]

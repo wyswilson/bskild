@@ -88,6 +88,7 @@ def fetchhtml(url):
 	return html,urlresolved
 
 def downloadjobads(joburi,source,serplinks):
+	jobcnt = 0
 	for serplink in serplinks:
 		url  = serplink.find('a').get('href', '')
 		jobadlink = "%s%s" % (jobrooturl,url)
@@ -105,6 +106,10 @@ def downloadjobads(joburi,source,serplinks):
 		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,s3file))
 		db.commit()
 		cursor.close()
+
+		jobcnt += 1
+
+	return jobcnt
 
 query1 = """
 	SELECT conceptUri,preferredLabel FROM occupations
@@ -127,8 +132,11 @@ for record in records:
 
 		soup = bs4.BeautifulSoup(serp, 'html.parser')
 		serplinks = soup.find_all('h2',{'class':'title'})
-		downloadjobads(joburi,jobsource,serplinks)
+		jobcnt = downloadjobads(joburi,jobsource,serplinks)
 
-		startat += increment
+		if jobcnt > 0:
+			startat += increment
+		else:
+			startat = startat * 100
 
 		time.sleep(7)

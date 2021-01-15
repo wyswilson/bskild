@@ -28,7 +28,7 @@ flask_cors.CORS(app,
 def main():
 	print('hit [undefmain]')
 
-	status = "invalid endpoint"
+	status = "Endpoint not implemented"
 	statuscode = 501#Not Implemented
 
 	return func.jsonifyoutput(statuscode,status,"results",[])
@@ -40,7 +40,7 @@ def main():
 def undefoccupations():
 	print('hit [undefoccupations]')
 
-	status = "invalid endpoint"
+	status = "Require occupation id or name"
 	statuscode = 501#Not Implemented
 
 	return func.jsonifyoutput(statuscode,status,"occupations",[])
@@ -107,7 +107,7 @@ def getrelatedoccupations(occupation):
 def undefskills():
 	print('hit [undefskills]')
 
-	status = "invalid endpoint"
+	status = "Require skill id or name"
 	statuscode = 501#Not Implemented
 
 	return func.jsonifyoutput(statuscode,status,"skills",[])
@@ -131,6 +131,24 @@ def getskills(skill):
 
 	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
 
+@app.route('/skills/<skill>/occupations', methods=['GET'])
+@app.route('/v1/skills/<skill>/occupations', methods=['GET'])
+def getoccupationsbyskills(skill):
+	print('hit [getoccupationsbyskills]')
+
+	status = ""
+	statuscode = 200
+	records = []
+
+	id_,conceptype = func.isExact(skill)
+	if conceptype == 'skill' and id_ != '':
+		records = func.searchskills_exact(id_)
+		status = "Exact skill lookup"
+	else:
+		status = "Exact skill id or name required"
+
+	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskillswithoccupations(records))
+
 if __name__ == "__main__":
-	#app.run(debug=True,host='0.0.0.0',port=8888)
-	waitress.serve(app, host="0.0.0.0", port=8888)
+	app.run(debug=True,host='0.0.0.0',port=8888)
+	#waitress.serve(app, host="0.0.0.0", port=8888)
