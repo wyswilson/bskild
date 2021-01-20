@@ -100,6 +100,24 @@ def getrelatedoccupations(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
 
+@app.route('/occupations/<occupation>/job-postings', methods=['GET'])
+@app.route('/v1/occupations/<occupation>/job-postings', methods=['GET'])
+def getjobposting(occupation):
+	print('hit [getjobposting]')
+
+	status = ""
+	statuscode = 200
+	records = []
+
+	id_,conceptype = func.isExact(occupation)
+	if conceptype == 'occupation' and id_ != '':
+		records = func.searchjobpostings_exact(id_)
+		status = "Exact occupation lookup for opportunities"
+	else:
+		status = "Exact occupation id or name required"
+
+	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyjobpostings(records))
+
 @app.route("/skills")
 @app.route("/skills/")
 @app.route("/v1/skills")

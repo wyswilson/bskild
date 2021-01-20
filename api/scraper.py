@@ -96,13 +96,13 @@ def downloadjobads(joburi,source,serplinks):
 		print("\tjobad [%s]" % (jobadlink))
 		jobpagehtml,tmp = fetchhtml(jobadlink)
 
-		s3file = "jobads/%s" % (jobadid)
+		s3file = "jobpostings/%s" % (jobadid)
 		obj = s3.Object("bskild",s3file)
 		obj.put(Body=jobpagehtml)
 
 		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-		query1 = "REPLACE INTO jobads (occupationUri,jobAdId,scrapeDate,source,sourceUri,htmlLoc) VALUES (%s,%s,%s,%s,%s,%s)"
+		query1 = "REPLACE INTO jobpostings (occupationUri,jobAdId,scrapeDate,source,sourceUri,htmlLoc) VALUES (%s,%s,%s,%s,%s,%s)"
 		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,s3file))
 		db.commit()
 		cursor.close()
@@ -113,7 +113,7 @@ def downloadjobads(joburi,source,serplinks):
 
 query1 = """
 	SELECT conceptUri,preferredLabel FROM occupations
-	WHERE preferredLabel LIKE '%manager%'
+	WHERE preferredLabel LIKE '%project manager%'
 """
 cursor = func._execute(db,query1,None)
 records = cursor.fetchall()
@@ -134,9 +134,10 @@ for record in records:
 		serplinks = soup.find_all('h2',{'class':'title'})
 		jobcnt = downloadjobads(joburi,jobsource,serplinks)
 
-		if jobcnt > 0:
-			startat += increment
+		if jobcnt < 15:
+			startat += 10000
 		else:
-			startat = startat * 100
+			startat += increment
+		print("[%s] jobs downloaded" % (jobcnt))
 
 		time.sleep(7)

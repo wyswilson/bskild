@@ -272,6 +272,12 @@ def jsonifyskills(records):
 
 	return results
 
+def jsonifyjobpostings(records):
+	results = []
+	
+	
+	return results
+
 def searchskills_exact(skillid):
 	conceptUri = "%s/skill/%s" % (idprefix,skillid)
 
@@ -422,6 +428,21 @@ def searchoccupations_exact(occupationid):
 	cursor.close()
 
 	return records	
+
+def searchjobpostings_exact(occupationid):
+	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+
+	query1 = """
+	SELECT jp.jobAdId, jp.scrapeDate, jp.sourceUri, jp.htmlLoc FROM occupations AS o
+	JOIN jobpostings AS jp
+	ON o.conceptUri = jp.occupationUri
+	WHERE o.preferredLabel = %s	
+	"""
+	cursor = _execute(db,query1,(conceptUri,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records
 
 def searchoccupations_fuzzy(occupation):
 	query1 = """

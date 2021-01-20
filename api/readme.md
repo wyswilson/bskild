@@ -4,4 +4,4 @@ username: minime
 password: he3k7JDmXxKD
 database: bskilld
 
-ssh -i bskild.pem ubuntu@13.212.100.53
+ssh -i bskild.pem ubuntu@bskild.xyz
