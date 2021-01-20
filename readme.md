@@ -148,8 +148,10 @@ An endpoint is also available to find out all the occupations that require a spe
 
 `GET /v1/skills/communicate%20production%20plan/occupations` [[try here]](http://bskild.xyz/v1/skills/communicate%20production%20plan/occupations)
 
-### Experimental
+## Experimental Endpoints
 
+### Job Postings
 We are experimenting with an endpoint that returns job postings or advertisement in a crude way. This requires a valid `occupation` object that is looked up either via the exact name or id. The response contains some limited information about job postings.
+
 
 `GET /v1/occupations/data%20analyst/job-postings` [[try here]](http://bskild.xyz/v1/occupations/data%20analyst/job-postings)
