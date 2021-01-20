@@ -274,15 +274,46 @@ def jsonifyskills(records):
 
 def jsonifyjobpostings(records):
 	results = []
-
+	jobpostingsbyoccupation = {}
+	distinctoccupations = {}
+	distinctoccupations_desc = {}
 	for record in records:
-		score       = record[0]
-		skillId		= record[1]
-		skillName  	= record[2]
-		skillDesc  	= record[3]
-		skillType  	= record[4]
-		skillAlt  	= record[5]
-		skillReusability  	= record[6]
+		occupationId	= record[0]
+		occupationName  = record[1]
+		occupationDesc  = record[2]
+		jobpostingid	= record[3]
+		scrapedate		= record[4]
+		sourceurl		= record[5]
+		htmlloc			= record[6]
+
+		occupationId_ = occupationId.split("/occupation/")[1]
+
+		jobpostings = {}
+		jobpostings['id'] = jobpostingid
+		jobpostings['scrapedate'] = scrapedate
+		jobpostings['sourceurl'] = sourceurl
+		jobpostings['htmlloc'] = htmlloc
+
+		if occupationId_ in jobpostingsbyoccupation:
+			jobpostingsbyoccupation[occupationId_].append(jobpostings)
+		else:
+			jobpostingsbyoccupation[occupationId_] = [jobpostings]
+
+		distinctoccupations[occupationId_] = occupationName
+		distinctoccupations_desc[occupationId_] = occupationDesc
+
+	for occupationId__ in distinctoccupations:
+		occupationName = distinctoccupations[occupationId__]
+		occupationDesc = distinctoccupations_desc[occupationId__]
+		jobpostings = jobpostingsbyoccupation[occupationId__]
+
+		occupation = {}
+		occupation['id'] = occupationId__
+		occupation['name'] = occupationName
+		occupation['desc'] = occupationDesc
+		occupation['job-postings'] = jobpostings
+
+		results.append(occupation)
 
 	return results
 
@@ -440,7 +471,9 @@ def searchjobpostings_exact(occupationid):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
 
 	query1 = """
-	SELECT jp.jobAdId, jp.scrapeDate, jp.sourceUri, jp.htmlLoc FROM occupations AS o
+	SELECT
+	o.conceptUri, o.preferredLabel, o.description,
+	jp.jobAdId, jp.scrapeDate, jp.sourceUri, jp.htmlLoc FROM occupations AS o
 	JOIN jobpostings AS jp
 	ON o.conceptUri = jp.occupationUri
 	WHERE o.preferredLabel = %s	
