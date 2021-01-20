@@ -476,7 +476,7 @@ def searchjobpostings_exact(occupationid):
 	jp.jobAdId, jp.scrapeDate, jp.sourceUri, jp.htmlLoc FROM occupations AS o
 	JOIN jobpostings AS jp
 	ON o.conceptUri = jp.occupationUri
-	WHERE o.preferredLabel = %s	
+	WHERE o.conceptUri = %s	
 	"""
 	cursor = _execute(db,query1,(conceptUri,))
 	records = cursor.fetchall()

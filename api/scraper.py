@@ -113,7 +113,7 @@ def downloadjobads(joburi,source,serplinks):
 
 query1 = """
 	SELECT conceptUri,preferredLabel FROM occupations
-	WHERE preferredLabel LIKE '%developer%'
+	WHERE preferredLabel LIKE '%engineer%'
 """
 cursor = func._execute(db,query1,None)
 records = cursor.fetchall()
