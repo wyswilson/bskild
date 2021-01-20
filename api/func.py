@@ -274,8 +274,16 @@ def jsonifyskills(records):
 
 def jsonifyjobpostings(records):
 	results = []
-	
-	
+
+	for record in records:
+		score       = record[0]
+		skillId		= record[1]
+		skillName  	= record[2]
+		skillDesc  	= record[3]
+		skillType  	= record[4]
+		skillAlt  	= record[5]
+		skillReusability  	= record[6]
+
 	return results
 
 def searchskills_exact(skillid):
@@ -386,7 +394,6 @@ def searchoccupationrelated_exact(occupationid):
 	records = cursor.fetchall()
 	cursor.close()
 
-	print(len(records))
 	return records	
 
 def searchoccupations_exact(occupationid):
