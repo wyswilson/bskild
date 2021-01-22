@@ -54,3 +54,9 @@ s3 = boto3.resource(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
+jobadid = "963b443050d047d0fbecd136369c85ce"
+s3file = "jobpostings/%s" % (jobadid)
+obj = s3.Object("bskild",s3file)
+j = obj.get()['Body'].read()
+print(j)
+#<span class=indeed-apply-widget id="indeedApplyWidget" data-indeed-apply-apiToken='157465e9e096e75e9a43d44e5bd3e64f8ec8480ca66ea14a5578cc9948b58c13' data-indeed-apply-jobTitle='Civil Engineering Technician' data-indeed-apply-jobId='1097880' data-indeed-apply-jobLocation='AU New South Wales Sydney ' data-indeed-apply-jobCompanyName='ConsultANZ' 
