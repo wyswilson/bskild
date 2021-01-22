@@ -30,7 +30,7 @@ def main():
 	status = "Endpoint is not implemented"
 	statuscode = 501#Not Implemented
 
-	return func.jsonifyoutput(statuscode,status,"results",[])
+	return func.jsonifyoutput(statuscode,status,"results","",[])
 
 @app.route("/v1/occupations")
 @app.route("/v1/occupations/")
