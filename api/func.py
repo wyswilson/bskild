@@ -387,7 +387,7 @@ def searchskills_fuzzy(skill):
 			ON os.occupationUri = o.conceptUri
 			WHERE MATCH (s.preferredLabel,s.altLabels) AGAINST (%s IN BOOLEAN MODE)
 		) AS innertmp 
-		WHERE score1 > 5
+		WHERE score1 >= 5
 		ORDER BY 1 DESC
 	"""
 	skillwordwildcard = "%s*" % skill
@@ -461,7 +461,7 @@ def searchoccupations_exact(occupationid):
 		ON os.skillUri = s.conceptUri
 		WHERE o.conceptUri = %s
 	) AS innertmp 
-	WHERE score1 > 5
+	WHERE score1 >= 5
 	ORDER BY 1 DESC
 	"""
 	cursor = _execute(db,query1,(conceptUri,))
@@ -516,7 +516,7 @@ def searchoccupations_fuzzy(occupation):
 		ON os.skillUri = s.conceptUri
 		WHERE MATCH (o.preferredLabel,o.altLabels) AGAINST (%s IN BOOLEAN MODE)
 	) AS innertmp 
-	WHERE score1 > 5
+	WHERE score1 >= 5
 	ORDER BY 1 DESC
 	"""
 	occwordwildcard = "%s*" % occupation
