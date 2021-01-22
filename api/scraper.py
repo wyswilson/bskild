@@ -20,6 +20,7 @@ import jwt
 import string
 import math
 import boto3
+import sys
 
 config = configparser.ConfigParser()
 config.read('conf.ini')
@@ -111,33 +112,38 @@ def downloadjobads(joburi,source,serplinks):
 
 	return jobcnt
 
-query1 = """
-	SELECT conceptUri,preferredLabel FROM occupations
-	WHERE preferredLabel LIKE '%engineer%'
-"""
-cursor = func._execute(db,query1,None)
-records = cursor.fetchall()
-for record in records:
-	joburi 	= record[0]
-	jobtitle= record[1]
+if __name__ == "__main__":
+	roleseed = sys.argv[1]
 
-	startat = 0
-	increment = 10
-	while startat <= 30:
+	print("seed: [%s]" % roleseed)
+	query1 = """
+		SELECT conceptUri,preferredLabel FROM occupations
+		WHERE preferredLabel LIKE %s
+	"""
+	roleseedfuzzy = "%%%s%%" % (roleseed)
+	cursor = func._execute(db,query1,(roleseedfuzzy,))
+	records = cursor.fetchall()
+	for record in records:
+		joburi 	= record[0]
+		jobtitle= record[1]
 
-		searchurl = "%s/jobs?q=\"%s\"&start=%s" % (jobrooturl,urllib.parse.quote(jobtitle),startat)
-		print("searching at [%s]" % (searchurl))
+		startat = 0
+		increment = 10
+		while startat <= 30:
 
-		serp,urlresolved = fetchhtml(searchurl)
+			searchurl = "%s/jobs?q=\"%s\"&start=%s" % (jobrooturl,urllib.parse.quote(jobtitle),startat)
+			print("searching at [%s]" % (searchurl))
 
-		soup = bs4.BeautifulSoup(serp, 'html.parser')
-		serplinks = soup.find_all('h2',{'class':'title'})
-		jobcnt = downloadjobads(joburi,jobsource,serplinks)
+			serp,urlresolved = fetchhtml(searchurl)
 
-		if jobcnt < 15:
-			startat += 10000
-		else:
-			startat += increment
-		print("[%s] jobs downloaded" % (jobcnt))
+			soup = bs4.BeautifulSoup(serp, 'html.parser')
+			serplinks = soup.find_all('h2',{'class':'title'})
+			jobcnt = downloadjobads(joburi,jobsource,serplinks)
 
-		time.sleep(7)
+			if jobcnt < 15:
+				startat += 10000
+			else:
+				startat += increment
+			print("[%s] jobs downloaded" % (jobcnt))
+
+			time.sleep(7)
