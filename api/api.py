@@ -21,31 +21,27 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
-
 @app.route("/")
 @app.route("/v1")
 @app.route("/v1/")
 def main():
 	print('hit [undefmain]')
 
-	status = "Endpoint not implemented"
+	status = "Endpoint is not implemented"
 	statuscode = 501#Not Implemented
 
 	return func.jsonifyoutput(statuscode,status,"results",[])
 
-@app.route("/occupations")
-@app.route("/occupations/")
 @app.route("/v1/occupations")
 @app.route("/v1/occupations/")
 def undefoccupations():
 	print('hit [undefoccupations]')
 
-	status = "Require occupation id or name"
+	status = "Occupation id or name is missing"
 	statuscode = 501#Not Implemented
 
-	return func.jsonifyoutput(statuscode,status,"occupations",[])
+	return func.jsonifyoutput(statuscode,status,"occupations","",[])
 
-@app.route('/occupations/<occupation>', methods=['GET'])
 @app.route('/v1/occupations/<occupation>', methods=['GET'])
 def getoccupations(occupation):
 	print('hit [getoccupations]')
@@ -57,14 +53,13 @@ def getoccupations(occupation):
 	id_,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupations_exact(id_)
-		status = "Exact occupation lookup"
+		status = "Occupation is found with exact lookup"
 	else:
 		records = func.searchoccupations_fuzzy(occupation)
-		status = "Fuzzy search for occupations with query"
+		status = "Multiple occupations found with fuzzy lookup"
 
-	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
+	return func.jsonifyoutput(statuscode,status,"occupations","",func.jsonifyoccupations(records))
 
-@app.route('/occupations/<occupation>/skills', methods=['GET'])
 @app.route('/v1/occupations/<occupation>/skills', methods=['GET'])
 def getskillsbyoccupation(occupation):
 	print('hit [getskillsbyoccupation]')
@@ -76,13 +71,12 @@ def getskillsbyoccupation(occupation):
 	id_,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupations_exact(id_)
-		status = "Exact occupation lookup for skills"
+		status = "Multiple skills found for an exact occupation"
 	else:
-		status = "Exact occupation id or name required"
+		status = "Exact occupation id or name required for skill lookup"
 
-	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupationswithskills(records))
+	return func.jsonifyoutput(statuscode,status,"occupations","skills",func.jsonifyoccupationswithskills(records))
 
-@app.route('/occupations/<occupation>/related', methods=['GET'])
 @app.route('/v1/occupations/<occupation>/related', methods=['GET'])
 def getrelatedoccupations(occupation):
 	print('hit [getrelatedoccupations]')
@@ -94,13 +88,12 @@ def getrelatedoccupations(occupation):
 	id_,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupationrelated_exact(id_)
-		status = "Exact occupation lookup for related occupations"
+		status = "Related occupations found for an exact occupation"
 	else:
-		status = "Exact occupation id or name required"
+		status = "Exact occupation id or name required for related occupations lookup"
 
-	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyoccupations(records))
+	return func.jsonifyoutput(statuscode,status,"occupations","",func.jsonifyoccupations(records))
 
-@app.route('/occupations/<occupation>/job-postings', methods=['GET'])
 @app.route('/v1/occupations/<occupation>/job-postings', methods=['GET'])
 def getjobposting(occupation):
 	print('hit [getjobposting]')
@@ -112,25 +105,22 @@ def getjobposting(occupation):
 	id_,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchjobpostings_exact(id_)
-		status = "Exact occupation lookup for opportunities"
+		status = "Job postings found for an exact occupation"
 	else:
-		status = "Exact occupation id or name required"
+		status = "Exact occupation id or name required for job postings lookup"
 
-	return func.jsonifyoutput(statuscode,status,"occupations",func.jsonifyjobpostings(records))
+	return func.jsonifyoutput(statuscode,status,"occupations","job-postings",func.jsonifyjobpostings(records))
 
-@app.route("/skills")
-@app.route("/skills/")
 @app.route("/v1/skills")
 @app.route("/v1/skills/")
 def undefskills():
 	print('hit [undefskills]')
 
-	status = "Require skill id or name"
+	status = "Skill id or name is missing"
 	statuscode = 501#Not Implemented
 
-	return func.jsonifyoutput(statuscode,status,"skills",[])
+	return func.jsonifyoutput(statuscode,status,"skills","",[])
 
-@app.route('/skills/<skill>', methods=['GET'])
 @app.route('/v1/skills/<skill>', methods=['GET'])
 def getskills(skill):
 	print('hit [getskills]')
@@ -142,14 +132,13 @@ def getskills(skill):
 	id_,conceptype = func.isExact(skill)
 	if conceptype == 'skill' and id_ != '':
 		records = func.searchskills_exact(id_)
-		status = "Exact skill lookup"
+		status = "Skill is found with exact lookup"
 	else:
 		records = func.searchskills_fuzzy(skill)
-		status = "Fuzzy search for skills with query"
+		status = "Multiple skills found with fuzzy lookup"
 
-	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskills(records))
+	return func.jsonifyoutput(statuscode,status,"skills","",func.jsonifyskills(records))
 
-@app.route('/skills/<skill>/occupations', methods=['GET'])
 @app.route('/v1/skills/<skill>/occupations', methods=['GET'])
 def getoccupationsbyskills(skill):
 	print('hit [getoccupationsbyskills]')
@@ -161,12 +150,12 @@ def getoccupationsbyskills(skill):
 	id_,conceptype = func.isExact(skill)
 	if conceptype == 'skill' and id_ != '':
 		records = func.searchskills_exact(id_)
-		status = "Exact skill lookup for occupations"
+		status = "Multiple occupations found for an exact skill"
 	else:
-		status = "Exact skill id or name required"
+		status = "Exact skill id or name required for occupations lookup"
 
-	return func.jsonifyoutput(statuscode,status,"skills",func.jsonifyskillswithoccupations(records))
+	return func.jsonifyoutput(statuscode,status,"skills","occupations",func.jsonifyskillswithoccupations(records))
 
 if __name__ == "__main__":
-	#app.run(debug=True,host='0.0.0.0',port=8888)
-	waitress.serve(app, host="0.0.0.0", port=8888)
+	app.run(debug=True,host='0.0.0.0',port=8888)
+	#waitress.serve(app, host="0.0.0.0", port=8888)

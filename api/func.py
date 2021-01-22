@@ -62,13 +62,16 @@ def _execute(db,query,params):
 
 	return cursor_
 
-def jsonifyoutput(statuscode,message,responsetype,records):
+def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records):
 
 	respobj = {}
 	respobj['status'] = statuscode
 	respobj['message'] = message
-	respobj['count'] = len(records)
-	respobj[responsetype] = records
+	if secondaryresp != "":
+		respobj['count'] = len(records[0][secondaryresp])
+	else:
+		respobj['count'] = len(records)
+	respobj[primaryresp] = records
 
 	response = flask.jsonify(respobj),statuscode
 	return response
