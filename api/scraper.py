@@ -104,7 +104,7 @@ def downloadjobads(joburi,source,serplinks):
 		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
 		query1 = "REPLACE INTO jobpostings (occupationUri,jobAdId,scrapeDate,source,sourceUri,htmlLoc) VALUES (%s,%s,%s,%s,%s,%s)"
-		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,s3file))
+		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,""))
 		db.commit()
 		cursor.close()
 
