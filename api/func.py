@@ -20,12 +20,16 @@ import jwt
 import string
 import math
 import boto3
+import sys
 
 config = configparser.ConfigParser()
 config.read('conf.ini')
 
 logfile 		= config['path']['log']
 idprefix 		= config['path']['idprefix']
+s3region 		= config['aws']['s3_region']
+s3accesskey 	= config['aws']['s3_accesskey']
+s3secretkey 	= config['aws']['s3_secretkey']
 mysqlhost 		= config['mysql']['host']
 mysqlport 		= config['mysql']['port']
 mysqluser 		= config['mysql']['user']
@@ -39,12 +43,16 @@ db = mysql.connector.connect(
 	host = mysqlhost,
 	port = mysqlport,
 	user = mysqluser, passwd = mysqlpassword, database=mysqldb#,
-    #pool_name='sqlpool',
-    #pool_size = 6, pool_reset_session = True
    	)
-#cursor = db.cursor()
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
+
+s3 = boto3.resource(
+    service_name='s3',
+    region_name=s3region,
+    aws_access_key_id=s3accesskey,
+    aws_secret_access_key=s3secretkey
+)
 
 def _execute(db,query,params):
 	cursor_ = None

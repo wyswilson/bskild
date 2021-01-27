@@ -39,18 +39,11 @@ jobsource 		= config['scraper']['jobsource']
 jobrooturl 		= config['scraper']['jobrooturl']
 useragents 		= json.loads(config['scraper']['useragents'].replace('\n',''))
 
-
 db = mysql.connector.connect(
 	host = mysqlhost,
 	port = mysqlport,
-	user = mysqluser, passwd = mysqlpassword, database=mysqldb
+	user = mysqluser, passwd = mysqlpassword, database=mysqldb#,
    	)
-s3 = boto3.resource(
-    service_name='s3',
-    region_name=s3region,
-    aws_access_key_id=s3accesskey,
-    aws_secret_access_key=s3secretkey
-)
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
