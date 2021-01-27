@@ -619,29 +619,33 @@ def extractJobDetails(html):
 		jobloc 		= jobloc.strip()
 		jobcomp 	= jobcomp.strip()
 	else:
-		titlematched = soup.find("title").text
-		print(titlematched)
-		matchobj = re.search('^(.+?)\-([^\-]+?)\-\sIndeed.com$', titlematched, re.IGNORECASE)
-		if matchobj:
-			jobtitle 	= matchobj.group(1).strip()
-			jobloc 		= matchobj.group(2).strip()
+		titlematchedobj = soup.find("title")
+		if titlematchedobj:
+			titlematched = titlematchedobj.text
+			print(titlematched)
+			matchobj = re.search('^(.+?)\-([^\-]+?)\-\sIndeed.com$', titlematched, re.IGNORECASE)
+			if matchobj:
+				jobtitle 	= matchobj.group(1).strip()
+				jobloc 		= matchobj.group(2).strip()
 
 	return(jobtitle,jobloc,jobcomp)
 
-def downloadJobPosting(joburi,source,serplinks):
+def downloadJobPostings(joburi,source,serplinks):
 	jobcnt = 0
 	for serplink in serplinks:
 		url  = serplink.find('a').get('href', '')
-		jobadlink = "%s%s" % (jobrooturl,url)
+		jobadlink = "%s%s" % (jobrooturl,url,"&vjs=3")#the last suffix ensures the jobdetaipage remains on indeed
 		jobadid = hashlib.md5(jobadlink.encode('utf-8')).hexdigest()
 		print("\tjobad [%s]" % (jobadlink))
 		jobpagehtml,tmp = fetchHtml(jobadlink)
 
+		byte_jobpagehtml = jobpagehtml.encode()
 		s3file = "jobpostings/%s" % (jobadid)
 		obj = s3.Object("bskild",s3file)
-		obj.put(Body=jobpagehtml)
+		obj.put(Body=byte_jobpagehtml)
 
 		jobtitle,jobloc,jobcomp = extractJobDetails(jobpagehtml)
+		print("\t[%s][%s][%s]" % (jobtitle,jobloc,jobcomp))
 
 		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 

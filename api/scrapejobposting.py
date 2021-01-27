@@ -47,34 +47,38 @@ db = mysql.connector.connect(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
-s3 = boto3.resource(
-    service_name='s3',
-    region_name=s3region,
-    aws_access_key_id=s3accesskey,
-    aws_secret_access_key=s3secretkey
-)
+if __name__ == "__main__":
+	roleseed = sys.argv[1]
 
-query1 = """
-SELECT postingId,sourceUri FROM jobpostings
-WHERE sourceUri NOT LIKE '%&vjs=3'
-"""
-cursor = func._execute(db,query1,None)
-records = cursor.fetchall()
-cursor.close()
-for record in records:
-	jobadid = record[0]
-	sourceUri = record[1]
-	jobadlink = "%s%s" % (sourceUri,"&vjs=3")
-	print("\t%s" % (jobadid))
-	print("\tjobad [%s]" % (jobadlink))
-	jobpagehtml,tmp = func.fetchHtml(jobadlink)
+	print("seed: [%s]" % roleseed)
+	query1 = """
+		SELECT conceptUri,preferredLabel FROM occupations
+		WHERE preferredLabel LIKE %s
+	"""
+	roleseedfuzzy = "%%%s%%" % (roleseed)
+	cursor = func._execute(db,query1,(roleseedfuzzy,))
+	records = cursor.fetchall()
+	for record in records:
+		joburi 	= record[0]
+		jobtitle= record[1]
 
-	byte_jobpagehtml = jobpagehtml.encode()
-	s3file = "jobpostings/%s" % (jobadid)
-	obj = s3.Object("bskild",s3file)
-	obj.put(Body=byte_jobpagehtml)
+		startat = 0
+		increment = 10
+		while startat <= 30:
 
-	query2 = "UPDATE jobpostings SET sourceUri = %s WHERE postingId = %s"
-	cursor = func._execute(db,query2,(jobadlink,jobadid))
-	db.commit()
-	cursor.close()
+			searchurl = "%s/jobs?q=\"%s\"&start=%s" % (jobrooturl,urllib.parse.quote(jobtitle),startat)
+			print("searching at [%s]" % (searchurl))
+
+			serp,urlresolved = func.fetchHtml(searchurl)
+
+			soup = bs4.BeautifulSoup(serp, 'html.parser')
+			serplinks = soup.find_all('h2',{'class':'title'})
+			jobcnt = func.downloadJobPostings(joburi,jobsource,serplinks)
+
+			if jobcnt < 15:
+				startat += 10000
+			else:
+				startat += increment
+			print("[%s] jobs downloaded" % (jobcnt))
+
+			time.sleep(7)

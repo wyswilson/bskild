@@ -47,38 +47,41 @@ db = mysql.connector.connect(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
-if __name__ == "__main__":
-	roleseed = sys.argv[1]
+s3 = boto3.resource(
+    service_name='s3',
+    region_name=s3region,
+    aws_access_key_id=s3accesskey,
+    aws_secret_access_key=s3secretkey
+)
 
-	print("seed: [%s]" % roleseed)
-	query1 = """
-		SELECT conceptUri,preferredLabel FROM occupations
-		WHERE preferredLabel LIKE %s
-	"""
-	roleseedfuzzy = "%%%s%%" % (roleseed)
-	cursor = func._execute(db,query1,(roleseedfuzzy,))
-	records = cursor.fetchall()
-	for record in records:
-		joburi 	= record[0]
-		jobtitle= record[1]
+query1 = """
+SELECT postingId,rawTitle FROM jobpostings
+WHERE (rawTitle is NULL OR rawTitle = '')
+AND sourceUri LIKE '%&vjs=3'
+"""
+cursor = func._execute(db,query1,None)
+records = cursor.fetchall()
+cursor.close()
+for record in records:
+	jobadid = record[0]
+	s3file = "jobpostings/%s" % (jobadid)
+	html = ""
+	try:
+		obj = s3.Object("bskild",s3file)
+		html = obj.get()['Body'].read()
+		print("reading html for job-posting [%s]" % (s3file))
+	except:
+		print("job-posting does not exists [%s]" % (s3file))
 
-		startat = 0
-		increment = 10
-		while startat <= 30:
+	if html != "":
+		jobtitle,jobloc,jobcomp = func.extractJobDetails(html)
+		print("extracted [%s] by [%s] in [%s]" % (jobtitle,jobloc,jobcomp))
+	
+		query2 = "UPDATE jobpostings SET rawTitle = %s, rawLocation = %s, rawCompany = %s WHERE postingId = %s"
+		cursor = func._execute(db,query2,(jobtitle,jobloc,jobcomp,jobadid))
+		db.commit()
+		cursor.close()
+	else:
+		print("no html to extract from")
+	print("\n")
 
-			searchurl = "%s/jobs?q=\"%s\"&start=%s" % (jobrooturl,urllib.parse.quote(jobtitle),startat)
-			print("searching at [%s]" % (searchurl))
-
-			serp,urlresolved = func.fetchHtml(searchurl)
-
-			soup = bs4.BeautifulSoup(serp, 'html.parser')
-			serplinks = soup.find_all('h2',{'class':'title'})
-			jobcnt = func.downloadJobPosting(joburi,jobsource,serplinks)
-
-			if jobcnt < 15:
-				startat += 10000
-			else:
-				startat += increment
-			print("[%s] jobs downloaded" % (jobcnt))
-
-			time.sleep(7)
