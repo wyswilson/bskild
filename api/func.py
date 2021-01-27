@@ -31,6 +31,8 @@ mysqlport 		= config['mysql']['port']
 mysqluser 		= config['mysql']['user']
 mysqlpassword 	= config['mysql']['password']
 mysqldb 		= config['mysql']['db']
+jobsource 		= config['scraper']['jobsource']
+jobrooturl 		= config['scraper']['jobrooturl']
 useragents 		= json.loads(config['scraper']['useragents'].replace('\n',''))
 
 db = mysql.connector.connect(
