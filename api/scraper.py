@@ -54,40 +54,6 @@ s3 = boto3.resource(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
-
-def fetchhtml(url):
-	html = ""
-	urlresolved = ""
-	try:
-		session = requests.Session()
-		randagent = random.choice(useragents)
-		headers = {'User-Agent': randagent}
-		r = session.get(url, headers=headers, timeout=10)
-		#cookie = dict(r.cookies)
-		#print(cookie)
-		#r = session.get(url, cookies=cookie)
-		
-		urlresolved = r.url
-		html = r.content.decode('utf-8')
-		if html == '':
-			errstr = "fetchhtml: [error-empty-page] [%s]" % (url)
-			logging.debug(errstr)
-
-	except requests.ConnectionError as e:
-		errstr = "fetchhtml: [error-connection] [%s] [%s]" % (url,str(e))
-		logging.debug(errstr)
-	except requests.Timeout as e:
-		errstr = "fetchhtml: [error-timeout] [%s] [%s]" % (url,str(e))
-		logging.debug(errstr)
-	except requests.RequestException as e:
-		errstr = "fetchhtml: [error-request] [%s] [%s]" % (url,str(e))
-		logging.debug(errstr)
-	except BaseException as e:
-		errstr = "fetchhtml: [error-unknown] [%s] [%s]" % (url,str(e))
-		logging.debug(errstr)
-
-	return html,urlresolved
-
 def downloadjobads(joburi,source,serplinks):
 	jobcnt = 0
 	for serplink in serplinks:
@@ -95,16 +61,18 @@ def downloadjobads(joburi,source,serplinks):
 		jobadlink = "%s%s" % (jobrooturl,url)
 		jobadid = hashlib.md5(jobadlink.encode('utf-8')).hexdigest()
 		print("\tjobad [%s]" % (jobadlink))
-		jobpagehtml,tmp = fetchhtml(jobadlink)
+		jobpagehtml,tmp = func.fetchHtml(jobadlink)
 
 		s3file = "jobpostings/%s" % (jobadid)
 		obj = s3.Object("bskild",s3file)
 		obj.put(Body=jobpagehtml)
 
+		jobtitle,jobloc,jobcomp = func.extractJobDetails(jobpagehtml)
+
 		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-		query1 = "REPLACE INTO jobpostings (occupationUri,jobAdId,scrapeDate,source,sourceUri,jobAdTitle) VALUES (%s,%s,%s,%s,%s,%s)"
-		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,""))
+		query1 = "REPLACE INTO jobpostings (occupationUri,postingId,scrapeDate,source,sourceUri,rawTitle,rawLocation,rawCompany) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,jobtitle,jobloc,jobcomp))
 		db.commit()
 		cursor.close()
 

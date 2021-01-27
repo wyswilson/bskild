@@ -54,18 +54,28 @@ s3 = boto3.resource(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
-jobadid = "963b443050d047d0fbecd136369c85ce"
-s3file = "jobpostings/%s" % (jobadid)
-obj = s3.Object("bskild",s3file)
-html = obj.get()['Body'].read()
+query1 = """
+SELECT postingId,rawTitle FROM jobpostings
+WHERE rawTitle is NULL OR rawTitle = ''
+limit 10
+"""
+cursor = func._execute(db,query1,None)
+records = cursor.fetchall()
+cursor.close()
+for record in records:
+	jobadid = record[0]
+	s3file = "jobpostings/%s" % (jobadid)
+	html = ""
+	try:
+		obj = s3.Object("bskild",s3file)
+		html = obj.get()['Body'].read()
+		print("reading html for job-posting [%s]" % (s3file))
+	except:
+		print("job-posting does not exists [%s]" % (s3file))
 
-soup = bs4.BeautifulSoup(html, 'html.parser')
-results = soup.find('span',{'class':'indeed-apply-widget'})
-print(results)
-
-#for result in results:
-#	listhead = result.find('h3')
-#	if listhead:
-#		resulttitle = listhead.text
-#		resultlink  = result.find('a').get('href', '')
-#<span class=indeed-apply-widget id="indeedApplyWidget" data-indeed-apply-apiToken='157465e9e096e75e9a43d44e5bd3e64f8ec8480ca66ea14a5578cc9948b58c13' data-indeed-apply-jobTitle='Civil Engineering Technician' data-indeed-apply-jobId='1097880' data-indeed-apply-jobLocation='AU New South Wales Sydney ' data-indeed-apply-jobCompanyName='ConsultANZ' 
+	if html != "":
+		jobtitle,jobloc,jobcomp = func.extractJobDetails(html)
+		print("extracted [%s] by [%s] in [%s]" % (jobtitle,jobcomp,jobloc))
+	else:
+		print("no html to extract from")
+	print("\n")

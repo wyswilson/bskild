@@ -285,17 +285,21 @@ def jsonifyjobpostings(records):
 		occupationName  = record[1]
 		occupationDesc  = record[2]
 		jobpostingid	= record[3]
-		scrapedate		= record[4]
+		scrapeDate		= record[4]
 		sourceurl		= record[5]
-		htmlloc			= record[6]
+		rawTitle		= record[6]
+		rawLocation		= record[7]
+		rawCompany		= record[8]
 
 		occupationId_ = occupationId.split("/occupation/")[1]
 
 		jobpostings = {}
 		jobpostings['id'] = jobpostingid
-		jobpostings['scrapedate'] = scrapedate
+		jobpostings['scrapedate'] = scrapeDate
 		jobpostings['sourceurl'] = sourceurl
-		jobpostings['htmlloc'] = htmlloc
+		jobpostings['title'] = rawTitle
+		jobpostings['location'] = rawLocation
+		jobpostings['company'] = rawCompany
 
 		if occupationId_ in jobpostingsbyoccupation:
 			jobpostingsbyoccupation[occupationId_].append(jobpostings)
@@ -476,7 +480,7 @@ def searchjobpostings_exact(occupationid):
 	query1 = """
 	SELECT
 	o.conceptUri, o.preferredLabel, o.description,
-	jp.jobAdId, jp.scrapeDate, jp.sourceUri, jp.jobAdTitle FROM occupations AS o
+	jp.postingId, jp.scrapeDate, jp.sourceUri, jp.rawTitle, jp.rawLocation, jp.rawCompany FROM occupations AS o
 	JOIN jobpostings AS jp
 	ON o.conceptUri = jp.occupationUri
 	WHERE o.conceptUri = %s	
@@ -550,3 +554,92 @@ def isExact(idstr):
 		id_ = idresolved.split("/%s/" % concepttype)[1]
 
 	return id_,concepttype
+
+def fetchHtml(url):
+	html = ""
+	urlresolved = ""
+	try:
+		session = requests.Session()
+		randagent = random.choice(useragents)
+		headers = {'User-Agent': randagent}
+		r = session.get(url, headers=headers, timeout=10)
+		#cookie = dict(r.cookies)
+		#print(cookie)
+		#r = session.get(url, cookies=cookie)
+		
+		urlresolved = r.url
+		html = r.content.decode('utf-8')
+		if html == '':
+			errstr = "fetchhtml: [error-empty-page] [%s]" % (url)
+			logging.debug(errstr)
+
+	except requests.ConnectionError as e:
+		errstr = "fetchhtml: [error-connection] [%s] [%s]" % (url,str(e))
+		logging.debug(errstr)
+	except requests.Timeout as e:
+		errstr = "fetchhtml: [error-timeout] [%s] [%s]" % (url,str(e))
+		logging.debug(errstr)
+	except requests.RequestException as e:
+		errstr = "fetchhtml: [error-request] [%s] [%s]" % (url,str(e))
+		logging.debug(errstr)
+	except BaseException as e:
+		errstr = "fetchhtml: [error-unknown] [%s] [%s]" % (url,str(e))
+		logging.debug(errstr)
+
+	return html,urlresolved
+
+def extractJobDetails(html):
+	soup = bs4.BeautifulSoup(html, 'html.parser')
+	matchobj = soup.find("span", {"class": "indeed-apply-widget", "data-indeed-apply-jobtitle": True})
+	
+	jobloc = ""
+	jobcomp = ""
+	jobtitle = ""		
+	if matchobj:
+		jobtitle 	= matchobj['data-indeed-apply-jobtitle']
+		jobloc 		= ""
+		jobcomp 	= ""
+		try:
+			jobloc = matchobj['data-indeed-apply-joblocation']
+			jobcomp = matchobj['data-indeed-apply-jobcompanyname']
+		except:
+			pass
+
+		jobtitle 	= jobtitle.strip()
+		jobloc 		= jobloc.strip()
+		jobcomp 	= jobcomp.strip()
+	else:
+		titlematched = soup.find("title").text
+		print(titlematched)
+		matchobj = re.search('^(.+?)\-([^\-]+?)\-\sIndeed.com$', titlematched, re.IGNORECASE)
+		if matchobj:
+			jobtitle 	= matchobj.group(1).strip()
+			jobloc 		= matchobj.group(2).strip()
+
+	return(jobtitle,jobloc,jobcomp)
+
+def downloadJobPosting(joburi,source,serplinks):
+	jobcnt = 0
+	for serplink in serplinks:
+		url  = serplink.find('a').get('href', '')
+		jobadlink = "%s%s" % (jobrooturl,url)
+		jobadid = hashlib.md5(jobadlink.encode('utf-8')).hexdigest()
+		print("\tjobad [%s]" % (jobadlink))
+		jobpagehtml,tmp = fetchHtml(jobadlink)
+
+		s3file = "jobpostings/%s" % (jobadid)
+		obj = s3.Object("bskild",s3file)
+		obj.put(Body=jobpagehtml)
+
+		jobtitle,jobloc,jobcomp = extractJobDetails(jobpagehtml)
+
+		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+		query1 = "REPLACE INTO jobpostings (occupationUri,postingId,scrapeDate,source,sourceUri,rawTitle,rawLocation,rawCompany) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+		cursor = _execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,jobtitle,jobloc,jobcomp))
+		db.commit()
+		cursor.close()
+
+		jobcnt += 1
+
+	return jobcnt
