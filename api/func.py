@@ -634,7 +634,7 @@ def downloadJobPostings(joburi,source,serplinks):
 	jobcnt = 0
 	for serplink in serplinks:
 		url  = serplink.find('a').get('href', '')
-		jobadlink = "%s%s" % (jobrooturl,url,"&vjs=3")#the last suffix ensures the jobdetaipage remains on indeed
+		jobadlink = "%s%s%s" % (jobrooturl,url,"&vjs=3")#the last suffix ensures the jobdetaipage remains on indeed
 		jobadid = hashlib.md5(jobadlink.encode('utf-8')).hexdigest()
 		print("\tjobad [%s]" % (jobadlink))
 		jobpagehtml,tmp = fetchHtml(jobadlink)
