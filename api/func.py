@@ -570,20 +570,20 @@ def fetchHtml(url):
 		urlresolved = r.url
 		html = r.content.decode('utf-8')
 		if html == '':
-			errstr = "fetchhtml: [error-empty-page] [%s]" % (url)
+			errstr = "fetchHtml: [error-empty-page] [%s]" % (url)
 			logging.debug(errstr)
 
 	except requests.ConnectionError as e:
-		errstr = "fetchhtml: [error-connection] [%s] [%s]" % (url,str(e))
+		errstr = "fetchHtml: [error-connection] [%s] [%s]" % (url,str(e))
 		logging.debug(errstr)
 	except requests.Timeout as e:
-		errstr = "fetchhtml: [error-timeout] [%s] [%s]" % (url,str(e))
+		errstr = "fetchHtml: [error-timeout] [%s] [%s]" % (url,str(e))
 		logging.debug(errstr)
 	except requests.RequestException as e:
-		errstr = "fetchhtml: [error-request] [%s] [%s]" % (url,str(e))
+		errstr = "fetchHtml: [error-request] [%s] [%s]" % (url,str(e))
 		logging.debug(errstr)
 	except BaseException as e:
-		errstr = "fetchhtml: [error-unknown] [%s] [%s]" % (url,str(e))
+		errstr = "fetchHtml: [error-unknown] [%s] [%s]" % (url,str(e))
 		logging.debug(errstr)
 
 	return html,urlresolved

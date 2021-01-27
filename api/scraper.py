@@ -54,32 +54,6 @@ s3 = boto3.resource(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
-def downloadjobads(joburi,source,serplinks):
-	jobcnt = 0
-	for serplink in serplinks:
-		url  = serplink.find('a').get('href', '')
-		jobadlink = "%s%s" % (jobrooturl,url)
-		jobadid = hashlib.md5(jobadlink.encode('utf-8')).hexdigest()
-		print("\tjobad [%s]" % (jobadlink))
-		jobpagehtml,tmp = func.fetchHtml(jobadlink)
-
-		s3file = "jobpostings/%s" % (jobadid)
-		obj = s3.Object("bskild",s3file)
-		obj.put(Body=jobpagehtml)
-
-		jobtitle,jobloc,jobcomp = func.extractJobDetails(jobpagehtml)
-
-		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-
-		query1 = "REPLACE INTO jobpostings (occupationUri,postingId,scrapeDate,source,sourceUri,rawTitle,rawLocation,rawCompany) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-		cursor = func._execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,jobtitle,jobloc,jobcomp))
-		db.commit()
-		cursor.close()
-
-		jobcnt += 1
-
-	return jobcnt
-
 if __name__ == "__main__":
 	roleseed = sys.argv[1]
 
@@ -102,11 +76,11 @@ if __name__ == "__main__":
 			searchurl = "%s/jobs?q=\"%s\"&start=%s" % (jobrooturl,urllib.parse.quote(jobtitle),startat)
 			print("searching at [%s]" % (searchurl))
 
-			serp,urlresolved = fetchhtml(searchurl)
+			serp,urlresolved = func.fetchHtml(searchurl)
 
 			soup = bs4.BeautifulSoup(serp, 'html.parser')
 			serplinks = soup.find_all('h2',{'class':'title'})
-			jobcnt = downloadjobads(joburi,jobsource,serplinks)
+			jobcnt = func.downloadJobPosting(joburi,jobsource,serplinks)
 
 			if jobcnt < 15:
 				startat += 10000
