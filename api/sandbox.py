@@ -54,27 +54,5 @@ s3 = boto3.resource(
     aws_secret_access_key=s3secretkey
 )
 
-query1 = """
-SELECT postingId,sourceUri FROM jobpostings
-WHERE sourceUri NOT LIKE '%&vjs=3'
-"""
-cursor = func._execute(db,query1,None)
-records = cursor.fetchall()
-cursor.close()
-for record in records:
-	jobadid = record[0]
-	sourceUri = record[1]
-	jobadlink = "%s%s" % (sourceUri,"&vjs=3")
-	print("\t%s" % (jobadid))
-	print("\tjobad [%s]" % (jobadlink))
-	jobpagehtml,tmp = func.fetchHtml(jobadlink)
 
-	byte_jobpagehtml = jobpagehtml.encode()
-	s3file = "jobpostings/%s" % (jobadid)
-	obj = s3.Object("bskild",s3file)
-	obj.put(Body=byte_jobpagehtml)
 
-	query2 = "UPDATE jobpostings SET sourceUri = %s WHERE postingId = %s"
-	cursor = func._execute(db,query2,(jobadlink,jobadid))
-	db.commit()
-	cursor.close()

@@ -623,12 +623,21 @@ def extractJobDetails(html):
 		if titlematchedobj:
 			titlematched = titlematchedobj.text
 			print(titlematched)
-			matchobj = re.search('^(.+?)\-([^\-]+?)\-\sIndeed.com$', titlematched, re.IGNORECASE)
-			if matchobj:
-				jobtitle 	= matchobj.group(1).strip()
-				jobloc 		= matchobj.group(2).strip()
+			if titlematched != "hCaptcha solve page":
+				matchobj = re.search('^(.+?)\-([^\-]+?)\-\sIndeed.com$', titlematched, re.IGNORECASE)
+				if matchobj:
+					jobtitle 	= matchobj.group(1).strip()
+					jobloc 		= matchobj.group(2).strip()
+			else:
+				jobtitle = "TERMINATE"
 
 	return(jobtitle,jobloc,jobcomp)
+
+def saveToS3(id,html):
+	byte_html = html.encode()
+	s3file = "jobpostings/%s" % (id)
+	obj = s3.Object("bskild",s3file)
+	obj.put(Body=byte_html)
 
 def downloadJobPostings(joburi,source,serplinks):
 	jobcnt = 0
@@ -636,24 +645,27 @@ def downloadJobPostings(joburi,source,serplinks):
 		url  = serplink.find('a').get('href', '')
 		jobadlink = "%s%s%s" % (jobrooturl,url,"&vjs=3")#the last suffix ensures the jobdetaipage remains on indeed
 		jobadid = hashlib.md5(jobadlink.encode('utf-8')).hexdigest()
-		print("\tjobad [%s]" % (jobadlink))
-		jobpagehtml,tmp = fetchHtml(jobadlink)
 
-		byte_jobpagehtml = jobpagehtml.encode()
-		s3file = "jobpostings/%s" % (jobadid)
-		obj = s3.Object("bskild",s3file)
-		obj.put(Body=byte_jobpagehtml)
+		jobpagehtml,tmp = fetchHtml(jobadlink)
+		print("\tjobad fetched [%s]" % (jobadlink))
 
 		jobtitle,jobloc,jobcomp = extractJobDetails(jobpagehtml)
-		print("\t[%s][%s][%s]" % (jobtitle,jobloc,jobcomp))
+		print("\tjobad details extracted [%s][%s][%s]" % (jobtitle,jobloc,jobcomp))
+		
+		if jobtitle != "TERMINATE" and jobtitle != '':
+			saveToS3(jobadid,jobpagehtml)		
 
-		scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+			scrapedate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-		query1 = "REPLACE INTO jobpostings (occupationUri,postingId,scrapeDate,source,sourceUri,rawTitle,rawLocation,rawCompany) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-		cursor = _execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,jobtitle,jobloc,jobcomp))
-		db.commit()
-		cursor.close()
+			query1 = "REPLACE INTO jobpostings (occupationUri,postingId,scrapeDate,source,sourceUri,rawTitle,rawLocation,rawCompany) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+			cursor = _execute(db,query1,(joburi,jobadid,scrapedate,source,jobadlink,jobtitle,jobloc,jobcomp))
+			db.commit()
+			cursor.close()
 
-		jobcnt += 1
+			print("\tjobad stored")
+			jobcnt += 1
+		else:
+			print("\tjobad not stored. invalid jobad")
+			jobcnt = 0
 
 	return jobcnt
