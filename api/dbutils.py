@@ -55,10 +55,21 @@ def dbCounts():
 	query1 = """
 			SELECT COUNT(DISTINCT(postingId)) FROM jobpostings
 	"""
-	cursor = func._execute(db,query1,None)
-	records = cursor.fetchall()
+	cursor1 = func._execute(db,query1,None)
+	records = cursor1.fetchall()
 	uniquepostingsindb = records[0][0]
+	cursor1.close()
 	print("postings in db: [%s]" % uniquepostingsindb)
+
+	query2 = """
+			SELECT COUNT(DISTINCT(postingId)) FROM jobpostings
+			WHERE rawTitle = "" OR rawTitle is null
+	"""
+	cursor2 = func._execute(db,query2,None)
+	records2 = cursor2.fetchall()
+	uniquepostingsindbwithouttitle = records2[0][0]
+	cursor2.close()
+	print("postings without title in db: [%s]" % uniquepostingsindbwithouttitle)
 
 def dbAlignment():
 	postingsindb = {}
@@ -70,6 +81,7 @@ def dbAlignment():
 	for record in records:
 		postingid = record[0]
 		postingsindb[postingid] = ""
+	cursor.close()
 
 	s3bucket = func.getS3().Bucket("bskild")
 	allfiles = s3bucket.objects.all()

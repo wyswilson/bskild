@@ -58,6 +58,8 @@ if __name__ == "__main__":
 	roleseedfuzzy = "%%%s%%" % (roleseed)
 	cursor = func._execute(db,query1,(roleseedfuzzy,))
 	records = cursor.fetchall()
+	cursor.close()
+
 	for record in records:
 		joburi 	= record[0]
 		jobtitle= record[1]

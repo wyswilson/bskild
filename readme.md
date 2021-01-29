@@ -151,7 +151,32 @@ An endpoint is also available to find out all the occupations that require a spe
 ## Experimental Endpoints
 
 ### Job Postings
-We are experimenting with an endpoint that returns job postings or advertisement in a crude way. This requires a valid `occupation` object that is looked up either via the exact name or id. The response contains some limited information about job postings.
+We are experimenting with an endpoint that returns job postings or advertisement in a crude way. This requires a valid `occupation` object that is looked up either via the exact name or id. The response contains some limited information about job postings such as title, location and company if available.
 
 
 `GET /v1/occupations/data%20analyst/job-postings` [[try here]](http://bskild.xyz/v1/occupations/data%20analyst/job-postings)
+
+
+A sample response is included below:
+
+
+```
+"job-postings": [
+   {
+      "id": "003d02f9e498e9adcf8f1698b38ebd07",
+      "scrapedate": "Fri, 29 Jan 2021 00:37:56 GMT",
+      "sourceurl": "https://au.indeed.com/rc/clk?jk=30943659d76684ed&fccid=2bda3e53a1cd95a8&vjs=3",
+      "title": "Data Analyst",
+      "location": "Melbourne City Centre VIC",
+      "company": ""
+   },
+   {
+      "id": "01a7fac9b70270a12ade2d3ae96f46a5",
+      "scrapedate": "Wed, 20 Jan 2021 15:37:02 GMT",
+      "sourceurl": "https://au.indeed.com/company/The-Hope-Factory/jobs/Business-Analyst-68c0c2202c48646e?fccid=24794c06f1002aa8&vjs=3",
+      "title": "Business Analyst",
+      "location": "Melbourne VIC",
+      "company": "The Hope Factory"
+},
+...
+```
