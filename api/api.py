@@ -50,7 +50,7 @@ def getoccupations(occupation):
 	statuscode = 200
 	records = []
 
-	id_,conceptype = func.isExact(occupation)
+	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupations_exact(id_)
 		status = "Occupation is found with exact lookup"
@@ -68,7 +68,7 @@ def getskillsbyoccupation(occupation):
 	statuscode = 200
 	records = []
 
-	id_,conceptype = func.isExact(occupation)
+	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupations_exact(id_)
 		status = "Multiple skills found for an exact occupation"
@@ -85,7 +85,7 @@ def getrelatedoccupations(occupation):
 	statuscode = 200
 	records = []
 
-	id_,conceptype = func.isExact(occupation)
+	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupationrelated_exact(id_)
 		status = "Related occupations found for an exact occupation"
@@ -102,9 +102,9 @@ def getjobposting(occupation):
 	statuscode = 200
 	records = []
 
-	id_,conceptype = func.isExact(occupation)
+	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
-		records = func.searchjobpostings_exact(id_)
+		records = func.searchjobpostings_exact(id_,canonicalname)
 		status = "Job postings found for an exact occupation"
 	else:
 		status = "Exact occupation id or name required for job postings lookup"
@@ -129,7 +129,7 @@ def getskills(skill):
 	statuscode = 200
 	records = []
 
-	id_,conceptype = func.isExact(skill)
+	id_,canonicalname,conceptype = func.isExact(skill)
 	if conceptype == 'skill' and id_ != '':
 		records = func.searchskills_exact(id_)
 		status = "Skill is found with exact lookup"
@@ -147,7 +147,7 @@ def getoccupationsbyskills(skill):
 	statuscode = 200
 	records = []
 
-	id_,conceptype = func.isExact(skill)
+	id_,canonicalname,conceptype = func.isExact(skill)
 	if conceptype == 'skill' and id_ != '':
 		records = func.searchskills_exact(id_)
 		status = "Multiple occupations found for an exact skill"

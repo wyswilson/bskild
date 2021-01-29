@@ -483,18 +483,29 @@ def searchoccupations_exact(occupationid):
 
 	return records	
 
-def searchjobpostings_exact(occupationid):
+def searchjobpostings_exact(occupationid,canonicalname):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
 
 	query1 = """
 	SELECT
-	o.conceptUri, o.preferredLabel, o.description,
-	jp.postingId, jp.scrapeDate, jp.sourceUri, jp.rawTitle, jp.rawLocation, jp.rawCompany FROM occupations AS o
-	JOIN jobpostings AS jp
-	ON o.conceptUri = jp.occupationUri
-	WHERE o.conceptUri = %s	
+		conceptUri,preferredLabel,description,
+		postingId,scrapeDate,sourceUri,rawTitle,rawLocation,rawCompany,
+		(score1 + score2) AS score
+	FROM (
+		SELECT
+			o.conceptUri, o.preferredLabel, o.description,
+			jp.postingId, jp.scrapeDate, jp.sourceUri, jp.rawTitle, jp.rawLocation, jp.rawCompany,
+			MATCH(jp.rawTitle) AGAINST(%s IN BOOLEAN MODE ) AS score1,
+			MATCH(jp.rawTitle) AGAINST (%s IN BOOLEAN MODE) aS score2
+		FROM occupations AS o
+		JOIN jobpostings AS jp
+		ON o.conceptUri = jp.occupationUri
+		WHERE o.conceptUri = %s
+	) AS tmp
+	ORDER BY 10 desc
 	"""
-	cursor = _execute(db,query1,(conceptUri,))
+	occwordprox = "\"%s\" @3" % canonicalname
+	cursor = _execute(db,query1,(canonicalname,occwordprox,occupationid))
 	records = cursor.fetchall()
 	cursor.close()
 
@@ -544,10 +555,10 @@ def isExact(idstr):
 	idtest1 = "%s/occupation/%s" % (idprefix,idstr)
 	idtest2 = "%s/skill/%s" % (idprefix,idstr)
 	query1 = """
-		SELECT conceptUri,'occupation' AS entitytype FROM occupations
+		SELECT conceptUri,preferredLabel,'occupation' AS entitytype FROM occupations
 		WHERE conceptUri = %s OR preferredLabel = %s
 		UNION
-		SELECT conceptUri,'skill' AS entitytype FROM skills
+		SELECT conceptUri,preferredLabel,'skill' AS entitytype FROM skills
 		WHERE conceptUri = %s OR preferredLabel = %s
 	"""
 	cursor = _execute(db,query1,(idtest1,idstr,idtest2,idstr))
@@ -558,11 +569,12 @@ def isExact(idstr):
 	id_ = ''
 	if records:
 		idresolved = records[0][0]
-		concepttype = records[0][1]
+		preferredname = records[0][1]
+		concepttype = records[0][2]
 
 		id_ = idresolved.split("/%s/" % concepttype)[1]
 
-	return id_,concepttype
+	return id_,preferredname,concepttype
 
 def fetchHtml(url):
 	html = ""
