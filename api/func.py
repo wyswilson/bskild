@@ -76,7 +76,10 @@ def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records):
 	respobj['status'] = statuscode
 	respobj['message'] = message
 	if secondaryresp != "":
-		respobj['count'] = len(records[0][secondaryresp])
+		try:
+			respobj['count'] = len(records[0][secondaryresp])
+		except:
+			respobj['count'] = 0
 	else:
 		respobj['count'] = len(records)
 	respobj[primaryresp] = records
@@ -196,7 +199,7 @@ def jsonifyoccupationswithskills(records):
 		occupation['id'] = occupationId__
 		occupation['name'] = occupationName
 		occupation['desc'] = occupationDesc
-		occupation['confidence'] = score
+		#occupation['confidence'] = score
 		occupation['skills'] = skills
 
 		results.append(occupation)
@@ -302,12 +305,14 @@ def jsonifyjobpostings(records):
 		occupationId_ = occupationId.split("/occupation/")[1]
 
 		jobpostings = {}
-		jobpostings['id'] = jobpostingid
-		jobpostings['scrapedate'] = scrapeDate
-		jobpostings['sourceurl'] = sourceurl
-		jobpostings['title'] = rawTitle
-		jobpostings['location'] = rawLocation
-		jobpostings['company'] = rawCompany
+		if jobpostingid != None:
+			jobpostings['id'] = jobpostingid
+			jobpostings['scrapedate'] = scrapeDate
+			jobpostings['sourceurl'] = sourceurl
+			jobpostings['title'] = rawTitle
+			jobpostings['location'] = rawLocation
+			jobpostings['company'] = rawCompany
+
 
 		if occupationId_ in jobpostingsbyoccupation:
 			jobpostingsbyoccupation[occupationId_].append(jobpostings)
@@ -326,7 +331,10 @@ def jsonifyjobpostings(records):
 		occupation['id'] = occupationId__
 		occupation['name'] = occupationName
 		occupation['desc'] = occupationDesc
-		occupation['job-postings'] = jobpostings
+		if len(jobpostings) > 1:
+			occupation['job-postings'] = jobpostings
+		else:
+			occupation['job-postings'] = []
 
 		results.append(occupation)
 
@@ -497,7 +505,7 @@ def searchjobpostings_exact(occupationid,canonicalname):
 			MATCH(jp.rawTitle) AGAINST(%s IN BOOLEAN MODE ) AS score1,
 			MATCH(jp.rawTitle) AGAINST (%s IN BOOLEAN MODE) aS score2
 		FROM occupations AS o
-		JOIN jobpostings AS jp
+		LEFT JOIN jobpostings AS jp
 		ON o.conceptUri = jp.occupationUri
 		WHERE o.conceptUri = %s
 	) AS tmp
@@ -507,7 +515,7 @@ def searchjobpostings_exact(occupationid,canonicalname):
 	cursor = _execute(db,query1,(canonicalname,occwordprox,conceptUri))
 	records = cursor.fetchall()
 	cursor.close()
-	
+
 	return records
 
 def searchoccupations_fuzzy(occupation):
@@ -564,8 +572,9 @@ def isExact(idstr):
 	records = cursor.fetchall()
 	cursor.close()
 
-	concepttype = ''
-	id_ = ''
+	concepttype 	= ''
+	id_ 			= ''
+	preferredname 	= ''
 	if records:
 		idresolved = records[0][0]
 		preferredname = records[0][1]
