@@ -1,6 +1,5 @@
 import datetime
 import flask
-import func
 
 import time
 import functools
@@ -622,7 +621,7 @@ def extractJobDetails(html):
 		titlematchedobj = soup.find("title")
 		if titlematchedobj:
 			titlematched = titlematchedobj.text
-			print(titlematched)
+			print("\t%s" % titlematched)
 			if titlematched != "hCaptcha solve page":
 				matchobj = re.search('^(.+?)\-([^\-]+?)\-\sIndeed.com$', titlematched, re.IGNORECASE)
 				if matchobj:
@@ -670,5 +669,5 @@ def downloadJobPostings(joburi,source,serplinks):
 
 	return jobcnt
 
-def getS3Bucket():
+def getS3():
 	return s3

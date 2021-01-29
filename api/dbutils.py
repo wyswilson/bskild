@@ -86,5 +86,5 @@ def dbAlignment():
 				func.getS3().Object("bskild", filekey).delete()
 
 if __name__ == "__main__":
-	dbAlignment()
+	#dbAlignment()
 	dbCounts()
