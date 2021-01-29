@@ -634,10 +634,10 @@ def extractJobDetails(html):
 	return(jobtitle,jobloc,jobcomp)
 
 def saveToS3(id,html):
-	byte_html = html.encode()
+	bytehtml = html.encode()
 	s3file = "jobpostings/%s" % (id)
-	obj = s3.Object("bskild",s3file)
-	obj.put(Body=byte_html)
+	s3obj = s3.Object("bskild",s3file)
+	s3obj.put(Body=bytehtml)
 
 def downloadJobPostings(joburi,source,serplinks):
 	jobcnt = 0
@@ -669,3 +669,6 @@ def downloadJobPostings(joburi,source,serplinks):
 			jobcnt = 0
 
 	return jobcnt
+
+def getS3Bucket():
+	return s3

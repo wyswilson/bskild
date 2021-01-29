@@ -47,12 +47,44 @@ db = mysql.connector.connect(
 
 logging.basicConfig(filename=logfile,level=logging.DEBUG)
 
-s3 = boto3.resource(
-    service_name='s3',
-    region_name=s3region,
-    aws_access_key_id=s3accesskey,
-    aws_secret_access_key=s3secretkey
-)
+def dbCounts():
+	s3bucket = func.getS3().Bucket("bskild")
+	size = sum(1 for _ in s3bucket.objects.all())
+	print("files in s3: [%s]" % size)
 
+	query1 = """
+			SELECT COUNT(DISTINCT(postingId)) FROM jobpostings
+	"""
+	cursor = func._execute(db,query1,None)
+	records = cursor.fetchall()
+	uniquepostingsindb = records[0][0]
+	print("postings in db: [%s]" % uniquepostingsindb)
 
+def dbAlignment():
+	postingsindb = {}
+	query1 = """
+		SELECT DISTINCT postingId FROM jobpostings
+	"""
+	cursor = func._execute(db,query1,None)
+	records = cursor.fetchall()
+	for record in records:
+		postingid = record[0]
+		postingsindb[postingid] = ""
 
+	s3bucket = func.getS3().Bucket("bskild")
+	allfiles = s3bucket.objects.all()
+	for file in allfiles:
+		filekey = file.key
+		matchobj = re.search('^jobpostings\/(.+?)$', filekey, re.IGNORECASE)
+		if matchobj:
+			postingid = matchobj.group(1).strip()
+			
+			if postingid in postingsindb:
+				print("posting [%s] exists" % postingid)
+			else:
+				print("posting [%s] does not exists" % postingid)
+				func.getS3().Object("bskild", filekey).delete()
+
+if __name__ == "__main__":
+	dbAlignment()
+	dbCounts()
