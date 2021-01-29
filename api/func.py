@@ -72,7 +72,6 @@ def _execute(db,query,params):
 	return cursor_
 
 def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records):
-
 	respobj = {}
 	respobj['status'] = statuscode
 	respobj['message'] = message
@@ -505,10 +504,10 @@ def searchjobpostings_exact(occupationid,canonicalname):
 	ORDER BY 10 desc
 	"""
 	occwordprox = "\"%s\" @3" % canonicalname
-	cursor = _execute(db,query1,(canonicalname,occwordprox,occupationid))
+	cursor = _execute(db,query1,(canonicalname,occwordprox,conceptUri))
 	records = cursor.fetchall()
 	cursor.close()
-
+	
 	return records
 
 def searchoccupations_fuzzy(occupation):
