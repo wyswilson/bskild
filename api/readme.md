@@ -6,6 +6,11 @@ database: bskilld
 
 ssh -i bskild.pem ubuntu@bskild.xyz
 
+##########################################################
+create new react app
+- in root dir, npx create-react-app webapp
+
+##########################################################
 job posting seeds for scraping
 - manager
 - admin
@@ -21,13 +26,13 @@ job posting seeds for scraping
 - analyst
 - scientist
 - director
+- teacher
 - designer
 - lecturer
 - technician
 - operator
 - instructor
 - driver
-- teacher
 - specialist
 - therapist
 - trainer

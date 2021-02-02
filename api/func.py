@@ -275,7 +275,7 @@ def jsonifyskills(records):
 		alts = distinctskills_alt[skillId__]
 
 		skill = {}
-		skill['id'] = skillId_
+		skill['id'] = skillId__
 		skill['name'] = skillName
 		skill['desc'] = skillDesc
 		skill['type'] = skillType
