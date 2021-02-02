@@ -50,6 +50,8 @@ def getoccupations(occupation):
 	statuscode = 200
 	records = []
 
+	liteornot = flask.request.query_string.decode('UTF-8')
+
 	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
 		records = func.searchoccupations_exact(id_)
@@ -58,7 +60,7 @@ def getoccupations(occupation):
 		records = func.searchoccupations_fuzzy(occupation)
 		status = "Multiple occupations found with fuzzy lookup"
 
-	return func.jsonifyoutput(statuscode,status,"occupations","",func.jsonifyoccupations(records))
+	return func.jsonifyoutput(statuscode,status,"occupations","",func.jsonifyoccupations(records,liteornot))
 
 @app.route('/v1/occupations/<occupation>/skills', methods=['GET'])
 def getskillsbyoccupation(occupation):
@@ -129,6 +131,8 @@ def getskills(skill):
 	statuscode = 200
 	records = []
 
+	liteornot = flask.request.query_string.decode('UTF-8')
+
 	id_,canonicalname,conceptype = func.isExact(skill)
 	if conceptype == 'skill' and id_ != '':
 		records = func.searchskills_exact(id_)
@@ -137,7 +141,7 @@ def getskills(skill):
 		records = func.searchskills_fuzzy(skill)
 		status = "Multiple skills found with fuzzy lookup"
 
-	return func.jsonifyoutput(statuscode,status,"skills","",func.jsonifyskills(records))
+	return func.jsonifyoutput(statuscode,status,"skills","",func.jsonifyskills(records,liteornot))
 
 @app.route('/v1/skills/<skill>/occupations', methods=['GET'])
 def getoccupationsbyskills(skill):
@@ -157,5 +161,5 @@ def getoccupationsbyskills(skill):
 	return func.jsonifyoutput(statuscode,status,"skills","occupations",func.jsonifyskillswithoccupations(records))
 
 if __name__ == "__main__":
-	#app.run(debug=True,host='0.0.0.0',port=8888)
-	waitress.serve(app, host="0.0.0.0", port=8888)
+	app.run(debug=True,host='0.0.0.0',port=8888)
+	#waitress.serve(app, host="0.0.0.0", port=8888)

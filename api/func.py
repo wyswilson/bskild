@@ -206,7 +206,7 @@ def jsonifyoccupationswithskills(records):
 
 	return results
 
-def jsonifyoccupations(records):
+def jsonifyoccupations(records,liteornot):
 	results = []
 	distinctoccupations 		= {}
 	distinctoccupations_desc 	= {}	
@@ -234,13 +234,14 @@ def jsonifyoccupations(records):
 		occupation['id'] = occupationId__
 		occupation['name'] = occupationName
 		occupation['desc'] = occupationDesc
-		occupation['alternatives'] = alts
+		if liteornot != 'lite':
+			occupation['alternatives'] = alts
 
 		results.append(occupation)
 
 	return results
 
-def jsonifyskills(records):
+def jsonifyskills(records,liteornot):
 	results = []
 	distinctskills 				= {}
 	distinctskills_desc 		= {}
@@ -278,9 +279,10 @@ def jsonifyskills(records):
 		skill['id'] = skillId__
 		skill['name'] = skillName
 		skill['desc'] = skillDesc
-		skill['type'] = skillType
-		skill['reusability'] = skillReusability
-		skill['alternatives'] = alts
+		if liteornot != 'lite':
+			skill['type'] = skillType
+			skill['reusability'] = skillReusability
+			skill['alternatives'] = alts
 
 		results.append(skill)
 

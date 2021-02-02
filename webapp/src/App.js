@@ -156,7 +156,7 @@ class App extends React.Component {
       >
         <Grid stackable columns={1}>
           <Grid.Column>
-            <Dropdown name="keywords" className="fullwidth"
+            <Dropdown name="keywords" fluid
                 search clearable compact
                 selection
                 searchQuery={this.state.searchquery}
