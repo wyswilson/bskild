@@ -64,7 +64,7 @@ class App extends React.Component {
     const keywords = data.searchQuery;
     console.log("searchkeywords [" + keywords + "]");
     this.setState({searchquery: keywords});
-    if(keywords.length > 3){
+    if(keywords.length >= 3){
       this.searchboth(keywords);
     }
   }
@@ -178,7 +178,7 @@ class App extends React.Component {
                 search compact
                 selection allowAdditions
                 additionLabel='Search with '
-                minCharacters={3}
+                minCharacters={2}
                 selectOnBlur={false}
                 searchQuery={this.state.searchquery}
                 value={this.state.searchquery}
