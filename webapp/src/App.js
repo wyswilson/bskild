@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
-import './app.css';
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 
