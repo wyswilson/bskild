@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './app.js';
+import App from './app';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(
-  
-    <App />
+	<div>
+		<App />
+	</div>
   ,
   document.getElementById('root')
 );
