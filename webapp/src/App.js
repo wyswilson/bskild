@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Popup, List, Button, Accordion, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 
@@ -15,14 +15,17 @@ class App extends React.Component {
       selectedvalue: '',
       dropdownoptions: [],
       rawresponse:[],
-      serp:''
+      serp:'',
+      activeaccordion: 1,
+      selectedoccupationskills: [],
+      selectedskilloccupations: []
     };
   }
 
-  async searchskills(query){
+  async searchskills(query,mode){
     let suggestions = [];
 
-    var skillrequeststr = this.state.searchendpoint + '/skills/' + query + '?lite'
+    var skillrequeststr = this.state.searchendpoint + '/skills/' + query + '?' + mode
     console.log('search skills [' + skillrequeststr + ']');
     try{
       const response = await axios.get(skillrequeststr);
@@ -35,10 +38,10 @@ class App extends React.Component {
     return suggestions;
   }
 
-  async searchoccupations(query){
+  async searchoccupations(query,mode){
     let suggestions = [];
 
-    var occupationrequeststr = this.state.searchendpoint + '/occupations/' + query + '?lite'
+    var occupationrequeststr = this.state.searchendpoint + '/occupations/' + query + '?' + mode
     console.log('search occupations [' + occupationrequeststr + ']');
     try{
       const response = await axios.get(occupationrequeststr);
@@ -52,11 +55,11 @@ class App extends React.Component {
   }
 
   async searchboth(query){
-    const options1 = await this.searchoccupations(query);
+    const options1 = await this.searchoccupations(query,'lite');
     await this.updatesuggestions(options1,'occupations');
-    const options2 = await this.searchskills(query);
+    const options2 = await this.searchskills(query,'lite');
     await this.updatesuggestions(options2,'skills');
-    await this.refreshresults();
+    await this.refreshresults('lite');
   }
 
   searchkeywords(event, data){
@@ -77,7 +80,7 @@ class App extends React.Component {
         value: item.name,
         desc: item.desc,
         content: (
-          <Header size='small' color={type === 'occupations' ? 'blue'  : 'orange'} icon={type === 'occupations' ? 'user outline'  : 'list'} content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
+          <Header size='small' icon={type === 'occupations' ? 'user outline'  : 'list'} content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
         ),
         type: type
       }
@@ -117,31 +120,138 @@ class App extends React.Component {
     this.setState({searchquery: value});
 
     if(type === 'skills'){
-      const options = await this.searchskills(id);
+      const options = await this.searchskills(id,'full');
       await this.resetsuggestions();
       await this.updatesuggestions(options,'skills');
-      await this.refreshresults();
+      await this.lookupoccupationsforskill(id);
+      await this.refreshresults('full');
+
     }
     else if(type === 'occupations'){
-      const options = await this.searchoccupations(id);
+      const options = await this.searchoccupations(id,'full');
       await this.resetsuggestions();
       await this.updatesuggestions(options,'occupations');
-      await this.refreshresults();
+      await this.lookupskillsforoccupation(id);
+      await this.refreshresults('full');
     }
   }
 
-  refreshresults(){
+  showextracontent(event,selected){
+    const selectedindex = selected.index;
+    const activeindex = this.state.activeaccordion;
+    console.log('user clicked on: ' + selectedindex);
+
+    console.log('active was: ' + activeindex);
+    //if(selectedindex === this.state.activeaccordion){
+    //  this.setState({ activeaccordion: 0});
+    //}
+    //else{
+      this.setState({ activeaccordion: selectedindex});
+    //}
+    const newactiveindex = this.state.activeaccordion;
+    console.log('active is now: ' + newactiveindex);
+  }
+
+  async lookupoccupationsforskill(id){
+    var requeststr = this.state.searchendpoint + '/skills/' + id + '/occupations'
+    console.log('search skill occupations [' + requeststr + ']');
+    try{
+      const response = await axios.get(requeststr);
+      console.log('search skill occupations [' + response.data['message'] + ']');
+      const occupations = response.data['skills'][0]['occupations'];
+      this.setState({selectedskilloccupations: occupations});
+    }
+    catch(err){
+      console.log('search skill occupations [' + err + ']');     
+    }
+  }
+
+  async lookupskillsforoccupation(id){
+    var requeststr = this.state.searchendpoint + '/occupations/' + id + '/skills'
+    console.log('search occupation skills [' + requeststr + ']');
+    try{
+      const response = await axios.get(requeststr);
+      console.log('search occupation skills [' + response.data['message'] + ']');
+      const skills = response.data['occupations'][0]['skills'];
+      this.setState({selectedoccupationskills: skills});
+    }
+    catch(err){
+      console.log('search occupation skills [' + err + ']');     
+    }
+  }
+
+  renderextracontent(mode,type,id,value){
+    let render = ''; 
+    if(mode === 'full' && type === 'occupations'){
+      render = this.state.selectedoccupationskills.map((skillitem) => (
+                 <List.Item>
+                  <Popup content={skillitem.optionality + ' skill'} trigger={
+                  <List.Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'} size='large' verticalAlign='middle'/>
+                  }/>
+                  <List.Content>
+                    <List.Header as='a' onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}
+                    >
+                      {skillitem.name}
+                    </List.Header>
+                    <List.Description>
+                      {skillitem.reusability} {skillitem.type}
+                    </List.Description>
+                  </List.Content>
+                </List.Item>
+             ));
+
+      render = (
+        <List divided verticalAlign='middle'>
+        {render}
+        </List>
+      );
+            
+    }
+    else if(mode === 'full' && type === 'skills'){
+      render = this.state.selectedskilloccupations.map((occupationitem) => (
+                 <List.Item>
+                  <List.Icon name='user outline' size='large' verticalAlign='middle'/>
+                  <List.Content>
+                    <List.Header as='a' onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}
+                    >
+                      {occupationitem.name}
+                    </List.Header>
+                    <List.Description>
+                      
+                    </List.Description>
+                  </List.Content>
+                </List.Item>
+             ));
+      render = (
+        <List divided verticalAlign='middle'>
+        {render}
+        </List>
+      );
+    }
+    else{
+      render = (
+        <Button animated='vertical' size='medium' fluid
+          onClick={this.suggestionselected.bind(this,type,id,value)}
+        >
+          <Button.Content hidden>find out more</Button.Content>
+          <Button.Content visible>
+            <Icon name='arrow circle right' />
+          </Button.Content>
+        </Button>);
+    }
+    return render;
+  }
+
+  refreshresults(mode){
     console.log("refreshing results");
     const serprefreshed = this.state.dropdownoptions.map( (item) => (
          <Card key={item.key}
-          color={item.type === 'occupations' ? 'blue'  : 'orange'}
-          onClick={this.suggestionselected.bind(this,item.type,item.key,item.value)}
+          fluid={mode !== 'lite' ? true : false}
          >
           <Card.Content>
             <Label corner='right'>
               <Icon
                 name={item.type === 'occupations' ? 'user outline'  : 'list'}
-                color={item.type === 'occupations' ? 'blue'  : 'orange'}
               />
             </Label>
             <Card.Header>{item.value}</Card.Header>
@@ -153,6 +263,7 @@ class App extends React.Component {
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
+          { this.renderextracontent(mode,item.type,item.key,item.value) }
           </Card.Content>
         </Card>
            ));
