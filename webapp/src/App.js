@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Popup, List, Button, Accordion, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 
@@ -18,7 +18,8 @@ class App extends React.Component {
       serp:'',
       activeaccordion: 1,
       selectedoccupationskills: [],
-      selectedskilloccupations: []
+      selectedskilloccupations: [],
+      selectedoccupationrelated: []
     };
   }
 
@@ -177,6 +178,20 @@ class App extends React.Component {
     }
     catch(err){
       console.log('search occupation skills [' + err + ']');     
+    }
+  }
+
+  async lookuprelatedoccupations(id){
+    var requeststr = this.state.searchendpoint + '/occupations/' + id + '/related'
+    console.log('search related occupations [' + requeststr + ']');
+    try{
+      const response = await axios.get(requeststr);
+      console.log('search related occupations [' + response.data['message'] + ']');
+      const occupations = response.data['occupations'];
+      this.setState({selectedoccupationrelated: occupations});
+    }
+    catch(err){
+      console.log('search related occupations [' + err + ']');     
     }
   }
 
