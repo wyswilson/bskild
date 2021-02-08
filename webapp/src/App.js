@@ -68,7 +68,7 @@ class App extends React.Component {
     const keywords = data.searchQuery;
     console.log("searchkeywords [" + keywords + "]");
     this.setState({searchquery: keywords});
-    if(keywords.length >= 3){
+    if(keywords.length > 3){
       this.searchboth(keywords);
     }
   }
@@ -80,6 +80,7 @@ class App extends React.Component {
         text: item.name,
         value: item.name,
         desc: item.desc,
+        alts: item.alternatives,
         content: (
           <Header size='small' icon={type === 'occupations' ? 'user outline'  : 'list'} content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
         ),
@@ -199,7 +200,7 @@ class App extends React.Component {
     let render = ''; 
     if(mode === 'full' && type === 'occupations'){
       render = this.state.selectedoccupationskills.map((skillitem) => (
-                 <List.Item>
+                 <List.Item key={skillitem.id}>
                   <Popup content={skillitem.optionality + ' skill'} trigger={
                   <List.Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'} size='large' verticalAlign='middle'/>
                   }/>
@@ -217,6 +218,7 @@ class App extends React.Component {
 
       render = (
         <List divided verticalAlign='middle'>
+          <Header as='h4'>Required skills and knowledge</Header>
         {render}
         </List>
       );
@@ -224,7 +226,7 @@ class App extends React.Component {
     }
     else if(mode === 'full' && type === 'skills'){
       render = this.state.selectedskilloccupations.map((occupationitem) => (
-                 <List.Item>
+                 <List.Item key={occupationitem.id}>
                   <List.Icon name='user outline' size='large' verticalAlign='middle'/>
                   <List.Content>
                     <List.Header as='a' onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}
@@ -259,30 +261,34 @@ class App extends React.Component {
 
   refreshresults(mode){
     console.log("refreshing results");
-    const serprefreshed = this.state.dropdownoptions.map( (item) => (
-         <Card key={item.key}
-          fluid={mode !== 'lite' ? true : false}
-         >
-          <Card.Content>
-            <Label corner='right'>
-              <Icon
-                name={item.type === 'occupations' ? 'user outline'  : 'list'}
-              />
-            </Label>
-            <Card.Header>{item.value}</Card.Header>
-            <Card.Meta>
-              {item.type}
-            </Card.Meta>
-            <Card.Description>
-              {item.desc}
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-          { this.renderextracontent(mode,item.type,item.key,item.value) }
-          </Card.Content>
-        </Card>
-           ));
-    console.log(serprefreshed);
+    let serprefreshed = [];
+    console.log(this.state.dropdownoptions);
+    this.state.dropdownoptions.forEach(function(item) {
+      serprefreshed.push(
+             <Card key={item.key}
+              fluid={mode !== 'lite' ? true : false}
+             >
+              <Card.Content>
+                <Label corner='right'>
+                  <Icon
+                    name={item.type === 'occupations' ? 'user outline'  : 'list'}
+                  />
+                </Label>
+                <Card.Header>{item.value}</Card.Header>
+                <Card.Meta>
+                  {item.type}
+                </Card.Meta>
+                <Card.Description>
+                  {item.desc}<br/>
+                  Also known as 
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+              { this.renderextracontent(mode,item.type,item.key,item.value) }
+              </Card.Content>
+            </Card>
+        );
+    },this);
     this.setState({serp: serprefreshed});
   }
 
@@ -290,16 +296,140 @@ class App extends React.Component {
     let results = ''; 
     if(this.state.serp !== ''){
       results = (
-        <Card.Group>{this.state.serp}</Card.Group>
-      )
+        <div>
+          <Grid.Column
+            className={isMobile ? "bodymain mobile" : "bodymain"}
+          >
+            <Card.Group>{this.state.serp}</Card.Group>
+          </Grid.Column>
+        </div>
+      );
+    }
+    else{
+      results = (
+        <div>
+          <Grid.Column
+            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+          >
+            <Grid fluid celled='internally' columns='equal' stackable>
+              <Grid.Row textAlign='left'>
+                <Grid.Column>
+                  <Header as='h3' style={{ fontSize: '24px' }} className="fontdark">
+                  Better managing the development, promotions and lateral moves in your workforce is key to retention and efficiency
+                  </Header>
+                </Grid.Column>
+                <Grid.Column verticalAlign="middle">
+                  <List floated="left" className="fontdark">
+
+                    <List.Item>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big'>about 33% of their annual salary</a>
+                      </List.Content>
+                    </List.Item>
+ 
+                    <List.Item>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        Organisations who are committed to talent mobility <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth'>performs better financially</a>
+                      </List.Content>
+                    </List.Item>
+
+                    <List.Item>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters'>more likely to leave</a>
+                      </List.Content>
+                    </List.Item>
+
+                  </List>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Grid.Column>
+
+          <Grid.Column
+            className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+          >
+            <Grid fluid celled='internally' columns='equal' stackable>
+              <Grid.Row textAlign='left'>
+                <Grid.Column>
+                  <Header as='h3' style={{ fontSize: '24px' }} className="fontlight">
+                    We help you uncover development and progression opportunities in your workforce and realise them
+                  </Header>
+                </Grid.Column>
+                <Grid.Column verticalAlign="middle">
+                  <List floated="left" className="fontlight">
+                    <List.Item>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                       We help you understand the skills profile of your workforce and the critical areas in terms of hard to fill roles.
+                      </List.Content>
+                    </List.Item>
+ 
+                    <List.Item>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        We recommend opportunities to upskill based on the profile and follow up with options to fullfill the training needs.
+                      </List.Content>
+                    </List.Item>
+
+                    <List.Item>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        We identify opportunities for progression to put existing skills to good use and introduce new challenge to employees.
+                      </List.Content>
+                    </List.Item>
+
+                  </List>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Grid.Column>
+
+          <Grid.Column
+            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+          >
+            <Grid celled='internally' columns='equal' stackable>
+              <Grid.Column>
+                <Header as='h3' style={{ fontSize: '24px' }} className="fontdark">
+                  Interested in finding out more?
+                </Header>
+                <p className="fontdark">
+                  Do you want to improve your organisation's ability 
+                  in managing and retaining talent but not sure where to begin?
+                </p>
+              </Grid.Column>
+              <Grid.Column verticalAlign="middle">
+                <Grid columns={1} doubling stackable>
+                  <Grid.Column>
+                    Enter email address
+                  </Grid.Column>
+                  <Grid.Row columns={2}>
+                    <Grid.Column width={7}>
+                      <Button className='kuning button fullwidth'>
+                        REGISTER NOW</Button>
+                    </Grid.Column>
+                    <Grid.Column width={9}>
+                      
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid>
+          </Grid.Column>
+        </div>
+      );
+
     }
 
     return (
-      <div
-        className={isMobile ? "bodymain mobile" : "bodymain"}
-      >
-        <Grid stackable columns={1}>
-          <Grid.Column>
+      <div>
+        <Grid stackable columns={1}
+        >
+          <Grid.Column
+            className={isMobile ? "navheader mobile" : "navheader"}
+          >
             <Dropdown name="keywords" fluid
                 search compact
                 selection allowAdditions
@@ -316,8 +446,20 @@ class App extends React.Component {
                 onAddItem={this.searchkeywords.bind(this)}
             />
           </Grid.Column>
-          <Grid.Column>
-            {results}
+
+          {results}
+
+          <Grid.Column
+            className={isMobile ? "navfooter mobile" : "navfooter"}
+          >
+            <List horizontal verticalAlign="middle">
+            <List.Item className="footheader">
+              Copyright © 2021 bSkild. All Rights Reserved.
+            </List.Item>
+            <List.Item className="footheader">
+
+            </List.Item>
+          </List>
           </Grid.Column>
         </Grid>
       </div>

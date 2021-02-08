@@ -117,6 +117,7 @@ def jsonifyskillswithoccupations(records):
 		occupationdetails['id'] = occupationId_
 		occupationdetails['name'] = occupationName
 		occupationdetails['desc'] = occupationDesc
+		occupationdetails['optionality'] = skillOptionality
 
 		if skillId_ in occupationsbyskill:
 			occupationsbyskill[skillId_].append(occupationdetails)
