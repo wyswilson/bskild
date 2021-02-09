@@ -475,7 +475,7 @@ class App extends React.Component {
             <Grid.Column stretched 
               className="fontlight" style={{ fontSize: '15px' }}
             >
-                Help me understand more about the role {' '}
+                Help me understand more about the role or skill {' '}
                 <Dropdown name="keywords" 
                   style={{ width: '100%' }}
                   floating inline
