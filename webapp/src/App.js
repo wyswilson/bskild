@@ -438,11 +438,12 @@ class App extends React.Component {
           ref={(div) => { this.trynowpanel = div; }}           
         >
           <Grid columns={1} doubling stackable>
-            <Grid.Column stretched>
-              <p className="fontlight" style={{ fontSize: '15px' }}>
+            <Grid.Column stretched 
+              className="fontlight" style={{ fontSize: '15px' }}
+            >
                 Help me understand more about the role {' '}
                 <Dropdown name="keywords" 
-                  style={{ width: '50%' }}
+                  style={{ width: '100%' }}
                   floating inline
                   search compact
                   selection allowAdditions
@@ -458,7 +459,6 @@ class App extends React.Component {
                   placeholder='Occupation or skill'
                   onAddItem={this.searchkeywords.bind(this)}
                 />
-              </p>
             </Grid.Column>
           </Grid>
         </div>
