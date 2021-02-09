@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
+import scrollToComponent from 'react-scroll-to-component';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,6 +22,10 @@ class App extends React.Component {
       selectedskilloccupations: [],
       selectedoccupationrelated: []
     };
+  }
+
+  scrollto(event){
+    scrollToComponent(this.trynowpanel);
   }
 
   async searchskills(query,mode){
@@ -316,12 +321,12 @@ class App extends React.Component {
           <Grid celled='internally' columns='equal' stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
-                <Header as='h3' style={{ fontSize: '24px' }} className="fontdark">
+                <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
                 Better managing the development and progression in your workforce is key to retention and efficiency
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List floated="left" className="fontdark">
+                <List floated="left" className="fontdark" style={{ fontSize: '15px' }}>
 
                   <List.Item>
                     <List.Icon name='check circle' />
@@ -355,12 +360,12 @@ class App extends React.Component {
           <Grid celled='internally' columns='equal' stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
-                <Header as='h3' style={{ fontSize: '24px' }} className="fontlight">
+                <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
                   We help you uncover development and progression opportunities in your workforce and realise them in a few ways
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List floated="left" className="fontlight">
+                <List floated="left" className="fontlight" style={{ fontSize: '15px' }}>
                   <List.Item>
                     <List.Icon name='check circle' />
                     <List.Content>
@@ -393,17 +398,17 @@ class App extends React.Component {
 
           <Grid celled='internally' columns='equal' stackable>
             <Grid.Column>
-              <Header as='h3' style={{ fontSize: '24px' }} className="fontdark">
+              <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
                 Interested in finding out more?
               </Header>
-              <p className="fontdark">
+              <p className="fontdark" style={{ fontSize: '15px' }}>
                 Do you want to improve your organisation's ability 
                 in managing and retaining talent but not sure where to begin?
               </p>
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Grid columns={1} doubling stackable>
-                <Grid.Column>
+                <Grid.Column style={{ fontSize: '15px' }}>
                   Enter email address
                 </Grid.Column>
                 <Grid.Row columns={2}>
@@ -412,7 +417,9 @@ class App extends React.Component {
                       REGISTER NOW</Button>
                   </Grid.Column>
                   <Grid.Column width={9}>
-                    
+                  <Button className='kuning button fullwidth'
+                    onClick={this.scrollto.bind(this)}>
+                  TRY NOW</Button>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -427,11 +434,16 @@ class App extends React.Component {
     return (
       <div>
         <div
-          className={isMobile ? "navheader mobile" : "navheader"}            
+          className={isMobile ? "navheader mobile" : "navheader"} 
+          ref={(div) => { this.trynowpanel = div; }}           
         >
           <Grid columns={1} doubling stackable>
-            <Grid.Column>
-              <Dropdown name="keywords" fluid
+            <Grid.Column stretched>
+              <p className="fontlight" style={{ fontSize: '15px' }}>
+                Help me understand more about the role {' '}
+                <Dropdown name="keywords" 
+                  style={{ width: '50%' }}
+                  floating inline
                   search compact
                   selection allowAdditions
                   additionLabel='Search with '
@@ -445,7 +457,8 @@ class App extends React.Component {
                   onChange={this.selectsuggestion.bind(this)}
                   placeholder='Occupation or skill'
                   onAddItem={this.searchkeywords.bind(this)}
-              />
+                />
+              </p>
             </Grid.Column>
           </Grid>
         </div>
@@ -454,7 +467,7 @@ class App extends React.Component {
           className={isMobile ? "navfooter mobile" : "navfooter"}
         >
           <List horizontal verticalAlign="middle">
-            <List.Item className="footheader">
+            <List.Item className="footheader" style={{ fontSize: '15px' }}>
               Copyright © 2021 bSkild. All Rights Reserved.
             </List.Item>
             <List.Item className="footheader">

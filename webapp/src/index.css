@@ -7,6 +7,10 @@ body {
   font-size: 14px !important;
 }
 
+.fullwidth{
+  width: 80% !important;
+}
+
 .bodyrest2{
   background-color: #ffffff !important;
   padding-top: 8em !important;
