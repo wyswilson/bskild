@@ -4,6 +4,7 @@ import { Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from '
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
+import Field from './field.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -85,7 +86,7 @@ class App extends React.Component {
         text: item.name,
         value: item.name,
         desc: item.desc,
-        alts: item.alternatives,
+        alts: item.alternatives ? item.alternatives : [],
         content: (
           <Header size='small' icon={type === 'occupations' ? 'user outline'  : 'list'} content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
         ),
@@ -201,6 +202,15 @@ class App extends React.Component {
     }
   }
 
+  bla(field,value) {
+    if(field === 'Email'){
+      this.setState({ email:value });
+    }
+    if(field === 'Password'){
+      this.setState({ password:value });
+    }
+  }
+
   renderextracontent(mode,type,id,value){
     let render = ''; 
     if(mode === 'full' && type === 'occupations'){
@@ -223,8 +233,8 @@ class App extends React.Component {
 
       render = (
         <List divided verticalAlign='middle'>
-          <Header as='h4'>Required skills and knowledge</Header>
-        {render}
+          <Header as='h4'>Required skills and knowledge:</Header>
+          {render}
         </List>
       );
             
@@ -246,7 +256,8 @@ class App extends React.Component {
              ));
       render = (
         <List divided verticalAlign='middle'>
-        {render}
+          <Header as='h4'>Roles that require this skill or knowledge:</Header>
+          {render}
         </List>
       );
     }
@@ -255,7 +266,7 @@ class App extends React.Component {
         <Button animated='vertical' size='medium' fluid
           onClick={this.suggestionselected.bind(this,type,id,value)}
         >
-          <Button.Content hidden>find out more</Button.Content>
+          <Button.Content hidden>FIND OUT MORE</Button.Content>
           <Button.Content visible>
             <Icon name='arrow circle right' />
           </Button.Content>
@@ -281,14 +292,40 @@ class App extends React.Component {
                 </Label>
                 <Card.Header>{item.value}</Card.Header>
                 <Card.Meta>
-                  {item.type}
+                  {item.type === 'occupations' ? 'role'  : 'skill'}
                 </Card.Meta>
-                <Card.Description>
-                  {item.desc}<br/>
-                  Also known as 
-                </Card.Description>
               </Card.Content>
-              <Card.Content extra>
+              <Card.Content>
+                {
+                  mode !== 'lite' && item.type === 'occupations' &&
+                  <Header as='h4'>Responsibilites:</Header>
+                }
+                {
+                  mode !== 'lite' && item.type === 'skills' &&
+                  <Header as='h4'>Description:</Header>
+                }
+                <span>
+                  {
+                    mode === 'lite' &&
+                    item.desc.split(" ").splice(0,20).join(" ") + '...'
+                  }
+                  {
+                    mode !== 'lite' &&
+                    item.desc
+                  }
+                </span>
+                {
+                  mode !== 'lite' && item.type === 'occupations' &&
+                  <Header as='h4'>Also known as:</Header>
+                }
+                {
+                  mode !== 'lite' && item.type === 'occupations' &&
+                  item.alts.map(alt => (
+                    <span>{alt} | </span>
+                  ))
+                }
+              </Card.Content>
+              <Card.Content>
               { this.renderextracontent(mode,item.type,item.key,item.value) }
               </Card.Content>
             </Card>
@@ -409,19 +446,16 @@ class App extends React.Component {
             <Grid.Column verticalAlign="middle">
               <Grid columns={1} doubling stackable>
                 <Grid.Column style={{ fontSize: '15px' }}>
-                  Enter email address
+                  <Field label="Email" type="text" active={false}
+                    parentCallback={this.bla.bind(this)}/>
                 </Grid.Column>
-                <Grid.Row columns={2}>
-                  <Grid.Column width={7}>
-                    <Button className='kuning button fullwidth'>
-                      REGISTER NOW</Button>
-                  </Grid.Column>
-                  <Grid.Column width={9}>
-                  <Button className='kuning button fullwidth'
-                    onClick={this.scrollto.bind(this)}>
-                  TRY NOW</Button>
-                  </Grid.Column>
-                </Grid.Row>
+                <Grid.Column textAlign="left">
+                  <Button.Group>
+                    <Button>REACH OUT FOR DEMO</Button>
+                    <Button.Or text='OR' />
+                    <Button onClick={this.scrollto.bind(this)}>TRY IT YOURSELF NOW</Button>
+                  </Button.Group>
+                </Grid.Column>
               </Grid>
             </Grid.Column>
           </Grid>
@@ -456,7 +490,7 @@ class App extends React.Component {
                   noResultsMessage = "No results found"
                   onSearchChange={this.searchkeywords.bind(this)}
                   onChange={this.selectsuggestion.bind(this)}
-                  placeholder='Occupation or skill'
+                  placeholder='Role or skill'
                   onAddItem={this.searchkeywords.bind(this)}
                 />
             </Grid.Column>

@@ -34,20 +34,20 @@ create new react app
 job posting seeds for scraping
 - manager /
 - admin /
-- engineer /
-- consultant /
-- officer /
-- coordinator /
-- worker /
-- supervisor /
-- assistant /
-- aide
-- researcher
-- analyst
-- scientist
-- director
-- teacher
-- designer
+- engineer 
+- consultant 
+- officer 
+- coordinator 
+- worker 
+- supervisor 
+- assistant 
+- aide 
+- researcher 
+- analyst 
+- scientist 
+- director 
+- teacher 
+- designer 
 - lecturer
 - technician
 - operator
