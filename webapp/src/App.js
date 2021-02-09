@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Radio, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -215,62 +215,64 @@ class App extends React.Component {
     let render = ''; 
     if(mode === 'full' && type === 'occupations'){
       render = this.state.selectedoccupationskills.map((skillitem) => (
-                 <List.Item key={skillitem.id}>
-                  <Popup content={skillitem.optionality + ' skill'} trigger={
-                  <List.Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'} size='large' verticalAlign='middle'/>
-                  }/>
-                  <List.Content>
-                    <List.Header as='a' onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}
-                    >
-                      {skillitem.name}
-                    </List.Header>
-                    <List.Description>
-                      {skillitem.reusability} {skillitem.type}
-                    </List.Description>
-                  </List.Content>
-                </List.Item>
-             ));
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>
+                <Popup content={skillitem.optionality + ' skill'}
+                  trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
+                />
+                <a onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}>{skillitem.name}</a>
+              </Table.Cell>
+              <Table.Cell>{skillitem.reusability} {skillitem.type}</Table.Cell>
+              <Table.Cell textAlign='right'>
+                <Radio toggle />
+              </Table.Cell>
+            </Table.Row> 
+          </Table.Body>                
+        ));
 
       render = (
-        <List divided verticalAlign='middle'>
-          <Header as='h4'>Required skills and knowledge:</Header>
+        <Table celled striped compact>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
           {render}
-        </List>
+        </Table>
       );
             
     }
     else if(mode === 'full' && type === 'skills'){
       render = this.state.selectedskilloccupations.map((occupationitem) => (
-                 <List.Item key={occupationitem.id}>
-                  <List.Icon name='user outline' size='large' verticalAlign='middle'/>
-                  <List.Content>
-                    <List.Header as='a' onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}
-                    >
-                      {occupationitem.name}
-                    </List.Header>
-                    <List.Description>
-                      
-                    </List.Description>
-                  </List.Content>
-                </List.Item>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>
+                  <Icon name='user outline'/>
+                  <a onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>{occupationitem.name}</a>
+                </Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell textAlign='right'>
+                  <Radio toggle />
+                </Table.Cell>
+              </Table.Row> 
+            </Table.Body>    
              ));
       render = (
-        <List divided verticalAlign='middle'>
-          <Header as='h4'>Roles that require this skill or knowledge:</Header>
+        <Table celled striped compact>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Roles that require this skill or knowledge:</Header></Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
           {render}
-        </List>
+        </Table>
       );
     }
     else{
       render = (
-        <Button animated='vertical' size='medium' fluid
-          onClick={this.suggestionselected.bind(this,type,id,value)}
-        >
-          <Button.Content hidden>FIND OUT MORE</Button.Content>
-          <Button.Content visible>
-            <Icon name='arrow circle right' />
-          </Button.Content>
-        </Button>);
+          ''
+        );
     }
     return render;
   }
@@ -281,7 +283,7 @@ class App extends React.Component {
     console.log(this.state.dropdownoptions);
     this.state.dropdownoptions.forEach(function(item) {
       serprefreshed.push(
-             <Card key={item.key}
+             <Card key={item.key} raised
               fluid={mode !== 'lite' ? true : false}
              >
               <Card.Content>
@@ -290,43 +292,63 @@ class App extends React.Component {
                     name={item.type === 'occupations' ? 'user outline'  : 'list'}
                   />
                 </Label>
-                <Card.Header>{item.value}</Card.Header>
+                <Card.Header as='a' onClick={this.suggestionselected.bind(this,item.type,item.key,item.value)}>{item.value}</Card.Header>
                 <Card.Meta>
                   {item.type === 'occupations' ? 'role'  : 'skill'}
                 </Card.Meta>
               </Card.Content>
               <Card.Content>
-                {
-                  mode !== 'lite' && item.type === 'occupations' &&
-                  <Header as='h4'>Responsibilites:</Header>
-                }
-                {
-                  mode !== 'lite' && item.type === 'skills' &&
-                  <Header as='h4'>Description:</Header>
-                }
-                <span>
-                  {
-                    mode === 'lite' &&
-                    item.desc.split(" ").splice(0,20).join(" ") + '...'
-                  }
-                  {
-                    mode !== 'lite' &&
-                    item.desc
-                  }
-                </span>
-                {
-                  mode !== 'lite' && item.type === 'occupations' &&
-                  <Header as='h4'>Also known as:</Header>
-                }
-                {
-                  mode !== 'lite' && item.type === 'occupations' &&
-                  item.alts.map(alt => (
-                    <span>{alt} | </span>
-                  ))
-                }
-              </Card.Content>
-              <Card.Content>
-              { this.renderextracontent(mode,item.type,item.key,item.value) }
+              {
+                mode !== 'lite' && 
+                <Table celled striped>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>
+                        <Header as='h4'>
+                          { item.type === 'occupations' ? 'Responsibilities:'  : 'Description:'}
+                        </Header>
+                      </Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell>
+                      {item.desc}
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              }
+              {
+                mode === 'lite' &&
+                item.desc.split(" ").splice(0,20).join(" ") + '...'
+              }
+              {
+                mode !== 'lite' && item.alts[0] !== '' && 
+                <Table celled striped>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>
+                        <Header as='h4'>Also known as:</Header>
+                      </Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell>
+                      {
+                        item.alts.map(alt => (
+                          <span>{alt} | </span>
+                        ))
+                      }
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              } 
+              { 
+                this.renderextracontent(mode,item.type,item.key,item.value) 
+              }
               </Card.Content>
             </Card>
         );
@@ -359,7 +381,7 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
-                Better managing the development and progression in your workforce is key to retention and efficiency
+                Supporting your employees' skill development and career progression is critical for retention and efficiency
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
@@ -423,7 +445,6 @@ class App extends React.Component {
                       Identify opportunities for lateral moves to put existing skills to good use and introduce new challenges to employees.
                     </List.Content>
                   </List.Item>
-
                 </List>
               </Grid.Column>
             </Grid.Row>
