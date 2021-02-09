@@ -326,21 +326,21 @@ class App extends React.Component {
                   <List.Item>
                     <List.Icon name='check circle' />
                     <List.Content>
-                      The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big'>about 33% of their annual salary</a>.
+                      The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big' target="_blank">about 33% of their annual salary</a>.
                     </List.Content>
                   </List.Item>
 
                   <List.Item>
                     <List.Icon name='check circle' />
                     <List.Content>
-                      Organisations who are committed to talent mobility <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth'>performs better financially</a>.
+                      Organisations who are committed to talent mobility <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank">performs better financially</a>.
                     </List.Content>
                   </List.Item>
 
                   <List.Item>
                     <List.Icon name='check circle' />
                     <List.Content>
-                      Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters'>more likely to leave</a>.
+                      Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters' target="_blank">more likely to leave</a>.
                     </List.Content>
                   </List.Item>
 
@@ -352,7 +352,7 @@ class App extends React.Component {
         <div
           className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
         >
-          <Grid fluid celled='internally' columns='equal' stackable>
+          <Grid celled='internally' columns='equal' stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h3' style={{ fontSize: '24px' }} className="fontlight">
