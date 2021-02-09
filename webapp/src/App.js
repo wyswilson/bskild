@@ -453,7 +453,7 @@ class App extends React.Component {
                   <Button.Group>
                     <Button>REACH OUT FOR DEMO</Button>
                     <Button.Or text='OR' />
-                    <Button onClick={this.scrollto.bind(this)}>TRY IT YOURSELF NOW</Button>
+                    <Button onClick={this.scrollto.bind(this)}>TRY IT NOW</Button>
                   </Button.Group>
                 </Grid.Column>
               </Grid>
@@ -475,7 +475,7 @@ class App extends React.Component {
             <Grid.Column stretched 
               className="fontlight" style={{ fontSize: '15px' }}
             >
-                Help me understand more about the role or skill {' '}
+                Find out more about a role or skill{' '}
                 <Dropdown name="keywords" 
                   style={{ width: '100%' }}
                   floating inline
