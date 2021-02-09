@@ -9,32 +9,32 @@ body {
 
 .bodyrest2{
   background-color: #ffffff !important;
-  padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-top: 8em !important;
+  padding-bottom: 8em !important;
   padding-left: 10em !important;
   padding-right: 10em !important;
 }
 
 .bodyrest2.mobile{
   background-color: #ffffff !important;
-  padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-top: 4em !important;
+  padding-bottom: 4em !important;
   padding-left: 1em !important;
   padding-right: 1em !important;
 }
 
 .bodyrest1{
   background-color: #4c4c4c !important;
-  padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-top: 8em !important;
+  padding-bottom: 8em !important;
   padding-left: 10em !important;
   padding-right: 10em !important;
 }
 
 .bodyrest1.mobile{
   background-color: #4c4c4c !important;
-  padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-top: 4em !important;
+  padding-bottom: 4em !important;
   padding-left: 1em !important;
   padding-right: 1em !important;
 }
@@ -58,8 +58,8 @@ body {
 .navfooter {
   padding-top: 2em !important;
   padding-bottom: 2em !important;
-  padding-left: 12em !important;
-  padding-right: 12em !important;
+  padding-left: 11em !important;
+  padding-right: 11em !important;
   background: #4c4c4c;
   border-bottom: 0px solid #FFFFFF;
 }
@@ -89,8 +89,8 @@ body {
 .navheader {
   padding-top: 2em !important;
   padding-bottom: 2em !important;
-  padding-left: 12em !important;
-  padding-right: 12em !important;
+  padding-left: 11em !important;
+  padding-right: 11em !important;
   background: #4c4c4c;
   border-bottom: 0px solid #FFFFFF;
 }
