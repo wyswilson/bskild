@@ -25,11 +25,14 @@ class App extends React.Component {
       helpwithskill1: '',
       helpwithskill2: '',
       helpwithskill3: '',
-      helpwithskills: []
+      helpwithskills: [],
+      focusdropdown: false,
+      requestdemoemail: ''
     };
   }
 
   scrollto(event){
+    this.setState({focusdropdown: true});
     scrollToComponent(this.trynowpanel);
   }
 
@@ -74,6 +77,8 @@ class App extends React.Component {
   }
 
   searchkeywords(event, data){
+    this.setState({focusdropdown: false});
+
     this.resetsuggestions();
     const keywords = data.searchQuery;
     console.log("searchkeywords [" + keywords + "]");
@@ -125,7 +130,6 @@ class App extends React.Component {
   }
 
   async suggestionselected(type,id,value){
-    console.log(type + "-" + id);
     this.setState({selectedid: id});
     this.setState({selectedtype: type});
     this.setState({selectedvalue: value});
@@ -146,22 +150,6 @@ class App extends React.Component {
       await this.lookupskillsforoccupation(id);
       await this.refreshresults('full');
     }
-  }
-
-  showextracontent(event,selected){
-    const selectedindex = selected.index;
-    const activeindex = this.state.activeaccordion;
-    console.log('user clicked on: ' + selectedindex);
-
-    console.log('active was: ' + activeindex);
-    //if(selectedindex === this.state.activeaccordion){
-    //  this.setState({ activeaccordion: 0});
-    //}
-    //else{
-      this.setState({ activeaccordion: selectedindex});
-    //}
-    const newactiveindex = this.state.activeaccordion;
-    console.log('active is now: ' + newactiveindex);
   }
 
   async lookupoccupationsforskill(id){
@@ -207,12 +195,11 @@ class App extends React.Component {
   }
 
   bla2(field,value) {
-    if(field === 'Email'){
-      this.setState({ email:value });
-    }
-    if(field === 'Password'){
-      this.setState({ password:value });
-    }
+    this.setState({requestdemoemail: value});
+  }
+
+  requestdemo(){
+    console.log(this.state.requestdemoemail);
   }
 
   async setskillsneedhelp(selectedskillid){
@@ -243,7 +230,6 @@ class App extends React.Component {
         document.getElementById('check_' + selectedskillid).checked = true;
       }
       else{
-        console.log('maxed out!!!');
         document.getElementById('check_' + selectedskillid).checked = false;
       }
     }
@@ -254,6 +240,7 @@ class App extends React.Component {
     await this.setState({
       helpwithskills: this.state.helpwithskills.concat(this.state.helpwithskill1,this.state.helpwithskill2,this.state.helpwithskill3)
     });
+    console.log("selected skills");
     console.log(this.state.helpwithskills);
   }
 
@@ -529,7 +516,7 @@ class App extends React.Component {
                 </Grid.Column>
                 <Grid.Column textAlign="left">
                   <Button.Group>
-                    <Button>REACH OUT FOR DEMO</Button>
+                    <Button onClick={this.requestdemo.bind(this)}>REACH OUT FOR DEMO</Button>
                     <Button.Or text='OR' />
                     <Button onClick={this.scrollto.bind(this)}>TRY IT NOW</Button>
                   </Button.Group>
@@ -555,7 +542,7 @@ class App extends React.Component {
             >
                 Find out more about a role or skill{' '}
                 <Dropdown name="keywords" 
-                  style={{ width: '100%' }}
+                  style={ this.state.focusdropdown ? { width: '100%', backgroundColor: '#670202' } : { width: '100%', backgroundColor: 'white'} }
                   floating inline
                   search compact
                   selection allowAdditions

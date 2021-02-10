@@ -36,7 +36,7 @@ job posting seeds for scraping
 - admin /
 - engineer /
 - consultant /
-- officer 
+- officer /
 - coordinator 
 - worker 
 - supervisor 
