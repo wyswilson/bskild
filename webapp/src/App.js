@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Radio, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Checkbox, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -21,7 +21,11 @@ class App extends React.Component {
       activeaccordion: 1,
       selectedoccupationskills: [],
       selectedskilloccupations: [],
-      selectedoccupationrelated: []
+      selectedoccupationrelated: [],
+      helpwithskill1: '',
+      helpwithskill2: '',
+      helpwithskill3: '',
+      helpwithskills: []
     };
   }
 
@@ -202,7 +206,7 @@ class App extends React.Component {
     }
   }
 
-  bla(field,value) {
+  bla2(field,value) {
     if(field === 'Email'){
       this.setState({ email:value });
     }
@@ -211,21 +215,69 @@ class App extends React.Component {
     }
   }
 
+  async setskillsneedhelp(selectedskillid){
+
+    if( this.state.helpwithskill1 === selectedskillid){
+      await this.setState({helpwithskill1: ''});  
+      document.getElementById('check_' + selectedskillid).checked = false;
+    }
+    else if( this.state.helpwithskill2 === selectedskillid){
+      await this.setState({helpwithskill2: ''});  
+      document.getElementById('check_' + selectedskillid).checked = false;
+    }
+    else if( this.state.helpwithskill3 === selectedskillid){
+      await this.setState({helpwithskill3: ''});  
+      document.getElementById('check_' + selectedskillid).checked = false;
+    }
+    else{
+      if(this.state.helpwithskill1 === ''){
+        await this.setState({helpwithskill1: selectedskillid});  
+        document.getElementById('check_' + selectedskillid).checked = true;
+      }
+      else if(this.state.helpwithskill2 === ''){
+        await this.setState({helpwithskill2: selectedskillid});  
+        document.getElementById('check_' + selectedskillid).checked = true;
+      }
+      else if(this.state.helpwithskill3 === ''){
+        await this.setState({helpwithskill3: selectedskillid});  
+        document.getElementById('check_' + selectedskillid).checked = true;
+      }
+      else{
+        console.log('maxed out!!!');
+        document.getElementById('check_' + selectedskillid).checked = false;
+      }
+    }
+
+    await this.setState({
+      helpwithskills: []
+    });
+    await this.setState({
+      helpwithskills: this.state.helpwithskills.concat(this.state.helpwithskill1,this.state.helpwithskill2,this.state.helpwithskill3)
+    });
+    console.log(this.state.helpwithskills);
+  }
+
   renderextracontent(mode,type,id,value){
     let render = ''; 
     if(mode === 'full' && type === 'occupations'){
       render = this.state.selectedoccupationskills.map((skillitem) => (
           <Table.Body>
             <Table.Row>
-              <Table.Cell>
-                <Popup content={skillitem.optionality + ' skill'}
+              <Table.Cell key={'1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}>
+                <a href='/#'><Popup content={skillitem.optionality + ' skill'}
                   trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
                 />
-                <a onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}>{skillitem.name}</a>
+                {skillitem.name}</a>
               </Table.Cell>
-              <Table.Cell>{skillitem.reusability} {skillitem.type}</Table.Cell>
-              <Table.Cell textAlign='right'>
-                <Radio toggle />
+              <Table.Cell key={'2' + skillitem.id}>
+                {skillitem.reusability} {skillitem.type}
+              </Table.Cell>
+              <Table.Cell key={'3' + skillitem.id}>
+                <Checkbox toggle id={'check_' + skillitem.id}
+                  key={'check_' + skillitem.id}
+                  onChange={this.setskillsneedhelp.bind(this,skillitem.id)}
+                  checked={false}
+                />
               </Table.Cell>
             </Table.Row> 
           </Table.Body>                
@@ -235,7 +287,12 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='2'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='1' color='red'>
+              <Popup content={'Select a maximum of 3'}
+                  trigger={<Header as='h4'>Need help with training?</Header>}
+                />
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           {render}
@@ -247,13 +304,13 @@ class App extends React.Component {
       render = this.state.selectedskilloccupations.map((occupationitem) => (
             <Table.Body>
               <Table.Row>
-                <Table.Cell>
-                  <Icon name='user outline'/>
-                  <a onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>{occupationitem.name}</a>
+                <Table.Cell key={'1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>
+                  <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
                 </Table.Cell>
-                <Table.Cell></Table.Cell>
-                <Table.Cell textAlign='right'>
-                  <Radio toggle />
+                <Table.Cell key={'2' + occupationitem.id}>
+                  {occupationitem.optionality}
+                </Table.Cell>
+                <Table.Cell key={'3' + occupationitem.id}>
                 </Table.Cell>
               </Table.Row> 
             </Table.Body>    
@@ -297,7 +354,7 @@ class App extends React.Component {
                   {item.type === 'occupations' ? 'role'  : 'skill'}
                 </Card.Meta>
               </Card.Content>
-              <Card.Content>
+              <Card.Content style = {mode !== 'lite' ? { paddingLeft: 0, paddingRight: 0 } : {}}>
               {
                 mode !== 'lite' && 
                 <Table celled striped>
@@ -468,7 +525,7 @@ class App extends React.Component {
               <Grid columns={1} doubling stackable>
                 <Grid.Column style={{ fontSize: '15px' }}>
                   <Field label="Email" type="text" active={false}
-                    parentCallback={this.bla.bind(this)}/>
+                    parentCallback={this.bla2.bind(this)}/>
                 </Grid.Column>
                 <Grid.Column textAlign="left">
                   <Button.Group>
