@@ -110,6 +110,11 @@ class App extends React.Component {
     this.setState({rawresponse: []});
     this.setState({dropdownoptions: []});
     this.setState({serp: ''});
+    this.setState({helpwithskill1: ''});
+    this.setState({helpwithskill2: ''});
+    this.setState({helpwithskill3: ''});
+    this.setState({helpwithskills: []});
+
   }
 
   async selectsuggestion(event, data){
