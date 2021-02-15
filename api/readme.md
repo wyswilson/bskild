@@ -51,13 +51,13 @@ job posting seeds for scraping
 - designer 
 - lecturer
 - technician /
-- operator
-- instructor
-- driver
-- specialist
+- operator /
+- instructor /
+- driver /
+- specialist /
 - therapist
-- trainer
+- trainer /
 - installer
 - chemist
-- chef
-- cook
+- chef /
+- cook /

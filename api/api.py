@@ -45,9 +45,9 @@ def registerinquiry():
 	email = data["email"]
 	company = data["company"]
 	occupationid = data["occupation"]
-	skills = data["skills"]
+	skillid = data["skill"]
 
-	func.registerinterest(fname,lname,email,company,occupationid,skills);
+	func.registerinterest(fname,lname,email,company,occupationid,skillid);
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 

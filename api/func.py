@@ -71,16 +71,12 @@ def _execute(db,query,params):
 
 	return cursor_
 
-def registerinterest(fname,lname,email,company,occupationid,skills):
+def registerinterest(fname,lname,email,company,occupationid,skillid):
 	occupationUri = "%s/occupation/%s" % (idprefix,occupationid)
-	skillUri1 = ''
-	skillUri2 = ''
-	skillUri3 = ''
+	skillUri = ''
 
-	if len(skills) == 3:
-		skillUri1 = "%s/skill/%s" % (idprefix,skills[0])
-		skillUri2 = "%s/skill/%s" % (idprefix,skills[1]) 
-		skillUri3 = "%s/skill/%s" % (idprefix,skills[2])
+	if skillid != '':
+		skillUri = "%s/skill/%s" % (idprefix,skillid)
 
 	inquirydate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 

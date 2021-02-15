@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Image, Input, Modal, Checkbox, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -21,10 +21,7 @@ class App extends React.Component {
       selectedoccupationskills: [],
       selectedskilloccupations: [],
       selectedoccupationrelated: [],
-      helpwithskill1: '',
-      helpwithskill2: '',
-      helpwithskill3: '',
-      helpwithskills: [],
+      helpwithskill: '',
       helpwithoccupation: '',
       focusdropdown: false,
       inquireroleopen: false,
@@ -113,10 +110,7 @@ class App extends React.Component {
     this.setState({rawresponse: []});
     this.setState({dropdownoptions: []});
     this.setState({serp: ''});
-    this.setState({helpwithskill1: ''});
-    this.setState({helpwithskill2: ''});
-    this.setState({helpwithskill3: ''});
-    this.setState({helpwithskills: []});
+    this.setState({helpwithskill: ''});
     this.setState({helpwithoccupation: ''});
     this.setState({inquireroleopen: false});
   }
@@ -205,77 +199,19 @@ class App extends React.Component {
   }
 
   async setskillsneedhelp(selectedskillid){
-
-    if( this.state.helpwithskill1 === selectedskillid){
-      await this.setState({helpwithskill1: ''});  
-      document.getElementById('check_' + selectedskillid).checked = false;
-    }
-    else if( this.state.helpwithskill2 === selectedskillid){
-      await this.setState({helpwithskill2: ''});  
-      document.getElementById('check_' + selectedskillid).checked = false;
-    }
-    else if( this.state.helpwithskill3 === selectedskillid){
-      await this.setState({helpwithskill3: ''});  
-      document.getElementById('check_' + selectedskillid).checked = false;
-    }
-    else{
-      if(this.state.helpwithskill1 === ''){
-        await this.setState({helpwithskill1: selectedskillid});  
-        document.getElementById('check_' + selectedskillid).checked = true;
-      }
-      else if(this.state.helpwithskill2 === ''){
-        await this.setState({helpwithskill2: selectedskillid});  
-        document.getElementById('check_' + selectedskillid).checked = true;
-      }
-      else if(this.state.helpwithskill3 === ''){
-        await this.setState({helpwithskill3: selectedskillid});  
-        document.getElementById('check_' + selectedskillid).checked = true;
-      }
-      else{
-        document.getElementById('check_' + selectedskillid).checked = false;
-      }
-    }
-
-    await this.setState({helpwithskills: []});
-    await this.setState({
-      helpwithskills: this.state.helpwithskills.concat(this.state.helpwithskill1,this.state.helpwithskill2,this.state.helpwithskill3)
-    });
-
-    if(this.state.helpwithskill1 !== '' &&
-      this.state.helpwithskill2 !== '' &&
-      this.state.helpwithskill3 !== ''
-    ){
-      await this.inquirehelpmodalskills(true,this.state.selectedid,this.state.selectedvalue);
-    }
-    
-    console.log("selected skills");
-    console.log(this.state.helpwithskills);
-  }
+    await this.setState({helpwithskill: selectedskillid});  
+    await this.inquirehelpmodalskills(true,this.state.selectedid,this.state.selectedvalue);
+   }
 
   async inquirehelpmodalskills(state,occupationid,name){
     await this.setState({helpwithoccupation: occupationid});
-
     const custommessage = 'I need help with upskilling for ' + name;
-
     this.inquirehelpmodal(custommessage,state);
   }
 
   async inquirehelpmodaloccupation(state,occupationid,name){
-    if(this.state.helpwithskill1 !== ''){
-      document.getElementById('check_' + this.state.helpwithskill1).checked = false;
-    }
-    if(this.state.helpwithskill2 !== ''){
-      document.getElementById('check_' + this.state.helpwithskill2).checked = false;
-    }
-    if(this.state.helpwithskill3 !== ''){
-      document.getElementById('check_' + this.state.helpwithskill3).checked = false;
-    }
-
     await this.setState({helpwithoccupation: occupationid});
-    await this.setState({helpwithskill1: ''});
-    await this.setState({helpwithskill2: ''});
-    await this.setState({helpwithskill3: ''});
-    await this.setState({helpwithskills: []});   
+    await this.setState({helpwithskill: ''}); 
 
     const custommessage = 'I need help with progression from ' + this.state.selectedvalue + ' to ' + name;
     this.inquirehelpmodal(custommessage,state);
@@ -304,7 +240,7 @@ class App extends React.Component {
     this.setState({inquireroleopen: false});
     this.setState({confirmformforwarded: true});
 
-    this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskills);
+    this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskill);
 
     const custommessage = 'Thank you. We\'ll reach out to you within 6 hours.';
     this.setState({inquirecustommessage: custommessage});
@@ -356,11 +292,14 @@ class App extends React.Component {
                 {skillitem.reusability} {skillitem.type}
               </Table.Cell>
               <Table.Cell key={'row.cell3' + skillitem.id}>
-                <Checkbox toggle id={'check_' + skillitem.id}
-                  key={'check_' + skillitem.id}
-                  onChange={this.setskillsneedhelp.bind(this,skillitem.id)}
-                  checked={false}
-                />
+                <Popup content={'We can help you improve this skill with the right training.'}
+                  trigger={
+                    <Button icon='bell' content='ENQUIRE NOW'
+                      className='action'
+                      onClick={this.setskillsneedhelp.bind(this,skillitem.id)}
+                    />
+                  }
+                />                
               </Table.Cell>
             </Table.Row>     
         ));
@@ -371,9 +310,13 @@ class App extends React.Component {
                 <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id}>
-                <Button icon='bell' content='INQUIRE NOW'
-                  className='action'
-                  onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
+                <Popup content={'We can help you understand and close the skills gap required for a career change or progression.'}
+                  trigger={
+                    <Button icon='bell' content='ENQUIRE NOW'
+                      className='action'
+                      onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
+                    />
+                  }
                 />
               </Table.Cell>
             </Table.Row>          
@@ -384,10 +327,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='1'><Header as='h4'>Related roles:</Header></Table.HeaderCell>
-              <Table.HeaderCell colSpan='1' color='red' width={6}>
-                <Header as='h4'>Need help with progression to this role?</Header>
-              </Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Related roles suitable for career change or progression</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -397,12 +337,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='2'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
-              <Table.HeaderCell colSpan='1' color='red' width={6}>
-                <Header as='h4'>Need help with training for this skill?
-                <br/>(select any 3)
-                </Header>
-              </Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Skills and knowledge to perform well in this role</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -474,7 +409,7 @@ class App extends React.Component {
                     <Table.Row key='descriptionheader'>
                       <Table.HeaderCell>
                         <Header as='h4'>
-                          { item.type === 'occupations' ? 'Description:'  : 'Description:'}
+                          { item.type === 'occupations' ? 'Description'  : 'Description'}
                         </Header>
                       </Table.HeaderCell>
                     </Table.Row>
@@ -484,12 +419,12 @@ class App extends React.Component {
                       <Table.Cell key='descriptioncell'>
                       {item.desc}
                       <br/><br/>
-                      <b>Also know as:</b>{ ' ' }
+                      <b>Also known as:</b>{ ' ' }
                       {
                         mode !== 'lite' && item.alts[0] !== '' &&
                         
                         item.alts.map(alt => (
-                          <span key={'alt_' + alt}>{alt}, </span>
+                          <span key={'alt_' + alt}>{alt}; </span>
                         ))
                       }
                       </Table.Cell>
@@ -620,19 +555,20 @@ class App extends React.Component {
               </p>
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
-              <Grid columns={1} doubling stackable>
-                <Grid.Column textAlign="left">
+              <Grid columns={2} doubling stackable>
+                <Grid.Column>
                   <Button 
                     className='action'
                     size='large' onClick={this.requestdemo.bind(this)}>
-                    REACH OUT FOR DEMO
-                  </Button> 
+                    REQUEST A DEMO
+                  </Button>
+                </Grid.Column>
+                <Grid.Column>
                   <Button
                     className='action'
                     size='large' onClick={this.scrollto.bind(this)}>
                     TRY IT OUT NOW
                   </Button>
-
                 </Grid.Column>
               </Grid>
             </Grid.Column>
