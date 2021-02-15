@@ -377,9 +377,9 @@ class App extends React.Component {
             <Table.Row>
               <Table.HeaderCell colSpan='2'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
               <Table.HeaderCell colSpan='1' color='red' width={6}>
-              <Popup content={'Select a maximum of 3'}
-                  trigger={<Header as='h4'>Need help with training for this skill?</Header>}
-                />
+                <Header as='h4'>Need help with training for this skill?
+                <br/>(select any 3)
+                </Header>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -600,15 +600,17 @@ class App extends React.Component {
             <Grid.Column verticalAlign="middle">
               <Grid columns={1} doubling stackable>
                 <Grid.Column textAlign="left">
-                  <Button.Group>
-                    <Button 
-                      className='action'
-                      size='large' onClick={this.requestdemo.bind(this)}>REACH OUT FOR DEMO</Button>
-                    <Button.Or text='OR' />
-                    <Button
-                      className='action'
-                      size='large' onClick={this.scrollto.bind(this)}>TRY IT OUT NOW</Button>
-                  </Button.Group>
+                  <Button 
+                    className='action'
+                    size='large' onClick={this.requestdemo.bind(this)}>
+                    REACH OUT FOR DEMO
+                  </Button> 
+                  <Button
+                    className='action'
+                    size='large' onClick={this.scrollto.bind(this)}>
+                    TRY IT OUT NOW
+                  </Button>
+
                 </Grid.Column>
               </Grid>
             </Grid.Column>
