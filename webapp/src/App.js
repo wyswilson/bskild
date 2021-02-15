@@ -1,10 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { Checkbox, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Input, Modal, Checkbox, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
-import Field from './field.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,8 +25,12 @@ class App extends React.Component {
       helpwithskill2: '',
       helpwithskill3: '',
       helpwithskills: [],
+      helpwithoccupation: '',
       focusdropdown: false,
-      requestdemoemail: ''
+      inquireroleopen: false,
+      inquirecustommessage: '',
+      formforwardloading: false,
+      confirmformforwarded:false
     };
   }
 
@@ -114,7 +117,8 @@ class App extends React.Component {
     this.setState({helpwithskill2: ''});
     this.setState({helpwithskill3: ''});
     this.setState({helpwithskills: []});
-
+    this.setState({helpwithoccupation: ''});
+    this.setState({inquireroleopen: false});
   }
 
   async selectsuggestion(event, data){
@@ -153,6 +157,7 @@ class App extends React.Component {
       await this.resetsuggestions();
       await this.updatesuggestions(options,'occupations');
       await this.lookupskillsforoccupation(id);
+      await this.lookuprelatedoccupations(id);
       await this.refreshresults('full');
     }
   }
@@ -199,14 +204,6 @@ class App extends React.Component {
     }
   }
 
-  bla2(field,value) {
-    this.setState({requestdemoemail: value});
-  }
-
-  requestdemo(){
-    console.log(this.state.requestdemoemail);
-  }
-
   async setskillsneedhelp(selectedskillid){
 
     if( this.state.helpwithskill1 === selectedskillid){
@@ -239,82 +236,183 @@ class App extends React.Component {
       }
     }
 
-    await this.setState({
-      helpwithskills: []
-    });
+    await this.setState({helpwithskills: []});
     await this.setState({
       helpwithskills: this.state.helpwithskills.concat(this.state.helpwithskill1,this.state.helpwithskill2,this.state.helpwithskill3)
     });
+
+    if(this.state.helpwithskill1 !== '' &&
+      this.state.helpwithskill2 !== '' &&
+      this.state.helpwithskill3 !== ''
+    ){
+      await this.inquirehelpmodalskills(true,this.state.selectedid,this.state.selectedvalue);
+    }
+    
     console.log("selected skills");
     console.log(this.state.helpwithskills);
+  }
+
+  async inquirehelpmodalskills(state,occupationid,name){
+    await this.setState({helpwithoccupation: occupationid});
+
+    const custommessage = 'I need help with upskilling for ' + name;
+
+    this.inquirehelpmodal(custommessage,state);
+  }
+
+  async inquirehelpmodaloccupation(state,occupationid,name){
+    if(this.state.helpwithskill1 !== ''){
+      document.getElementById('check_' + this.state.helpwithskill1).checked = false;
+    }
+    if(this.state.helpwithskill2 !== ''){
+      document.getElementById('check_' + this.state.helpwithskill2).checked = false;
+    }
+    if(this.state.helpwithskill3 !== ''){
+      document.getElementById('check_' + this.state.helpwithskill3).checked = false;
+    }
+
+    await this.setState({helpwithoccupation: occupationid});
+    await this.setState({helpwithskill1: ''});
+    await this.setState({helpwithskill2: ''});
+    await this.setState({helpwithskill3: ''});
+    await this.setState({helpwithskills: []});   
+
+    const custommessage = 'I need help with progression from ' + this.state.selectedvalue + ' to ' + name;
+    this.inquirehelpmodal(custommessage,state);
+  }
+
+  async inquirehelpmodal(message,state){
+    await this.setState({inquirecustommessage: message});
+    await this.setState({inquireroleopen: state});
+    console.log(this.state.helpwithoccupation);
+  }
+
+  async inquiryforwardedmodal(state){
+    await this.setState({inquirecustommessage: ''});
+    await this.setState({confirmformforwarded: state});
+  }
+
+  forwardinquiry(){
+    this.setState({formforwardloading: true});
+    const fname = document.getElementById('inquirynamefirst').value;
+    const lname = document.getElementById('inquirynamelast').value;
+    const email = document.getElementById('inquiryemail').value;
+    const company = document.getElementById('inquirycomp').value;
+
+    console.log("forward inquiry");
+    console.log("fname:" + fname);
+    console.log("lname:" + lname);
+    console.log("email:" + email);
+    console.log("company:" + company);
+    console.log("occupation:" + this.state.helpwithoccupation);
+    console.log("skills:" + this.state.helpwithskills);
+    this.setState({formforwardloading: false});
+    this.setState({inquireroleopen: false});
+    this.setState({confirmformforwarded: true});
+
+    const custommessage = 'Thank you. We\'ll reach out to you within 6 hours.';
+    this.setState({inquirecustommessage: custommessage});
+  }
+  
+  requestdemo(){
+    const custommessage = 'I need help with general upskilling or progression';
+    this.inquirehelpmodal(custommessage,true);
   }
 
   renderextracontent(mode,type,id,value){
     let render = ''; 
     if(mode === 'full' && type === 'occupations'){
-      render = this.state.selectedoccupationskills.map((skillitem) => (
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell key={'1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}>
+      let renderskills = this.state.selectedoccupationskills.map((skillitem) => (
+            <Table.Row key={'row' + skillitem.id}>
+              <Table.Cell key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}>
                 <a href='/#'><Popup content={skillitem.optionality + ' skill'}
                   trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
                 />
                 {skillitem.name}</a>
               </Table.Cell>
-              <Table.Cell key={'2' + skillitem.id}>
+              <Table.Cell key={'row.cell2' + skillitem.id}>
                 {skillitem.reusability} {skillitem.type}
               </Table.Cell>
-              <Table.Cell key={'3' + skillitem.id}>
+              <Table.Cell key={'row.cell3' + skillitem.id}>
                 <Checkbox toggle id={'check_' + skillitem.id}
                   key={'check_' + skillitem.id}
                   onChange={this.setskillsneedhelp.bind(this,skillitem.id)}
                   checked={false}
                 />
               </Table.Cell>
-            </Table.Row> 
-          </Table.Body>                
+            </Table.Row>     
         ));
+
+      let renderroles = this.state.selectedoccupationrelated.map((occupationitem) => (
+            <Table.Row key={'row' + occupationitem.id}>
+              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>
+                <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
+              </Table.Cell>
+              <Table.Cell key={'row.cell2' + occupationitem.id}>
+                <Button icon='bell' content='INQUIRE NOW'
+                  className='action'
+                  onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
+                />
+              </Table.Cell>
+            </Table.Row>          
+      ));
+
+      render = (
+      <div>
+        <Table celled striped compact>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan='1'><Header as='h4'>Related roles:</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='1' color='red' width={6}>
+                <Header as='h4'>Need help with progression to this role?</Header>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {renderroles}
+          </Table.Body>         
+        </Table>
+        <Table celled striped compact>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan='2'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='1' color='red' width={6}>
+              <Popup content={'Select a maximum of 3'}
+                  trigger={<Header as='h4'>Need help with training for this skill?</Header>}
+                />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {renderskills}
+          </Table.Body>         
+        </Table>
+      </div>
+      );
+            
+    }
+    else if(mode === 'full' && type === 'skills'){
+      let renderroles = this.state.selectedskilloccupations.map((occupationitem) => (
+            <Table.Row key={'row' + occupationitem.id}>
+              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>
+                <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
+              </Table.Cell>
+              <Table.Cell key={'row.cell2' + occupationitem.id}>
+                {occupationitem.optionality}
+              </Table.Cell>
+            </Table.Row> 
+             ));
 
       render = (
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='2'><Header as='h4'>Skills and knowledge to perform in this role:</Header></Table.HeaderCell>
-              <Table.HeaderCell colSpan='1' color='red'>
-              <Popup content={'Select a maximum of 3'}
-                  trigger={<Header as='h4'>Need help with training?</Header>}
-                />
-              </Table.HeaderCell>
+              <Table.HeaderCell colSpan='2'><Header as='h4'>Roles that require this skill or knowledge:</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-          {render}
-        </Table>
-      );
-            
-    }
-    else if(mode === 'full' && type === 'skills'){
-      render = this.state.selectedskilloccupations.map((occupationitem) => (
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell key={'1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>
-                  <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
-                </Table.Cell>
-                <Table.Cell key={'2' + occupationitem.id}>
-                  {occupationitem.optionality}
-                </Table.Cell>
-                <Table.Cell key={'3' + occupationitem.id}>
-                </Table.Cell>
-              </Table.Row> 
-            </Table.Body>    
-             ));
-      render = (
-        <Table celled striped compact>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Roles that require this skill or knowledge:</Header></Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          {render}
+          <Table.Body>
+            {renderroles}
+          </Table.Body>    
         </Table>
       );
     }
@@ -351,18 +449,27 @@ class App extends React.Component {
                 mode !== 'lite' && 
                 <Table celled striped>
                   <Table.Header>
-                    <Table.Row>
+                    <Table.Row key='descriptionheader'>
                       <Table.HeaderCell>
                         <Header as='h4'>
-                          { item.type === 'occupations' ? 'Responsibilities:'  : 'Description:'}
+                          { item.type === 'occupations' ? 'Description:'  : 'Description:'}
                         </Header>
                       </Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
-                    <Table.Row>
-                      <Table.Cell>
+                    <Table.Row key='descriptionrow'>
+                      <Table.Cell key='descriptioncell'>
                       {item.desc}
+                      <br/><br/>
+                      <b>Also know as:</b>{ ' ' }
+                      {
+                        mode !== 'lite' && item.alts[0] !== '' &&
+                        
+                        item.alts.map(alt => (
+                          <span key={'alt_' + alt}>{alt}, </span>
+                        ))
+                      }
                       </Table.Cell>
                     </Table.Row>
                   </Table.Body>
@@ -372,29 +479,6 @@ class App extends React.Component {
                 mode === 'lite' &&
                 item.desc.split(" ").splice(0,20).join(" ") + '...'
               }
-              {
-                mode !== 'lite' && item.alts[0] !== '' && 
-                <Table celled striped>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>
-                        <Header as='h4'>Also known as:</Header>
-                      </Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell>
-                      {
-                        item.alts.map(alt => (
-                          <span>{alt} | </span>
-                        ))
-                      }
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
-              } 
               { 
                 this.renderextracontent(mode,item.type,item.key,item.value) 
               }
@@ -434,23 +518,23 @@ class App extends React.Component {
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                <List key='problemstat' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
 
-                  <List.Item>
+                  <List.Item key='problemstat1'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big' target="_blank" rel="noreferrer">about 33% of their annual salary</a>.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item>
+                  <List.Item key='problemstat2'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Organisations who are committed to talent mobility <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank" rel="noreferrer">performs better financially</a>.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item>
+                  <List.Item key='problemstat3'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters' target="_blank" rel="noreferrer">more likely to leave</a>.
@@ -473,22 +557,22 @@ class App extends React.Component {
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List floated="left" className="fontlight" style={{ fontSize: '15px' }}>
-                  <List.Item>
+                <List key='valueprop' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
+                  <List.Item key='valueprop1'>
                     <List.Icon name='check circle' />
                     <List.Content>
                      Understand the skills profile of your workforce and the critical areas in terms of hard to fill roles.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item>
+                  <List.Item key='valueprop2'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Recommend opportunities to upskill based on the profile and follow up with options to fullfill the training needs.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item>
+                  <List.Item key='valueprop3'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Identify opportunities for lateral moves to put existing skills to good use and introduce new challenges to employees.
@@ -515,15 +599,15 @@ class App extends React.Component {
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Grid columns={1} doubling stackable>
-                <Grid.Column style={{ fontSize: '15px' }}>
-                  <Field label="Email" type="text" active={false}
-                    parentCallback={this.bla2.bind(this)}/>
-                </Grid.Column>
                 <Grid.Column textAlign="left">
                   <Button.Group>
-                    <Button onClick={this.requestdemo.bind(this)}>REACH OUT FOR DEMO</Button>
+                    <Button 
+                      className='action'
+                      size='large' onClick={this.requestdemo.bind(this)}>REACH OUT FOR DEMO</Button>
                     <Button.Or text='OR' />
-                    <Button onClick={this.scrollto.bind(this)}>TRY IT NOW</Button>
+                    <Button
+                      className='action'
+                      size='large' onClick={this.scrollto.bind(this)}>TRY IT OUT NOW</Button>
                   </Button.Group>
                 </Grid.Column>
               </Grid>
@@ -537,6 +621,67 @@ class App extends React.Component {
 
     return (
       <div>
+        <Modal
+          basic
+          onClose={this.inquirehelpmodal.bind(this,'',false)}
+          open={this.state.inquireroleopen}
+          size='small'
+        >
+          <Header textAlign='left'>
+            {this.state.inquirecustommessage}
+          </Header>
+          <Modal.Content>
+            <Grid>
+              <Grid.Row columns={2} divided>
+                <Grid.Column>
+                  <Input id="inquirynamefirst" label='First name' placeholder='First name...' fluid />
+                </Grid.Column>
+                <Grid.Column>
+                  <Input id="inquirynamelast" label='Last name' placeholder='Last name...' fluid />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={2} divided>
+                <Grid.Column>
+                  <Input id="inquiryemail" label='Email' placeholder='Email address...' fluid />
+                </Grid.Column>
+                <Grid.Column>
+                  <Input id="inquirycomp" label='Company' placeholder='Company name' fluid />
+                </Grid.Column>            
+              </Grid.Row>
+            </Grid>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button className='action neg'
+              onClick={this.inquirehelpmodal.bind(this,'',false)}
+            >
+              <Icon name='remove' />CANCEL
+            </Button>
+            <Button className='action'
+              onClick={this.forwardinquiry.bind(this)}
+              loading={this.state.formforwardloading}
+            >
+              <Icon name='checkmark' />SUBMIT
+            </Button>
+          </Modal.Actions>
+        </Modal>
+
+        <Modal
+          basic 
+          onClose={this.inquiryforwardedmodal.bind(this,false)}          
+          open={this.state.confirmformforwarded}
+          size='small'
+        >
+          <Header textAlign='left'>
+            {this.state.inquirecustommessage}
+          </Header>
+          <Modal.Actions>
+            <Button className='action'
+              onClick={this.inquiryforwardedmodal.bind(this,false)}
+            >
+              <Icon name='checkmark' />OK
+            </Button>
+          </Modal.Actions>
+        </Modal>
         <div
           className={isMobile ? "navheader mobile" : "navheader"} 
           ref={(div) => { this.trynowpanel = div; }}           
@@ -547,7 +692,8 @@ class App extends React.Component {
             >
                 Find out more about a role or skill{' '}
                 <Dropdown name="keywords" 
-                  style={ this.state.focusdropdown ? { width: '100%', backgroundColor: '#670202' } : { width: '100%', backgroundColor: 'white'} }
+                  className = { this.state.focusdropdown ? 'action' : ''}
+                  style={ { width: '100%' } }
                   floating inline
                   search compact
                   selection allowAdditions
@@ -570,7 +716,7 @@ class App extends React.Component {
         <div
           className={isMobile ? "navfooter mobile" : "navfooter"}
         >
-          <List horizontal verticalAlign="middle">
+          <List key='footer' horizontal verticalAlign="middle">
             <List.Item className="footheader" style={{ fontSize: '15px' }}>
               Copyright © 2021 bSkild. All Rights Reserved.
             </List.Item>
