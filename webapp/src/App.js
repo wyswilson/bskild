@@ -84,7 +84,7 @@ class App extends React.Component {
 
     this.resetsuggestions();
     const keywords = data.searchQuery;
-    console.log("searchkeywords [" + keywords + "]");
+    console.log("search keywords [" + keywords + "]");
     this.setState({searchquery: keywords});
     if(keywords.length > 3){
       this.searchboth(keywords);
@@ -300,12 +300,6 @@ class App extends React.Component {
     const company = document.getElementById('inquirycomp').value;
 
     console.log("forward inquiry");
-    console.log("fname:" + fname);
-    console.log("lname:" + lname);
-    console.log("email:" + email);
-    console.log("company:" + company);
-    console.log("occupation:" + this.state.helpwithoccupation);
-    console.log("skills:" + this.state.helpwithskills);
     this.setState({formforwardloading: false});
     this.setState({inquireroleopen: false});
     this.setState({confirmformforwarded: true});
