@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Input, Modal, Checkbox, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Image, Input, Modal, Checkbox, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -310,8 +310,36 @@ class App extends React.Component {
     this.setState({inquireroleopen: false});
     this.setState({confirmformforwarded: true});
 
+    this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskills);
+
     const custommessage = 'Thank you. We\'ll reach out to you within 6 hours.';
     this.setState({inquirecustommessage: custommessage});
+  }
+
+  async submitinquiry(fname,lname,email,company,occupation,skills){
+
+    try{
+      const response = await axios.post(this.state.searchendpoint + '/inquiries', 
+        {
+          fname:fname,
+          lname:lname,
+          email:email,
+          company:company,
+          occupation:occupation,
+          skills:skills
+        }, 
+        {
+          headers: {
+            'crossDomain': true,
+            "content-type": "application/json"
+          }
+        }
+      )
+      console.log('submit inquiry [' + response.data['message'] + ']');
+    }
+    catch(err){
+      console.log('submit inquiry [' + err + ']');     
+    }
   }
   
   requestdemo(){
@@ -688,11 +716,14 @@ class App extends React.Component {
           className={isMobile ? "navheader mobile" : "navheader"} 
           ref={(div) => { this.trynowpanel = div; }}           
         >
-          <Grid columns={1} doubling stackable>
+          <Grid columns={2} doubling stackable>
+            <Grid.Column width={2}>
+              <Image as='a' spaced='right'
+              href='./' verticalAlign='middle' fluid
+              src='./logo_small.png'/>
+            </Grid.Column>
             <Grid.Column stretched 
-              className="fontlight" style={{ fontSize: '15px' }}
-            >
-                Find out more about a role or skill{' '}
+              className="fontlight" width={12}>
                 <Dropdown name="keywords" 
                   className = { this.state.focusdropdown ? 'action' : ''}
                   style={ { width: '100%' } }
@@ -708,7 +739,7 @@ class App extends React.Component {
                   noResultsMessage = "No results found"
                   onSearchChange={this.searchkeywords.bind(this)}
                   onChange={this.selectsuggestion.bind(this)}
-                  placeholder='Role or skill'
+                  placeholder='Find role or skill'
                   onAddItem={this.searchkeywords.bind(this)}
                 />
             </Grid.Column>

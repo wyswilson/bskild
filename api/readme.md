@@ -39,13 +39,13 @@ job posting seeds for scraping
 - officer /
 - clerk /
 - coordinator /
-- worker 
-- supervisor 
-- assistant 
-- aide 
-- researcher 
-- analyst 
-- scientist 
+- worker /
+- supervisor /
+- assistant /
+- aide /
+- researcher /
+- analyst /
+- scientist /
 - director 
 - teacher 
 - designer 

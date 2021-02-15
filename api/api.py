@@ -32,6 +32,25 @@ def main():
 
 	return func.jsonifyoutput(statuscode,status,"results","",[])
 
+@app.route("/v1/inquiries", methods=['POST'])
+def registerinquiry():
+	print('hit [registerinquiry]')
+
+	status = "Inquiry registered"
+	statuscode = 200
+
+	data = json.loads(flask.request.get_data().decode('UTF-8'))
+	fname = data["fname"]
+	lname = data["lname"]
+	email = data["email"]
+	company = data["company"]
+	occupationid = data["occupation"]
+	skills = data["skills"]
+
+	func.registerinterest(fname,lname,email,company,occupationid,skills);
+
+	return func.jsonifyoutput(statuscode,status,"","",[])
+
 @app.route("/v1/occupations")
 @app.route("/v1/occupations/")
 def undefoccupations():

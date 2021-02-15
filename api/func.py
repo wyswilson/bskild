@@ -71,6 +71,24 @@ def _execute(db,query,params):
 
 	return cursor_
 
+def registerinterest(fname,lname,email,company,occupationid,skills):
+	occupationUri = "%s/occupation/%s" % (idprefix,occupationid)
+	skillUri1 = ''
+	skillUri2 = ''
+	skillUri3 = ''
+
+	if len(skills) == 3:
+		skillUri1 = "%s/skill/%s" % (idprefix,skills[0])
+		skillUri2 = "%s/skill/%s" % (idprefix,skills[1]) 
+		skillUri3 = "%s/skill/%s" % (idprefix,skills[2])
+
+	inquirydate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+	query1 = "INSERT INTO inquiries (inquiryDate,firstname,lastname,email,company,occupationUri,skillUri1,skillUri2,skillUri3) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+	cursor = _execute(db,query1,(inquirydate,fname,lname,email,company,occupationUri,skillUri1,skillUri2,skillUri3))
+	db.commit()
+	cursor.close()
+
 def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records):
 	respobj = {}
 	respobj['status'] = statuscode
