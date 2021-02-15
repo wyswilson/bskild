@@ -80,8 +80,8 @@ def registerinterest(fname,lname,email,company,occupationid,skillid):
 
 	inquirydate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-	query1 = "INSERT INTO inquiries (inquiryDate,firstname,lastname,email,company,occupationUri,skillUri1,skillUri2,skillUri3) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-	cursor = _execute(db,query1,(inquirydate,fname,lname,email,company,occupationUri,skillUri1,skillUri2,skillUri3))
+	query1 = "INSERT INTO inquiries (inquiryDate,firstname,lastname,email,company,occupationUri,skillUri) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+	cursor = _execute(db,query1,(inquirydate,fname,lname,email,company,occupationUri,skillUri))
 	db.commit()
 	cursor.close()
 

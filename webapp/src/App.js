@@ -246,7 +246,7 @@ class App extends React.Component {
     this.setState({inquirecustommessage: custommessage});
   }
 
-  async submitinquiry(fname,lname,email,company,occupation,skills){
+  async submitinquiry(fname,lname,email,company,occupation,skill){
 
     try{
       const response = await axios.post(this.state.searchendpoint + '/inquiries', 
@@ -256,7 +256,7 @@ class App extends React.Component {
           email:email,
           company:company,
           occupation:occupation,
-          skills:skills
+          skill:skill
         }, 
         {
           headers: {
