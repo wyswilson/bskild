@@ -518,7 +518,7 @@ class App extends React.Component {
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
         >
-          <Grid celled='internally' columns='equal' stackable>
+          <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
               <Card.Group>{this.state.serp}</Card.Group>
             </Grid.Column>
@@ -532,7 +532,7 @@ class App extends React.Component {
         <div
           className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
         >
-          <Grid celled='internally' columns='equal' stackable>
+          <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
@@ -571,7 +571,7 @@ class App extends React.Component {
         <div
           className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
         >
-          <Grid celled='internally' columns='equal' stackable>
+          <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
@@ -609,7 +609,7 @@ class App extends React.Component {
           className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
         >
 
-          <Grid celled='internally' columns='equal' stackable>
+          <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
               <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
                 Interested in finding out more?
@@ -655,7 +655,7 @@ class App extends React.Component {
             {this.state.inquirecustommessage}
           </Header>
           <Modal.Content>
-            <Grid>
+            <Grid doubling stackable>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
                   <Input id="inquirynamefirst" label='First name' placeholder='First name...' fluid />
@@ -713,7 +713,7 @@ class App extends React.Component {
           <Grid columns={2} doubling stackable>
             <Grid.Column width={2}>
               <Image as='a' spaced='right'
-              href='./' verticalAlign='middle' fluid
+              href='./' verticalAlign='middle' size='small'
               src='./logo_small.png'/>
             </Grid.Column>
             <Grid.Column stretched 

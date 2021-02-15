@@ -46,11 +46,11 @@ job posting seeds for scraping
 - researcher /
 - analyst /
 - scientist /
-- director 
+- director /
 - teacher 
 - designer 
 - lecturer
-- technician
+- technician /
 - operator
 - instructor
 - driver
