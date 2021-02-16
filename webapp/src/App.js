@@ -39,6 +39,22 @@ class App extends React.Component {
     else if(queryobj['q'] !== '' && queryobj['m'] === 'o'){
       this.suggestionselected('occupations',queryobj['q']);
     }
+
+    this.loadhighdemandoccupations();
+  }
+
+  async loadhighdemandoccupations(){
+    var requeststr = this.state.searchendpoint + '/occupations/highdemand?3'
+    console.log('fetch indemand occupations [' + requeststr + ']');
+    try{
+      const response = await axios.get(requeststr);
+      console.log('fetch indemand occupations [' + response.data['message'] + ']');
+      const occupationsindemand = response.data['occupations'];
+      console.log(occupationsindemand);
+    }
+    catch(err){
+      console.log('fetch indemand occupations [' + err + ']');     
+    }
   }
 
   scrollto(event){

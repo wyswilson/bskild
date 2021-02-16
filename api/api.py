@@ -51,6 +51,18 @@ def registerinquiry():
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
+@app.route("/v1/occupations/highdemand", methods=['GET'])
+def getpopularoccupations():
+	print('hit [getpopularoccupations]')
+
+	count = flask.request.query_string.decode('UTF-8')
+
+	status = "High demand occupations found"
+	statuscode = 200
+	records = func.fetchpopularoccupations(count);
+
+	return func.jsonifyoutput(statuscode,status,"occupations","",func.jsonifyoccupations(records,'lite'))
+
 @app.route("/v1/occupations")
 @app.route("/v1/occupations/")
 def undefoccupations():

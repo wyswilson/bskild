@@ -535,6 +535,37 @@ def searchjobpostings_exact(occupationid,canonicalname):
 
 	return records
 
+def fetchpopularoccupations(count):
+	topn = 3
+	try:
+		topn = int(count) 
+	except:
+		pass
+
+	query1 = """
+	SELECT
+		COUNT(DISTINCT(jobId)) AS score,
+		occupationId, occupationName, occupationDesc, occupationAlt
+	FROM (
+		SELECT
+			o.conceptUri AS occupationId, o.preferredLabel AS occupationName, o.description AS occupationDesc,
+			o.altLabels AS occupationAlt,
+			jp.postingId AS jobId
+		FROM occupations AS o
+		LEFT JOIN jobpostings AS jp
+		ON o.conceptUri = jp.occupationUri
+		WHERE DATE_SUB(CURDATE(), INTERVAL 3 DAY) < jp.scrapeDate
+	) AS tmp
+	GROUP BY 2,3,4,5
+	ORDER BY 1 DESC
+	limit %s
+	"""
+	cursor = _execute(db,query1,(topn,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
+
 def searchoccupations_fuzzy(occupation):
 	query1 = """
 	SELECT
