@@ -27,7 +27,8 @@ class App extends React.Component {
       inquireroleopen: false,
       inquirecustommessage: '',
       formforwardloading: false,
-      confirmformforwarded:false
+      confirmformforwarded:false,
+      occupationsindemand: ''
     };
   }
 
@@ -43,6 +44,31 @@ class App extends React.Component {
     this.loadhighdemandoccupations();
   }
 
+  renderoccupationsindemand(occupations){
+    const indemandrender = occupations.map((item) => (
+            <Card key={item.id} raised fluid={false}>
+              <Card.Content>
+                <Label corner='right'>
+                  <Icon name='user outline' />
+                </Label>
+                <Card.Header onClick={this.suggestionselected.bind(this,'occupations',item.id)}>
+                  <a href={ '/?q=' + item.id + '&m=o' }>
+                  {item.name}
+                  </a>
+                </Card.Header>
+                <Card.Meta>role</Card.Meta>
+              </Card.Content>
+              <Card.Content>
+              {
+                item.desc.split(" ").splice(0,20).join(" ") + '...'
+              }
+              </Card.Content>
+            </Card>
+        ));
+
+    this.setState({occupationsindemand: indemandrender});
+  }
+
   async loadhighdemandoccupations(){
     var requeststr = this.state.searchendpoint + '/occupations/highdemand?3'
     console.log('fetch indemand occupations [' + requeststr + ']');
@@ -51,6 +77,7 @@ class App extends React.Component {
       console.log('fetch indemand occupations [' + response.data['message'] + ']');
       const occupationsindemand = response.data['occupations'];
       console.log(occupationsindemand);
+      this.renderoccupationsindemand(occupationsindemand);
     }
     catch(err){
       console.log('fetch indemand occupations [' + err + ']');     
@@ -621,15 +648,29 @@ class App extends React.Component {
           </Grid>
         </div>
 
+        <div className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+        >
+         <Grid celled='internally' columns='equal' doubling stackable>
+            <Grid.Column>
+              <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
+                We also understand what are the most in-demand jobs from week to week
+              </Header>
+              <Card.Group>
+                {this.state.occupationsindemand}
+              </Card.Group>
+            </Grid.Column>
+          </Grid>
+        </div>
+
         <div
-          className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+          className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
         >
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
-              <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
+              <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
                 Interested in finding out more?
               </Header>
-              <p className="fontlight" style={{ fontSize: '15px' }}>
+              <p className="fontdark" style={{ fontSize: '15px' }}>
                 Do you want to improve your organisation's ability 
                 in managing and retaining talent but not sure where to begin?
               </p>
