@@ -46,18 +46,18 @@ job posting seeds for scraping
 - researcher /
 - analyst /
 - scientist /
-- director /
+- director 
 - teacher 
 - designer 
-- lecturer
-- technician /
-- operator /
-- instructor /
-- driver /
-- specialist /
-- therapist
-- trainer /
-- installer
-- chemist
-- chef /
-- cook /
+- lecturer 
+- technician 
+- operator 
+- instructor 
+- driver 
+- specialist 
+- therapist 
+- trainer 
+- installer 
+- chemist 
+- chef 
+- cook 

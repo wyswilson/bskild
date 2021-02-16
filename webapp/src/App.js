@@ -192,6 +192,11 @@ class App extends React.Component {
       console.log("selected [" + selectedtype + "][" + selectedid + "][" + selectedvalue + "]");
 
       this.suggestionselected(selectedtype,selectedid);
+      let shortentype = 'o';
+      if(selectedtype === 'skills'){
+        shortentype = 's';
+      }
+      window.location.href = '/?m=' + shortentype + '&q=' + selectedid; 
     }
   }
 
@@ -386,7 +391,6 @@ class App extends React.Component {
              ));  
       }      
      
-
       render = (
       <div>
         <Table celled striped compact>
@@ -548,7 +552,7 @@ class App extends React.Component {
                   <List.Item key='problemstat21'>
                     <List.Icon name='check circle' />
                     <List.Content>
-                    Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers are unemployed while million jobs go unfilled</a>.
+                    Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers were unemployed while millions of jobs go unfilled</a>.
                     </List.Content>
                   </List.Item>
 
