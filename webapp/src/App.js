@@ -505,6 +505,7 @@ class App extends React.Component {
     else{
       results = (
       <div>
+
         <div
           className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
         >
@@ -512,11 +513,48 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
-                Supporting your employees' skill development and career progression is critical for retention and efficiency
+                 Being able to repurpose existing and acquire new skills in a targeted way is the answer to the growing problem of mismatch between people and jobs globally
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List key='problemstat' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                <List key='valueprop' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                  <List.Item key='valueprop1'>
+                    <List.Icon name='check circle' />
+                    <List.Content>
+                    Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers are unemployed while million jobs go unfilled</a>.
+                    </List.Content>
+                  </List.Item>
+
+                  <List.Item key='valueprop2'>
+                    <List.Icon name='check circle' />
+                    <List.Content>
+                      Globally, anywhere between <a href='https://www.mckinsey.com/~/media/McKinsey/Featured%20Insights/Employment%20and%20Growth/Connecting%20talent%20with%20opportunity%20in%20the%20digital%20age/MGI%20Online%20talent_A_Labor_Market_That_Works_Executive_%20summary_June%202015.pdf' target="_blank" rel="noreferrer">30-45% of the working-age population</a> is either unemployed, inactive, or working part-time.
+                    </List.Content>
+                  </List.Item>
+                  <List.Item key='valueprop3'>
+                    <List.Icon name='check circle' />
+                    <List.Content>
+                      It has been estimated that <a href='https://www.forbes.com/sites/kenrapoza/2020/05/15/some-42-of-jobs-lost-in-pandemic-are-gone-for-good/' target="_blank" rel="noreferrer">some 40% of the lost jobs</a> in the US that occured during the pandemic may never come back.
+                    </List.Content>
+                  </List.Item>
+                </List>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </div>
+
+        <div
+          className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+        >
+          <Grid celled='internally' columns='equal' doubling stackable>
+            <Grid.Row textAlign='left'>
+              <Grid.Column>
+                <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
+                Closer to home, better supporting your employees' skill development and career progression is critical for retention and workforce efficiency
+                </Header>
+              </Grid.Column>
+              <Grid.Column verticalAlign="middle">
+                <List key='problemstat' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
 
                   <List.Item key='problemstat1'>
                     <List.Icon name='check circle' />
@@ -528,7 +566,7 @@ class App extends React.Component {
                   <List.Item key='problemstat2'>
                     <List.Icon name='check circle' />
                     <List.Content>
-                      Organisations who are committed to talent mobility <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank" rel="noreferrer">performs better financially</a>.
+                      Organisations who are committed to talent mobility (through workforce repurposing) <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank" rel="noreferrer">performs better financially</a>.
                     </List.Content>
                   </List.Item>
 
@@ -544,18 +582,19 @@ class App extends React.Component {
             </Grid.Row>
           </Grid>
         </div>
+
         <div
-          className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+          className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
         >
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
-                  We help you uncover development and progression opportunities in your workforce and realise them in a few ways
+                <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
+                  We can help you uncover development and progression opportunities in your workforce (or for yourself) and realise them to make the best of what you have
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List key='valueprop' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
+                <List key='valueprop' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
                   <List.Item key='valueprop1'>
                     <List.Icon name='check circle' />
                     <List.Content>
@@ -573,7 +612,7 @@ class App extends React.Component {
                   <List.Item key='valueprop3'>
                     <List.Icon name='check circle' />
                     <List.Content>
-                      Identify opportunities for lateral moves to put existing skills to good use and introduce new challenges to employees.
+                      Identify opportunities for lateral moves to put existing skills to good use and introduce new challenges to stimulate employees.
                     </List.Content>
                   </List.Item>
                 </List>
@@ -581,16 +620,16 @@ class App extends React.Component {
             </Grid.Row>
           </Grid>
         </div>
-        <div
-          className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
-        >
 
+        <div
+          className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+        >
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
-              <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
+              <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
                 Interested in finding out more?
               </Header>
-              <p className="fontdark" style={{ fontSize: '15px' }}>
+              <p className="fontlight" style={{ fontSize: '15px' }}>
                 Do you want to improve your organisation's ability 
                 in managing and retaining talent but not sure where to begin?
               </p>
