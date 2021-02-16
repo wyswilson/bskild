@@ -438,7 +438,7 @@ def searchskills_fuzzy(skill):
 def searchoccupationrelated_exact(occupationid,count):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
 
-	topn = 3
+	topn = 5
 	try:
 		topn = int(count) 
 	except:
@@ -474,8 +474,14 @@ def searchoccupationrelated_exact(occupationid,count):
 
 	return records	
 
-def searchoccupations_exact(occupationid):
+def searchoccupations_exact(occupationid,count):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+
+	topn = 10
+	try:
+		topn = int(count) 
+	except:
+		pass
 
 	query1 = """
 	SELECT
@@ -507,8 +513,9 @@ def searchoccupations_exact(occupationid):
 	) AS innertmp 
 	WHERE score1 >= 5
 	ORDER BY 11 ASC
+	LIMIT %s
 	"""
-	cursor = _execute(db,query1,(conceptUri,))
+	cursor = _execute(db,query1,(conceptUri,topn))
 	records = cursor.fetchall()
 	cursor.close()
 

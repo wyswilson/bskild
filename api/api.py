@@ -101,9 +101,11 @@ def getskillsbyoccupation(occupation):
 	statuscode = 200
 	records = []
 
+	count = flask.request.query_string.decode('UTF-8')
+
 	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
-		records = func.searchoccupations_exact(id_)
+		records = func.searchoccupations_exact(id_,count)
 		status = "Multiple skills found for an exact occupation"
 	else:
 		status = "Exact occupation id or name required for skill lookup"

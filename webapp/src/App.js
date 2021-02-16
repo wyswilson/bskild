@@ -237,7 +237,7 @@ class App extends React.Component {
   }
 
   async lookupskillsforoccupation(id){
-    var requeststr = this.state.searchendpoint + '/occupations/' + id + '/skills'
+    var requeststr = this.state.searchendpoint + '/occupations/' + id + '/skills?10'
     console.log('search occupation skills [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
