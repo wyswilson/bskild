@@ -4,6 +4,7 @@ import { Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown,
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
+import queryString from 'query-string'
 
 class App extends React.Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class App extends React.Component {
       dropdownoptions: [],
       rawresponse:[],
       serp:'',
-      activeaccordion: 1,
       selectedoccupationskills: [],
       selectedskilloccupations: [],
       selectedoccupationrelated: [],
@@ -29,6 +29,16 @@ class App extends React.Component {
       formforwardloading: false,
       confirmformforwarded:false
     };
+  }
+
+  componentDidMount() {
+    const queryobj = queryString.parse(window.location.search);
+    if(queryobj['q'] !== '' && queryobj['m'] === 's'){
+      this.suggestionselected('skills',queryobj['q']);
+    }
+    else if(queryobj['q'] !== '' && queryobj['m'] === 'o'){
+      this.suggestionselected('occupations',queryobj['q']);
+    }
   }
 
   scrollto(event){
@@ -45,6 +55,11 @@ class App extends React.Component {
       const response = await axios.get(skillrequeststr);
       console.log('search skills [' + response.data['message'] + ']');
       suggestions = response.data['skills'];
+      if(mode === 'full'){
+        const skillname = suggestions[0]['name'];
+        this.setState({selectedvalue: skillname});
+        this.setState({searchquery: skillname});
+      }
     }
     catch(err){
       console.log('search skills [' + err + ']');     
@@ -61,6 +76,11 @@ class App extends React.Component {
       const response = await axios.get(occupationrequeststr);
       console.log('search occupations [' + response.data['message'] + ']');
       suggestions = response.data['occupations'];
+      if(mode === 'full'){
+        const occupationname = suggestions[0]['name'];
+        this.setState({selectedvalue: occupationname});
+        this.setState({searchquery: occupationname});
+      }
     }
     catch(err){
       console.log('search occupations [' + err + ']');     
@@ -128,15 +148,13 @@ class App extends React.Component {
       const selectedvalue = selectedarr.value;
       console.log("selected [" + selectedtype + "][" + selectedid + "][" + selectedvalue + "]");
 
-      this.suggestionselected(selectedtype,selectedid,selectedvalue);
+      this.suggestionselected(selectedtype,selectedid);
     }
   }
 
-  async suggestionselected(type,id,value){
-    this.setState({selectedid: id});
-    this.setState({selectedtype: type});
-    this.setState({selectedvalue: value});
-    this.setState({searchquery: value});
+  async suggestionselected(type,id){
+    await this.setState({selectedid: id});
+    await this.setState({selectedtype: type});
 
     if(type === 'skills'){
       const options = await this.searchskills(id,'full');
@@ -205,7 +223,7 @@ class App extends React.Component {
 
   async inquirehelpmodalskills(state,occupationid,name){
     await this.setState({helpwithoccupation: occupationid});
-    const custommessage = 'I need help with upskilling for ' + name;
+    const custommessage = 'I need help with upskilling a specific skill for [' + name + ']';
     this.inquirehelpmodal(custommessage,state);
   }
 
@@ -213,7 +231,7 @@ class App extends React.Component {
     await this.setState({helpwithoccupation: occupationid});
     await this.setState({helpwithskill: ''}); 
 
-    const custommessage = 'I need help with progression from ' + this.state.selectedvalue + ' to ' + name;
+    const custommessage = 'I need help with progression from [' + this.state.selectedvalue + '] to [' + name + ']';
     this.inquirehelpmodal(custommessage,state);
   }
 
@@ -242,7 +260,7 @@ class App extends React.Component {
 
     this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskill);
 
-    const custommessage = 'Thank you. We\'ll reach out to you within 6 hours.';
+    const custommessage = 'Thank you. We\'ll respond to you within 6 hours.';
     this.setState({inquirecustommessage: custommessage});
   }
 
@@ -282,8 +300,8 @@ class App extends React.Component {
     if(mode === 'full' && type === 'occupations'){
       let renderskills = this.state.selectedoccupationskills.map((skillitem) => (
             <Table.Row key={'row' + skillitem.id}>
-              <Table.Cell key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id,skillitem.name)}>
-                <a href='/#'><Popup content={skillitem.optionality + ' skill'}
+              <Table.Cell key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id)}>
+                <a href={ '/?q=' + skillitem.id + '&m=s' }><Popup content={skillitem.optionality + ' skill'}
                   trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
                 />
                 {skillitem.name}</a>
@@ -291,10 +309,10 @@ class App extends React.Component {
               <Table.Cell key={'row.cell2' + skillitem.id}>
                 {skillitem.reusability} {skillitem.type}
               </Table.Cell>
-              <Table.Cell key={'row.cell3' + skillitem.id}>
-                <Popup content={'We can help you improve this skill with the right training.'}
+              <Table.Cell key={'row.cell3' + skillitem.id} width={5}>
+                <Popup content={'We can help you improve the skill with the right training.'}
                   trigger={
-                    <Button icon='bell' content='ENQUIRE NOW'
+                    <Button icon='bell' content='UPSKILL NOW'
                       className='action'
                       onClick={this.setskillsneedhelp.bind(this,skillitem.id)}
                     />
@@ -304,12 +322,14 @@ class App extends React.Component {
             </Table.Row>     
         ));
 
-      let renderroles = this.state.selectedoccupationrelated.map((occupationitem) => (
+      let renderroles = '';
+      if(this.state.selectedoccupationrelated.length > 0){
+        renderroles = this.state.selectedoccupationrelated.map((occupationitem) => (
             <Table.Row key={'row' + occupationitem.id}>
-              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>
-                <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
+              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id)}>
+                <a href={ '/?q=' + occupationitem.id + '&m=o' }><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
-              <Table.Cell key={'row.cell2' + occupationitem.id}>
+              <Table.Cell key={'row.cell2' + occupationitem.id} width={5}>
                 <Popup content={'We can help you understand and close the skills gap required for a career change or progression.'}
                   trigger={
                     <Button icon='bell' content='ENQUIRE NOW'
@@ -319,8 +339,10 @@ class App extends React.Component {
                   }
                 />
               </Table.Cell>
-            </Table.Row>          
-      ));
+            </Table.Row>  
+             ));  
+      }      
+     
 
       render = (
       <div>
@@ -331,7 +353,7 @@ class App extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {renderroles}
+            { renderroles !== '' ? renderroles : <Table.Row><Table.Cell>No related roles</Table.Cell></Table.Row>}
           </Table.Body>         
         </Table>
         <Table celled striped compact>
@@ -351,8 +373,8 @@ class App extends React.Component {
     else if(mode === 'full' && type === 'skills'){
       let renderroles = this.state.selectedskilloccupations.map((occupationitem) => (
             <Table.Row key={'row' + occupationitem.id}>
-              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id,occupationitem.name)}>
-                <a href='/#'><Icon name='user outline'/>{occupationitem.name}</a>
+              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id)}>
+                <a href={ '/?q=' + occupationitem.id + '&m=o' }><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id}>
                 {occupationitem.optionality}
@@ -364,7 +386,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='2'><Header as='h4'>Roles that require this skill or knowledge:</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='2'><Header as='h4'>Roles that require this skill or knowledge</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -384,7 +406,6 @@ class App extends React.Component {
   refreshresults(mode){
     console.log("refreshing results");
     let serprefreshed = [];
-    console.log(this.state.dropdownoptions);
     this.state.dropdownoptions.forEach(function(item) {
       serprefreshed.push(
              <Card key={item.key} raised
@@ -396,7 +417,11 @@ class App extends React.Component {
                     name={item.type === 'occupations' ? 'user outline'  : 'list'}
                   />
                 </Label>
-                <Card.Header as='a' onClick={this.suggestionselected.bind(this,item.type,item.key,item.value)}>{item.value}</Card.Header>
+                <Card.Header onClick={this.suggestionselected.bind(this,item.type,item.key)}>
+                  <a href={ item.type === 'occupations' ? '/?q=' + item.key + '&m=o'  : '/?q=' + item.key + '&m=s' }>
+                  {item.value}
+                  </a>
+                </Card.Header>
                 <Card.Meta>
                   {item.type === 'occupations' ? 'role'  : 'skill'}
                 </Card.Meta>
