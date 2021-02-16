@@ -539,7 +539,7 @@ class App extends React.Component {
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
+                <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
                  Being able to repurpose existing or acquire new skills in a targeted way addresses the growing problem of mismatch between people and jobs globally
                 </Header>
               </Grid.Column>
@@ -576,7 +576,7 @@ class App extends React.Component {
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
+                <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
                 Closer to home, better supporting your employees' skill development and career progression is critical for retention and workforce efficiency
                 </Header>
               </Grid.Column>
@@ -616,7 +616,7 @@ class App extends React.Component {
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Row textAlign='left'>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
+                <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
                   We help you uncover development and progression opportunities for yourself or your workforce and realise them to make the best of what you have
                 </Header>
               </Grid.Column>
@@ -652,7 +652,7 @@ class App extends React.Component {
         >
          <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
-              <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
+              <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
                 These are some of the most in-demand jobs this week
               </Header>
               <Card.Group>
@@ -667,7 +667,7 @@ class App extends React.Component {
         >
           <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
-              <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
+              <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
                 Interested in finding out more?
               </Header>
               <p className="fontdark" style={{ fontSize: '15px' }}>
