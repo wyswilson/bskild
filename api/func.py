@@ -435,8 +435,14 @@ def searchskills_fuzzy(skill):
 
 	return records	
 
-def searchoccupationrelated_exact(occupationid):
+def searchoccupationrelated_exact(occupationid,count):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
+
+	topn = 3
+	try:
+		topn = int(count) 
+	except:
+		pass
 
 	query1 = """  
 		SELECT 
@@ -460,8 +466,9 @@ def searchoccupationrelated_exact(occupationid):
 			ORDER BY 5 desc
 		) as innerTmp
 		WHERE skillOverlapCnt > 10
+		LIMIT %s
 	"""
-	cursor = _execute(db,query1,(conceptUri,))
+	cursor = _execute(db,query1,(conceptUri,topn))
 	records = cursor.fetchall()
 	cursor.close()
 

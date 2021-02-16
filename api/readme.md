@@ -5,7 +5,7 @@ password: he3k7JDmXxKD
 database: bskilld
 
 ssh -i bskild.pem ubuntu@bskild.xyz
-ssh -i bskild.pem ubuntu@52.221.225.188
+ssh -i bskild.pem ubuntu@bskild.co
 
 run api as service
 - sudo nano /lib/systemd/system/bskild.service
@@ -29,35 +29,3 @@ WantedBy=multi-user.target
 ##########################################################
 create new react app
 - in root dir, npx create-react-app webapp
-
-##########################################################
-job posting seeds for scraping
-- manager /
-- admin /
-- engineer /
-- consultant /
-- officer /
-- clerk /
-- coordinator /
-- worker /
-- supervisor /
-- assistant /
-- aide /
-- researcher /
-- analyst /
-- scientist /
-- director 
-- teacher 
-- designer 
-- lecturer 
-- technician 
-- operator 
-- instructor 
-- driver 
-- specialist 
-- therapist 
-- trainer 
-- installer 
-- chemist 
-- chef 
-- cook 
