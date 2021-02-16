@@ -498,10 +498,12 @@ class App extends React.Component {
                       <Table.Cell key='descriptioncell'>
                       {item.desc}
                       <br/><br/>
-                      <b>Also known as:</b>{ ' ' }
                       {
                         mode !== 'lite' && item.alts[0] !== '' &&
-                        
+                        <b>Also known as: </b>
+                      }
+                      {
+                        mode !== 'lite' && item.alts[0] !== '' &&
                         item.alts.map(alt => (
                           <span key={'alt_' + alt}>{alt}; </span>
                         ))
