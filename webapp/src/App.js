@@ -413,7 +413,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Some of the main skills to perform in this role</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills to perform this role</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
