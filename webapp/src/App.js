@@ -226,7 +226,8 @@ class App extends React.Component {
       await this.refreshresults('full');
     }
     this.setState({mainpageloading: false});
-
+    const pagetitlestr = this.state.selectedvalue + ' by bSkild';
+    document.title = pagetitlestr;
   }
 
   async lookupoccupationsforskill(id){
@@ -552,7 +553,7 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
-                 Being able to repurpose existing or acquire new skills in a targeted way addresses the growing problem of mismatch between people and jobs globally
+                 Being able to selectively repurpose existing and acquire new skills helps with the growing problem of mismatch between people and jobs globally
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
@@ -563,17 +564,16 @@ class App extends React.Component {
                     Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers were unemployed while millions of jobs go unfilled</a>.
                     </List.Content>
                   </List.Item>
-
-                  <List.Item key='problemstat22'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      Globally, anywhere between <a href='https://www.mckinsey.com/~/media/McKinsey/Featured%20Insights/Employment%20and%20Growth/Connecting%20talent%20with%20opportunity%20in%20the%20digital%20age/MGI%20Online%20talent_A_Labor_Market_That_Works_Executive_%20summary_June%202015.pdf' target="_blank" rel="noreferrer">30-45% of the working-age population</a> is either unemployed, inactive, or working part-time.
-                    </List.Content>
-                  </List.Item>
                   <List.Item key='problemstat23'>
                     <List.Icon name='check circle' />
                     <List.Content>
-                      It has been estimated that <a href='https://www.forbes.com/sites/kenrapoza/2020/05/15/some-42-of-jobs-lost-in-pandemic-are-gone-for-good/' target="_blank" rel="noreferrer">some 40% of the lost jobs</a> in the US that occured during the pandemic may never come back.
+                      It is estimated that <a href='https://www.forbes.com/sites/kenrapoza/2020/05/15/some-42-of-jobs-lost-in-pandemic-are-gone-for-good/' target="_blank" rel="noreferrer">some 40% of the jobs</a> lost in the US during the pandemic may never come back.
+                    </List.Content>
+                  </List.Item>
+                  <List.Item key='problemstat22'>
+                    <List.Icon name='check circle' />
+                    <List.Content>
+                    By 2022, it is expected that <a href='https://www.bcg.com/en-au/publications/2020/fixing-global-skills-mismatch' target="_blank" rel="noreferrer">27% of available jobs</a> will be in roles that do not yet exist.
                     </List.Content>
                   </List.Item>
                 </List>
@@ -589,7 +589,7 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
-                Closer to home, better supporting your employees' skill development and career progression is critical for retention and workforce efficiency
+                By better supporting your people's skill development and career progression, employee retention and workforce efficiency improve
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
