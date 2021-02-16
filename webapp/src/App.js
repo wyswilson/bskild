@@ -617,7 +617,7 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
-                  We can help you uncover development and progression opportunities in your workforce (or for yourself) and realise them to make the best of what you have
+                  We help you uncover development and progression opportunities in your workforce (or for yourself) and realise them to make the best of what you have
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
@@ -653,7 +653,7 @@ class App extends React.Component {
          <Grid celled='internally' columns='equal' doubling stackable>
             <Grid.Column>
               <Header as='h4' style={{ fontSize: '22px' }} className="fontlight">
-                We also understand what are the most in-demand jobs from week to week
+                These are some of the most in-demand jobs this week
               </Header>
               <Card.Group>
                 {this.state.occupationsindemand}
