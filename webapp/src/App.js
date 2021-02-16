@@ -540,7 +540,7 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
-                 Being able to repurpose existing and acquire new skills in a targeted way is the answer to the growing problem of mismatch between people and jobs globally
+                 Being able to repurpose existing or acquire new skills in a targeted way addresses the growing problem of mismatch between people and jobs globally
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
@@ -617,7 +617,7 @@ class App extends React.Component {
             <Grid.Row textAlign='left'>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '22px' }} className="fontdark">
-                  We help you uncover development and progression opportunities in your workforce (or for yourself) and realise them to make the best of what you have
+                  We help you uncover development and progression opportunities for yourself or your workforce and realise them to make the best of what you have
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
