@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -28,7 +28,8 @@ class App extends React.Component {
       inquirecustommessage: '',
       formforwardloading: false,
       confirmformforwarded:false,
-      occupationsindemand: ''
+      occupationsindemand: '',
+      mainpageloading: false
     };
   }
 
@@ -137,10 +138,12 @@ class App extends React.Component {
     const options2 = await this.searchskills(query,'lite');
     await this.updatesuggestions(options2,'skills');
     await this.refreshresults('lite');
+    this.setState({mainpageloading: false});
   }
 
   searchkeywords(event, data){
     this.setState({focusdropdown: false});
+    this.setState({mainpageloading: true});
 
     this.resetsuggestions();
     const keywords = data.searchQuery;
@@ -201,6 +204,8 @@ class App extends React.Component {
   }
 
   async suggestionselected(type,id){
+    this.setState({mainpageloading: true});
+
     await this.setState({selectedid: id});
     await this.setState({selectedtype: type});
 
@@ -220,6 +225,8 @@ class App extends React.Component {
       await this.lookuprelatedoccupations(id);
       await this.refreshresults('full');
     }
+    this.setState({mainpageloading: false});
+
   }
 
   async lookupoccupationsforskill(id){
@@ -520,7 +527,7 @@ class App extends React.Component {
 
   render() {
     let results = ''; 
-    if(this.state.serp !== ''){
+    if(!this.state.mainpageloading && this.state.serp !== ''){
       results = (
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
@@ -533,10 +540,9 @@ class App extends React.Component {
         </div>
       );
     }
-    else{
+    else if(!this.state.mainpageloading){
       results = (
       <div>
-
         <div
           className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
         >
@@ -704,8 +710,12 @@ class App extends React.Component {
 
     }
 
+
     return (
       <div>
+        <Loader active={this.state.mainpageloading}
+          size='medium'
+        />
         <Modal
           basic
           onClose={this.inquirehelpmodal.bind(this,'',false)}
@@ -800,19 +810,22 @@ class App extends React.Component {
             </Grid.Column>
           </Grid>
         </div>
-        {results}
-        <div
-          className={isMobile ? "navfooter mobile" : "navfooter"}
-        >
-          <List key='footer' horizontal verticalAlign="middle">
-            <List.Item className="footheader" style={{ fontSize: '15px' }}>
-              Copyright © 2021 bSkild. All Rights Reserved.
-            </List.Item>
-            <List.Item className="footheader">
+        { results }
+        {
+          !this.state.mainpageloading &&
+          <div
+            className={isMobile ? "navfooter mobile" : "navfooter"}
+          >
+            <List key='footer' horizontal verticalAlign="middle">
+              <List.Item className="footheader" style={{ fontSize: '15px' }}>
+                Copyright © 2021 bSkild. All Rights Reserved.
+              </List.Item>
+              <List.Item className="footheader">
 
-            </List.Item>
-          </List>
-        </div>
+              </List.Item>
+            </List>
+          </div>
+        }
       </div>
     )
   }
