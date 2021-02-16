@@ -85,7 +85,7 @@ def getoccupations(occupation):
 
 	id_,canonicalname,conceptype = func.isExact(occupation)
 	if conceptype == 'occupation' and id_ != '':
-		records = func.searchoccupations_exact(id_)
+		records = func.searchoccupations_exact(id_,10)
 		status = "Occupation is found with exact lookup"
 	else:
 		records = func.searchoccupations_fuzzy(occupation)
