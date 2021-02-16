@@ -396,7 +396,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Top roles suitable for career change or progression</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Top related roles for career change or progression</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -406,7 +406,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Skills and knowledge to perform in this role</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills and knowledge to perform in this role</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
