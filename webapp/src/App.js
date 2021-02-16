@@ -517,21 +517,21 @@ class App extends React.Component {
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List key='valueprop' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
-                  <List.Item key='valueprop1'>
+                <List key='problemstat2' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                  <List.Item key='problemstat21'>
                     <List.Icon name='check circle' />
                     <List.Content>
                     Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers are unemployed while million jobs go unfilled</a>.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item key='valueprop2'>
+                  <List.Item key='problemstat22'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Globally, anywhere between <a href='https://www.mckinsey.com/~/media/McKinsey/Featured%20Insights/Employment%20and%20Growth/Connecting%20talent%20with%20opportunity%20in%20the%20digital%20age/MGI%20Online%20talent_A_Labor_Market_That_Works_Executive_%20summary_June%202015.pdf' target="_blank" rel="noreferrer">30-45% of the working-age population</a> is either unemployed, inactive, or working part-time.
                     </List.Content>
                   </List.Item>
-                  <List.Item key='valueprop3'>
+                  <List.Item key='problemstat23'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       It has been estimated that <a href='https://www.forbes.com/sites/kenrapoza/2020/05/15/some-42-of-jobs-lost-in-pandemic-are-gone-for-good/' target="_blank" rel="noreferrer">some 40% of the lost jobs</a> in the US that occured during the pandemic may never come back.
@@ -554,23 +554,23 @@ class App extends React.Component {
                 </Header>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
-                <List key='problemstat' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
+                <List key='problemstat1' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
 
-                  <List.Item key='problemstat1'>
+                  <List.Item key='problemstat11'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big' target="_blank" rel="noreferrer">about 33% of their annual salary</a>.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item key='problemstat2'>
+                  <List.Item key='problemstat12'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Organisations who are committed to talent mobility (through workforce repurposing) <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank" rel="noreferrer">performs better financially</a>.
                     </List.Content>
                   </List.Item>
 
-                  <List.Item key='problemstat3'>
+                  <List.Item key='problemstat13'>
                     <List.Icon name='check circle' />
                     <List.Content>
                       Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters' target="_blank" rel="noreferrer">more likely to leave</a>.
