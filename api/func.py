@@ -506,7 +506,7 @@ def searchoccupations_exact(occupationid):
 		WHERE o.conceptUri = %s
 	) AS innertmp 
 	WHERE score1 >= 5
-	ORDER BY 1 DESC
+	ORDER BY 11 ASC
 	"""
 	cursor = _execute(db,query1,(conceptUri,))
 	records = cursor.fetchall()
