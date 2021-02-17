@@ -5,6 +5,7 @@ import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
 import queryString from 'query-string'
+import validator from 'validator'
 
 class App extends React.Component {
   constructor(props) {
@@ -28,8 +29,14 @@ class App extends React.Component {
       inquirecustommessage: '',
       confirmformforwarded:false,
       occupationsindemand: '',
-      mainpageloading: false
+      mainpageloading: false,
+      emailvalidity: true
     };
+  }
+
+  scrollto(event){
+    this.setState({focusdropdown: true});
+    scrollToComponent(this.trynowpanel);
   }
 
   componentDidMount() {
@@ -71,12 +78,11 @@ class App extends React.Component {
 
   async loadhighdemandoccupations(){
     var requeststr = this.state.searchendpoint + '/occupations/highdemand?3'
-    console.log('fetch indemand occupations [' + requeststr + ']');
+    //console.log('fetch indemand occupations [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
       console.log('fetch indemand occupations [' + response.data['message'] + ']');
       const occupationsindemand = response.data['occupations'];
-      console.log(occupationsindemand);
       this.renderoccupationsindemand(occupationsindemand);
     }
     catch(err){
@@ -84,16 +90,11 @@ class App extends React.Component {
     }
   }
 
-  scrollto(event){
-    this.setState({focusdropdown: true});
-    scrollToComponent(this.trynowpanel);
-  }
-
   async searchskills(query,mode){
     let suggestions = [];
 
     var skillrequeststr = this.state.searchendpoint + '/skills/' + query + '?' + mode
-    console.log('search skills [' + skillrequeststr + ']');
+    //console.log('search skills [' + skillrequeststr + ']');
     try{
       const response = await axios.get(skillrequeststr);
       console.log('search skills [' + response.data['message'] + ']');
@@ -114,7 +115,7 @@ class App extends React.Component {
     let suggestions = [];
 
     var occupationrequeststr = this.state.searchendpoint + '/occupations/' + query + '?' + mode
-    console.log('search occupations [' + occupationrequeststr + ']');
+    //console.log('search occupations [' + occupationrequeststr + ']');
     try{
       const response = await axios.get(occupationrequeststr);
       console.log('search occupations [' + response.data['message'] + ']');
@@ -235,7 +236,7 @@ class App extends React.Component {
 
   async lookupoccupationsforskill(id){
     var requeststr = this.state.searchendpoint + '/skills/' + id + '/occupations'
-    console.log('search skill occupations [' + requeststr + ']');
+    //console.log('search skill occupations [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
       console.log('search skill occupations [' + response.data['message'] + ']');
@@ -249,7 +250,7 @@ class App extends React.Component {
 
   async lookupskillsforoccupation(id){
     var requeststr = this.state.searchendpoint + '/occupations/' + id + '/skills?15'
-    console.log('search occupation skills [' + requeststr + ']');
+    //console.log('search occupation skills [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
       console.log('search occupation skills [' + response.data['message'] + ']');
@@ -263,7 +264,7 @@ class App extends React.Component {
 
   async lookuprelatedoccupations(id){
     var requeststr = this.state.searchendpoint + '/occupations/' + id + '/related?5'
-    console.log('search related occupations [' + requeststr + ']');
+    //console.log('search related occupations [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
       console.log('search related occupations [' + response.data['message'] + ']');
@@ -297,12 +298,21 @@ class App extends React.Component {
   async inquirehelpmodal(message,state){
     await this.setState({inquirecustommessage: message});
     await this.setState({inquireroleopen: state});
-    console.log(this.state.helpwithoccupation);
   }
 
   async inquiryforwardedmodal(state){
     await this.setState({inquirecustommessage: ''});
     await this.setState({confirmformforwarded: state});
+  }
+
+  validateemail(event){
+    const email = document.getElementById('inquiryemail').value;
+    if(validator.isEmail(email)) { 
+      this.setState({emailvalidity: true});
+    }
+    else{
+       this.setState({emailvalidity: false});     
+    }
   }
 
   forwardinquiry(){
@@ -311,14 +321,16 @@ class App extends React.Component {
     const email = document.getElementById('inquiryemail').value;
     const company = document.getElementById('inquirycomp').value;
 
-    console.log("forward inquiry");
-    this.setState({inquireroleopen: false});
-    this.setState({confirmformforwarded: true});
+    if (validator.isEmail(email)) { 
+      console.log("forward inquiry");
+      this.setState({inquireroleopen: false});
+      this.setState({confirmformforwarded: true});
 
-    this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskill);
+      this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskill);
 
-    const custommessage = 'Thank you. We\'ll respond to you within 24 hours.';
-    this.setState({inquirecustommessage: custommessage});
+      const custommessage = 'Thank you. We\'ll respond to you within 24 hours.';
+      this.setState({inquirecustommessage: custommessage});
+    }
   }
 
   async submitinquiry(fname,lname,email,company,occupation,skill){
@@ -460,7 +472,8 @@ class App extends React.Component {
   }
 
   refreshresults(mode){
-    console.log("refreshing results");
+    console.log("loading results");
+
     let serprefreshed = [];
     this.state.dropdownoptions.forEach(function(item) {
       serprefreshed.push(
@@ -752,7 +765,13 @@ class App extends React.Component {
               </Grid.Row>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
-                  <Input id="inquiryemail" label='Email' placeholder='Email address...' fluid />
+                  <Input id="inquiryemail" label='Email' onChange={this.validateemail.bind(this)} placeholder='Email address...' fluid />
+                  {
+                    !this.state.emailvalidity && 
+                    <Label basic color='red' pointing='above'>
+                    Invalid email
+                    </Label>
+                  } 
                 </Grid.Column>
                 <Grid.Column>
                   <Input id="inquirycomp" label='Company' placeholder='Company name' fluid />
