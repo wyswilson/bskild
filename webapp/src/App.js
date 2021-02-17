@@ -142,13 +142,13 @@ class App extends React.Component {
 
   searchkeywords(event, data){
     this.setState({focusdropdown: false});
-    this.setState({mainpageloading: true});
 
     this.resetsuggestions();
     const keywords = data.searchQuery;
     console.log("search keywords [" + keywords + "]");
     this.setState({searchquery: keywords});
     if(keywords.length > 3){
+      this.setState({mainpageloading: true});
       this.searchboth(keywords);
     }
     else if(keywords.length === 0){
