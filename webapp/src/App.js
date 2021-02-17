@@ -317,7 +317,7 @@ class App extends React.Component {
 
     this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskill);
 
-    const custommessage = 'Thank you. We\'ll respond to you within 6 hours.';
+    const custommessage = 'Thank you. We\'ll respond to you within 24 hours.';
     this.setState({inquirecustommessage: custommessage});
   }
 
