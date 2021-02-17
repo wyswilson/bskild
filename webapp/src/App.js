@@ -792,6 +792,13 @@ class App extends React.Component {
           </Modal.Actions>
         </Modal>
 
+        <Loader active={this.state.mainpageloading}
+            size='medium'
+        >
+          <Header as='h4' textAlign='center' className='error'>
+            Click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh if the page doesn't load.
+          </Header>
+        </Loader>
         <div
           className={isMobile ? "navheader mobile" : "navheader"} 
           ref={(div) => { this.trynowpanel = div; }}           
@@ -824,15 +831,8 @@ class App extends React.Component {
                 />
             </Grid.Column>
           </Grid>
-        </div>
-        <Loader active={this.state.mainpageloading}
-          size='medium'
-        >
-          <Header as='h4' textAlign='center' className='error'>
-            Click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh if the page doesn't load.
-          </Header>
-        </Loader>
 
+        </div>
         { results }
         {
           !this.state.mainpageloading &&
