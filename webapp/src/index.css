@@ -131,3 +131,7 @@ body {
   color: #FEFFF5 !important;
   background: #44BBA4 !important;
 }
+
+.error{
+  color: #E94F37 !important;
+}

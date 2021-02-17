@@ -26,7 +26,6 @@ class App extends React.Component {
       focusdropdown: false,
       inquireroleopen: false,
       inquirecustommessage: '',
-      formforwardloading: false,
       confirmformforwarded:false,
       occupationsindemand: '',
       mainpageloading: false
@@ -152,6 +151,9 @@ class App extends React.Component {
     if(keywords.length > 3){
       this.searchboth(keywords);
     }
+    else if(keywords.length === 0){
+      window.location.href = '/'; 
+    }
   }
 
   updatesuggestions(suggestions,type){
@@ -178,6 +180,7 @@ class App extends React.Component {
     this.setState({serp: ''});
     this.setState({helpwithskill: ''});
     this.setState({helpwithoccupation: ''});
+    this.setState({inquirecustommessage: ''});
     this.setState({inquireroleopen: false});
   }
 
@@ -303,14 +306,12 @@ class App extends React.Component {
   }
 
   forwardinquiry(){
-    this.setState({formforwardloading: true});
     const fname = document.getElementById('inquirynamefirst').value;
     const lname = document.getElementById('inquirynamelast').value;
     const email = document.getElementById('inquiryemail').value;
     const company = document.getElementById('inquirycomp').value;
 
     console.log("forward inquiry");
-    this.setState({formforwardloading: false});
     this.setState({inquireroleopen: false});
     this.setState({confirmformforwarded: true});
 
@@ -529,8 +530,8 @@ class App extends React.Component {
   }
 
   render() {
-    let results = ''; 
-    if(!this.state.mainpageloading && this.state.serp !== ''){
+    let results = '';
+    if(!this.state.mainpageloading && this.state.dropdownoptions.length > 0){
       results = (
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
@@ -543,181 +544,201 @@ class App extends React.Component {
         </div>
       );
     }
+    else if(!this.state.mainpageloading && this.state.selectedid === ''){
+      results = (
+        <div>
+          <div
+            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+          >
+            <Grid celled='internally' columns='equal' doubling stackable>
+              <Grid.Row textAlign='left'>
+                <Grid.Column>
+                  <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
+                   Being able to selectively repurpose existing and acquire new skills helps with the growing problem of mismatch between people and jobs globally
+                  </Header>
+                </Grid.Column>
+                <Grid.Column verticalAlign="middle">
+                  <List key='problemstat2' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                    <List.Item key='problemstat21'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                      Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers were unemployed while millions of jobs go unfilled</a>.
+                      </List.Content>
+                    </List.Item>
+                    <List.Item key='problemstat23'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        It is estimated that <a href='https://www.forbes.com/sites/kenrapoza/2020/05/15/some-42-of-jobs-lost-in-pandemic-are-gone-for-good/' target="_blank" rel="noreferrer">some 40% of the jobs</a> lost in the US during the pandemic may never come back.
+                      </List.Content>
+                    </List.Item>
+                    <List.Item key='problemstat22'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                      By 2022, it is expected that <a href='https://www.bcg.com/en-au/publications/2020/fixing-global-skills-mismatch' target="_blank" rel="noreferrer">27% of available jobs</a> will be in roles that do not yet exist.
+                      </List.Content>
+                    </List.Item>
+                  </List>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </div>
+
+          <div
+            className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+          >
+            <Grid celled='internally' columns='equal' doubling stackable>
+              <Grid.Row textAlign='left'>
+                <Grid.Column>
+                  <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                  By better supporting your people's skill development and career progression, employee retention and workforce efficiency improve
+                  </Header>
+                </Grid.Column>
+                <Grid.Column verticalAlign="middle">
+                  <List key='problemstat1' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
+
+                    <List.Item key='problemstat11'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big' target="_blank" rel="noreferrer">about 33% of their annual salary</a>.
+                      </List.Content>
+                    </List.Item>
+
+                    <List.Item key='problemstat12'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        Organisations who are committed to talent mobility (through workforce repurposing) <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank" rel="noreferrer">performs better financially</a>.
+                      </List.Content>
+                    </List.Item>
+
+                    <List.Item key='problemstat13'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters' target="_blank" rel="noreferrer">more likely to leave</a>.
+                      </List.Content>
+                    </List.Item>
+
+                  </List>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </div>
+
+          <div
+            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+          >
+            <Grid celled='internally' columns='equal' doubling stackable>
+              <Grid.Row textAlign='left'>
+                <Grid.Column>
+                  <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
+                    We help you uncover development and progression opportunities for yourself or your workforce and realise them to make the best of what you have
+                  </Header>
+                </Grid.Column>
+                <Grid.Column verticalAlign="middle">
+                  <List key='valueprop' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                    <List.Item key='valueprop1'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                       Understand the skills profile of your workforce and the critical areas in terms of hard to fill roles.
+                      </List.Content>
+                    </List.Item>
+
+                    <List.Item key='valueprop2'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        Recommend opportunities to upskill based on the profile and follow up with options to fullfill the training needs.
+                      </List.Content>
+                    </List.Item>
+
+                    <List.Item key='valueprop3'>
+                      <List.Icon name='check circle' />
+                      <List.Content>
+                        Identify opportunities for lateral moves to put existing skills to good use and introduce new challenges to stimulate employees.
+                      </List.Content>
+                    </List.Item>
+                  </List>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </div>
+
+          <div className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+          >
+           <Grid celled='internally' columns='equal' doubling stackable>
+              <Grid.Column>
+                <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                  These are some of the most in-demand jobs this week
+                </Header>
+                <Card.Group>
+                  {this.state.occupationsindemand}
+                </Card.Group>
+              </Grid.Column>
+            </Grid>
+          </div>
+
+          <div
+            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+          >
+            <Grid celled='internally' columns='equal' doubling stackable>
+              <Grid.Column>
+                <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
+                  Interested in finding out more?
+                </Header>
+                <p className="fontdark" style={{ fontSize: '15px' }}>
+                  Do you want to improve your organisation's ability 
+                  in managing and retaining talent but not sure where to begin?
+                </p>
+              </Grid.Column>
+              <Grid.Column verticalAlign="middle">
+                <Grid columns={2} doubling stackable>
+                  <Grid.Column>
+                    <Button 
+                      className='action'
+                      size='large' onClick={this.requestdemo.bind(this)}>
+                      REQUEST A DEMO
+                    </Button>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Button
+                      className='action'
+                      size='large' onClick={this.scrollto.bind(this)}>
+                      TRY IT OUT NOW
+                    </Button>
+                  </Grid.Column>
+                </Grid>
+              </Grid.Column>
+            </Grid>
+          </div>
+        </div>
+      );
+    }
     else if(!this.state.mainpageloading){
       results = (
-      <div>
         <div
-          className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+          className={isMobile ? "bodymain mobile" : "bodymain"}
         >
-          <Grid celled='internally' columns='equal' doubling stackable>
-            <Grid.Row textAlign='left'>
-              <Grid.Column>
-                <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
-                 Being able to selectively repurpose existing and acquire new skills helps with the growing problem of mismatch between people and jobs globally
-                </Header>
-              </Grid.Column>
-              <Grid.Column verticalAlign="middle">
-                <List key='problemstat2' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
-                  <List.Item key='problemstat21'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                    Throughout 2020 in the US, <a href='https://www.forbes.com/sites/ryancraig/2020/07/17/fixing-the-worlds-most-inefficient-market/' target="_blank" rel="noreferrer">tens of millions of workers were unemployed while millions of jobs go unfilled</a>.
-                    </List.Content>
-                  </List.Item>
-                  <List.Item key='problemstat23'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      It is estimated that <a href='https://www.forbes.com/sites/kenrapoza/2020/05/15/some-42-of-jobs-lost-in-pandemic-are-gone-for-good/' target="_blank" rel="noreferrer">some 40% of the jobs</a> lost in the US during the pandemic may never come back.
-                    </List.Content>
-                  </List.Item>
-                  <List.Item key='problemstat22'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                    By 2022, it is expected that <a href='https://www.bcg.com/en-au/publications/2020/fixing-global-skills-mismatch' target="_blank" rel="noreferrer">27% of available jobs</a> will be in roles that do not yet exist.
-                    </List.Content>
-                  </List.Item>
-                </List>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+        <Grid celled='internally' columns='equal' doubling stackable>
+          <Grid.Column>
+            <Header as='h4' textAlign='center' className='error'>
+              Oops, there has been a problem. Please click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh the page.
+              <br/>
+              If the problem persists, <a href='/'>return to the home page</a> and try again.
+            </Header>
+          </Grid.Column>
+        </Grid>
         </div>
-
-        <div
-          className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
-        >
-          <Grid celled='internally' columns='equal' doubling stackable>
-            <Grid.Row textAlign='left'>
-              <Grid.Column>
-                <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
-                By better supporting your people's skill development and career progression, employee retention and workforce efficiency improve
-                </Header>
-              </Grid.Column>
-              <Grid.Column verticalAlign="middle">
-                <List key='problemstat1' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
-
-                  <List.Item key='problemstat11'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      The average cost of losing an employee is <a href='https://www.benefitnews.com/news/avoidable-turnover-costing-employers-big' target="_blank" rel="noreferrer">about 33% of their annual salary</a>.
-                    </List.Content>
-                  </List.Item>
-
-                  <List.Item key='problemstat12'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      Organisations who are committed to talent mobility (through workforce repurposing) <a href='https://hbr.org/2016/05/dont-underestimate-the-power-of-lateral-career-moves-for-professional-growth' target="_blank" rel="noreferrer">performs better financially</a>.
-                    </List.Content>
-                  </List.Item>
-
-                  <List.Item key='problemstat13'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      Employees who don't see a clear progression from their current roles are <a href='https://hbr.org/2017/03/why-do-employees-stay-a-clear-career-path-and-good-pay-for-starters' target="_blank" rel="noreferrer">more likely to leave</a>.
-                    </List.Content>
-                  </List.Item>
-
-                </List>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </div>
-
-        <div
-          className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
-        >
-          <Grid celled='internally' columns='equal' doubling stackable>
-            <Grid.Row textAlign='left'>
-              <Grid.Column>
-                <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
-                  We help you uncover development and progression opportunities for yourself or your workforce and realise them to make the best of what you have
-                </Header>
-              </Grid.Column>
-              <Grid.Column verticalAlign="middle">
-                <List key='valueprop' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
-                  <List.Item key='valueprop1'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                     Understand the skills profile of your workforce and the critical areas in terms of hard to fill roles.
-                    </List.Content>
-                  </List.Item>
-
-                  <List.Item key='valueprop2'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      Recommend opportunities to upskill based on the profile and follow up with options to fullfill the training needs.
-                    </List.Content>
-                  </List.Item>
-
-                  <List.Item key='valueprop3'>
-                    <List.Icon name='check circle' />
-                    <List.Content>
-                      Identify opportunities for lateral moves to put existing skills to good use and introduce new challenges to stimulate employees.
-                    </List.Content>
-                  </List.Item>
-                </List>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </div>
-
-        <div className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
-        >
-         <Grid celled='internally' columns='equal' doubling stackable>
-            <Grid.Column>
-              <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
-                These are some of the most in-demand jobs this week
-              </Header>
-              <Card.Group>
-                {this.state.occupationsindemand}
-              </Card.Group>
-            </Grid.Column>
-          </Grid>
-        </div>
-
-        <div
-          className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
-        >
-          <Grid celled='internally' columns='equal' doubling stackable>
-            <Grid.Column>
-              <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
-                Interested in finding out more?
-              </Header>
-              <p className="fontdark" style={{ fontSize: '15px' }}>
-                Do you want to improve your organisation's ability 
-                in managing and retaining talent but not sure where to begin?
-              </p>
-            </Grid.Column>
-            <Grid.Column verticalAlign="middle">
-              <Grid columns={2} doubling stackable>
-                <Grid.Column>
-                  <Button 
-                    className='action'
-                    size='large' onClick={this.requestdemo.bind(this)}>
-                    REQUEST A DEMO
-                  </Button>
-                </Grid.Column>
-                <Grid.Column>
-                  <Button
-                    className='action'
-                    size='large' onClick={this.scrollto.bind(this)}>
-                    TRY IT OUT NOW
-                  </Button>
-                </Grid.Column>
-              </Grid>
-            </Grid.Column>
-          </Grid>
-        </div>
-      </div>
       );
-
     }
-
 
     return (
       <div>
         <Loader active={this.state.mainpageloading}
           size='medium'
-        />
+        >
+          <Header as='h4' textAlign='center' className='error'>
+            Click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh if the page doesn't load.
+          </Header>
+        </Loader>
+
         <Modal
           basic
           onClose={this.inquirehelpmodal.bind(this,'',false)}
@@ -755,7 +776,6 @@ class App extends React.Component {
             </Button>
             <Button className='action'
               onClick={this.forwardinquiry.bind(this)}
-              loading={this.state.formforwardloading}
             >
               <Icon name='checkmark' />SUBMIT
             </Button>
