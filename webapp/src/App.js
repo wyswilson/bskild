@@ -30,7 +30,8 @@ class App extends React.Component {
       confirmformforwarded:false,
       occupationsindemand: '',
       mainpageloading: false,
-      emailvalidity: true
+      isemailvalid: true,
+      isnamevalid: true
     };
   }
 
@@ -308,10 +309,21 @@ class App extends React.Component {
   validateemail(event){
     const email = document.getElementById('inquiryemail').value;
     if(validator.isEmail(email)) { 
-      this.setState({emailvalidity: true});
+      this.setState({isemailvalid: true});
     }
     else{
-       this.setState({emailvalidity: false});     
+       this.setState({isemailvalid: false});     
+    }
+  }
+
+  validatename(event){
+    const fname = document.getElementById('inquirynamefirst').value;
+    const lname = document.getElementById('inquirynamelast').value;
+    if( validator.isAlpha(fname) && validator.isAlpha(lname) ) { 
+      this.setState({isnamevalid: true});
+    }
+    else{
+       this.setState({isnamevalid: false});     
     }
   }
 
@@ -321,7 +333,7 @@ class App extends React.Component {
     const email = document.getElementById('inquiryemail').value;
     const company = document.getElementById('inquirycomp').value;
 
-    if (validator.isEmail(email)) { 
+    if(email !== '' && this.state.isemailvalid && this.state.isnamevalid) { 
       console.log("forward inquiry");
       this.setState({inquireroleopen: false});
       this.setState({confirmformforwarded: true});
@@ -757,17 +769,29 @@ class App extends React.Component {
             <Grid doubling stackable>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
-                  <Input id="inquirynamefirst" label='First name' placeholder='First name...' fluid />
+                  {
+                    !this.state.isnamevalid && 
+                    <Label basic color='red' pointing='below'>
+                    Invalid first name
+                    </Label>
+                  } 
+                  <Input id="inquirynamefirst" label='First name' onChange={this.validatename.bind(this)} placeholder='First name...' fluid />
                 </Grid.Column>
                 <Grid.Column>
-                  <Input id="inquirynamelast" label='Last name' placeholder='Last name...' fluid />
+                  {
+                    !this.state.isnamevalid && 
+                    <Label basic color='red' pointing='below'>
+                    Invalid last name
+                    </Label>
+                  } 
+                  <Input id="inquirynamelast" label='Last name' onChange={this.validatename.bind(this)} placeholder='Last name...' fluid />
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
                   <Input id="inquiryemail" label='Email' onChange={this.validateemail.bind(this)} placeholder='Email address...' fluid />
                   {
-                    !this.state.emailvalidity && 
+                    !this.state.isemailvalid && 
                     <Label basic color='red' pointing='above'>
                     Invalid email
                     </Label>
