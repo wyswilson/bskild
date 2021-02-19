@@ -499,7 +499,7 @@ class App extends React.Component {
                   />
                 </Label>
                 <Card.Header onClick={this.suggestionselected.bind(this,item.type,item.key)}>
-                  <a href={ item.type === 'occupations' ? '/?q=' + item.key + '&m=o'  : '/?q=' + item.key + '&m=s' }>
+                  <a as='h1' href={ item.type === 'occupations' ? '/?q=' + item.key + '&m=o'  : '/?q=' + item.key + '&m=s' }>
                   {item.value}
                   </a>
                 </Card.Header>
