@@ -97,6 +97,40 @@ def dbAlignment():
 				print("posting [%s] does not exists" % postingid)
 				func.getS3().Object("bskild", filekey).delete()
 
+def generateflatsitemap():
+	rooturi = "http://bskild.co"
+
+	csvoutput = ""
+
+	query1 = """
+	SELECT
+		conceptUri,'o' as type
+	FROM occupations
+	UNION
+	SELECT
+		conceptUri,'s' as type
+	FROM skills
+	"""
+	cursor = func._execute(db,query1,None)
+	records = cursor.fetchall()
+	cursor.close()
+
+	for record in records:
+		concepturi = record[0]
+		concepttype = record[1]
+		matchobj = re.search('\/([^\/]+?)$', concepturi, re.IGNORECASE)
+		if matchobj:
+			conceptid = matchobj.group(1).strip()
+			pageuri = rooturi + '/?q=' + conceptid + '&m=' + concepttype
+			print(pageuri);
+			csvoutput += "%s\n" % pageuri
+			
+	sitemapfile = open("./sitemap.csv", "w")
+	sitemapfile.write(csvoutput)
+	sitemapfile.close()
+
 if __name__ == "__main__":
 	#dbAlignment()
-	dbCounts()
+	#dbCounts()
+	generateflatsitemap()
+	
