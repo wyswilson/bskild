@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Menu, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -24,7 +24,6 @@ class App extends React.Component {
       selectedoccupationrelated: [],
       helpwithskill: '',
       helpwithoccupation: '',
-      focusdropdown: false,
       inquireroleopen: false,
       inquirecustommessage: '',
       confirmformforwarded:false,
@@ -35,9 +34,14 @@ class App extends React.Component {
     };
   }
 
-  scrollto(event){
-    this.setState({focusdropdown: true});
-    scrollToComponent(this.trynowpanel);
+  scrollto(panel){
+    if(this.state.serp === ''){
+      scrollToComponent(panel,{align: 'top'});
+    }
+    else{
+      window.location.href = '/'; 
+    }
+
   }
 
   componentDidMount() {
@@ -143,8 +147,6 @@ class App extends React.Component {
   }
 
   searchkeywords(event, data){
-    this.setState({focusdropdown: false});
-
     this.resetsuggestions();
     const keywords = data.searchQuery;
     console.log("search keywords [" + keywords + "]");
@@ -167,11 +169,12 @@ class App extends React.Component {
         desc: item.desc,
         alts: item.alternatives ? item.alternatives : [],
         content: (
-          <Header size='small' icon={type === 'occupations' ? 'user outline'  : 'list'} content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
+          <Header size='small' content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
         ),
         type: type
       }
     ));
+    //icon={type === 'occupations' ? 'user outline'  : 'list'}
     this.setState({rawresponse: this.state.rawresponse.concat(suggestions)});
     this.setState({dropdownoptions: this.state.dropdownoptions.concat(updatedsuggestions)});
   }
@@ -573,17 +576,44 @@ class App extends React.Component {
       results = (
         <div>
           <div
-            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+            className={isMobile ? "bodyapex mobile" : "bodyapex"}
+          >
+            <Grid columns='equal' doubling stackable>
+              <Grid.Row columns={2} textAlign='left' width={3}>
+                <Grid.Column>
+                  <Header as='h2' style={{ fontSize: '30px' }} className="fontdark">
+                    Be skilled where it matters
+                  </Header>
+                  <p className="fontdark" style={{ fontSize: '15px' }}>
+                    Uncover opportunities to upskill or reskill to future-proof yourself and your workforce using a combination of open source and proprietary data and AI
+                  </p>
+                  <Button
+                      className='action'
+                      size='large' onClick={this.scrollto.bind(this,this.problemstatpanel)}>
+                      FIND OUT MORE
+                    </Button>
+                </Grid.Column>
+                <Grid.Column>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </div>
+          <div
+            className={isMobile ? "bodydark mobile" : "bodydark"}
+            ref={(div) => { this.problemstatpanel = div; }}
           >
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Row textAlign='left'>
                 <Grid.Column>
-                  <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
-                   Being able to selectively repurpose existing and acquire new skills helps with the growing problem of mismatch between people and jobs globally
+                  <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                    New roles and skills continue to emerge while existing ones evolve or become redundant
                   </Header>
+                  <p className="fontlight" style={{ fontSize: '15px' }}>
+                  Employers and workers alike do not have the tools and the data needed to deal with the changes, which results in mismatch between supply and demand in the labour market
+                  </p>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle">
-                  <List key='problemstat2' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                  <List key='problemstat2' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
                     <List.Item key='problemstat21'>
                       <List.Icon name='check circle' />
                       <List.Content>
@@ -609,17 +639,20 @@ class App extends React.Component {
           </div>
 
           <div
-            className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+            className={isMobile ? "bodylight mobile" : "bodylight"}
           >
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Row textAlign='left'>
                 <Grid.Column>
-                  <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
-                  By better supporting your people's skill development and career progression, employee retention and workforce efficiency improve
+                  <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
+                    At the same time, improving productivity and retention requires employees to be continuously learning and growing
                   </Header>
+                  <p className="fontdark" style={{ fontSize: '15px' }}>
+                    The cost of maintaining a specialist function to identify and fulfill development or progression opportunities can remain out of reach for small to medium sized businesses
+                  </p>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle">
-                  <List key='problemstat1' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
+                  <List key='problemstat1' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
 
                     <List.Item key='problemstat11'>
                       <List.Icon name='check circle' />
@@ -649,21 +682,25 @@ class App extends React.Component {
           </div>
 
           <div
-            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+            className={isMobile ? "bodydark mobile" : "bodydark"}
+            ref={(div) => { this.whatwedopanel = div; }}
           >
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Row textAlign='left'>
                 <Grid.Column>
-                  <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
-                    We help you uncover development and progression opportunities for yourself or your workforce and realise them to make the best of what you have
+                  <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                    Using a combination of open source and proprietary data and AI, we help you uncover development and progression opportunities in your workforce and realise them
                   </Header>
+                  <p className="fontlight" style={{ fontSize: '15px' }}>
+
+                  </p>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle">
-                  <List key='valueprop' floated="left" className="fontdark" style={{ fontSize: '15px' }}>
+                  <List key='valueprop' floated="left" className="fontlight" style={{ fontSize: '15px' }}>
                     <List.Item key='valueprop1'>
                       <List.Icon name='check circle' />
                       <List.Content>
-                       Understand the skills profile of your workforce and the critical areas in terms of hard to fill roles.
+                       Understand the skills profile of your workforce in terms of niche vs transferable skills, hard-to-find skills, etc.
                       </List.Content>
                     </List.Item>
 
@@ -686,11 +723,11 @@ class App extends React.Component {
             </Grid>
           </div>
 
-          <div className={isMobile ? "bodyrest1 mobile" : "bodyrest1"}
+          <div className={isMobile ? "bodylight mobile" : "bodylight"}
           >
            <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
                   These are some of the most in-demand jobs this week
                 </Header>
                 <Card.Group>
@@ -701,14 +738,15 @@ class App extends React.Component {
           </div>
 
           <div
-            className={isMobile ? "bodyrest2 mobile" : "bodyrest2"}
+            className={isMobile ? "bodydark mobile" : "bodydark"}
+            ref={(div) => { this.contactuspanel = div; }}
           >
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
+                <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
                   Interested in finding out more?
                 </Header>
-                <p className="fontdark" style={{ fontSize: '15px' }}>
+                <p className="fontlight" style={{ fontSize: '15px' }}>
                   Do you want to improve your organisation's ability 
                   in managing and retaining talent but not sure where to begin?
                 </p>
@@ -725,7 +763,7 @@ class App extends React.Component {
                   <Grid.Column>
                     <Button
                       className='action'
-                      size='large' onClick={this.scrollto.bind(this)}>
+                      size='large' onClick={this.scrollto.bind(this,this.trynowpanel)}>
                       TRY IT OUT NOW
                     </Button>
                   </Grid.Column>
@@ -760,7 +798,8 @@ class App extends React.Component {
           basic
           onClose={this.inquirehelpmodal.bind(this,'',false)}
           open={this.state.inquireroleopen}
-          size='small'
+          size='tiny'
+          centered={false}
         >
           <Header textAlign='left'>
             {this.state.inquirecustommessage}
@@ -821,7 +860,8 @@ class App extends React.Component {
           basic 
           onClose={this.inquiryforwardedmodal.bind(this,false)}          
           open={this.state.confirmformforwarded}
-          size='small'
+          size='tiny'
+          centered={false}
         >
           <Header textAlign='left'>
             {this.state.inquirecustommessage}
@@ -842,40 +882,47 @@ class App extends React.Component {
             Click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh if the page doesn't load.
           </Header>
         </Loader>
+
         <div
           className={isMobile ? "navheader mobile" : "navheader"} 
           ref={(div) => { this.trynowpanel = div; }}           
-        >
-          <Grid columns={2} doubling stackable>
-            <Grid.Column width={2}>
+        > 
+          <Menu fluid compact inverted secondary stackable>
+            <Menu.Item name='home'>
               <Image as='a' spaced='right'
-              href='./' verticalAlign='middle' size='small'
-              src='./logo_small.png'/>
-            </Grid.Column>
-            <Grid.Column stretched 
-              className="fontlight" width={12}>
-                <Dropdown name="keywords" 
-                  className = { this.state.focusdropdown ? 'action' : ''}
-                  style={ { width: '100%' } }
-                  floating inline
-                  search compact
-                  selection allowAdditions
-                  additionLabel='Search with '
-                  minCharacters={2}
-                  selectOnBlur={false}
-                  searchQuery={this.state.searchquery}
-                  value={this.state.searchquery}
-                  options={this.state.dropdownoptions}
-                  noResultsMessage = "No results found"
-                  onSearchChange={this.searchkeywords.bind(this)}
-                  onChange={this.selectsuggestion.bind(this)}
-                  placeholder='Find role or skill'
-                  onAddItem={this.searchkeywords.bind(this)}
-                />
-            </Grid.Column>
-          </Grid>
-
+              href='./' verticalAlign='middle' size='tiny'
+              src='./logo_small.png'/>   
+            </Menu.Item>
+            <Menu.Item
+              name='ABOUT'
+               onClick={this.scrollto.bind(this,this.whatwedopanel)}
+            />
+            <Menu.Item
+              name='CONTACT US'
+               onClick={this.scrollto.bind(this,this.contactuspanel)}
+            />
+            <Menu.Item>
+              <Dropdown name="keywords" 
+                style={ { width: this.state.isMobile ? '5em' : '40em' } }
+                floating inline
+                search compact
+                selection allowAdditions
+                additionLabel='Search with '
+                minCharacters={2}
+                selectOnBlur={false}
+                searchQuery={this.state.searchquery}
+                value={this.state.searchquery}
+                options={this.state.dropdownoptions}
+                noResultsMessage = "No results found"
+                onSearchChange={this.searchkeywords.bind(this)}
+                onChange={this.selectsuggestion.bind(this)}
+                placeholder='What role or skill do you need help with?'
+                onAddItem={this.searchkeywords.bind(this)}
+              />
+            </Menu.Item>
+          </Menu>
         </div>
+
         { results }
         {
           !this.state.mainpageloading &&

@@ -11,31 +11,57 @@ body {
   width: 80% !important;
 }
 
-.bodyrest2{
-  background-color: #FEFFF5 !important;
-  padding-top: 8em !important;
-  padding-bottom: 8em !important;
+
+.bodyapex{
+  background: url('./images/dogtricks.jpg') !important;
+  opacity: 1;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+
+  background-color: #393E41 !important;
+  padding-top: 20em !important;
+  padding-bottom: 20em !important;
   padding-left: 10em !important;
   padding-right: 10em !important;
 }
 
-.bodyrest2.mobile{
-  background-color: #FEFFF5 !important;
+.bodyapex.mobile{
+  background-color: #393E41 !important;
   padding-top: 4em !important;
   padding-bottom: 4em !important;
   padding-left: 1em !important;
   padding-right: 1em !important;
 }
 
-.bodyrest1{
-  background-color: #393E41 !important;
-  padding-top: 8em !important;
-  padding-bottom: 8em !important;
+.bodylight{
+  background-color: #F9F9F9 !important;
+  padding-top: 10em !important;
+  padding-bottom: 10em !important;
   padding-left: 10em !important;
   padding-right: 10em !important;
 }
 
-.bodyrest1.mobile{
+.bodylight.mobile{
+  background-color: #F9F9F9 !important;
+  padding-top: 4em !important;
+  padding-bottom: 4em !important;
+  padding-left: 1em !important;
+  padding-right: 1em !important;
+}
+
+.bodydark{
+  background-color: #393E41 !important;
+  padding-top: 10em !important;
+  padding-bottom: 10em !important;
+  padding-left: 10em !important;
+  padding-right: 10em !important;
+}
+
+.bodydark.mobile{
   background-color: #393E41 !important;
   padding-top: 4em !important;
   padding-bottom: 4em !important;
@@ -52,7 +78,7 @@ body {
 }
 
 .bodymain.mobile{
-  background-color: #FEFFF5 !important;
+  background-color: #F9F9F9 !important;
   padding-top: 2em !important;
   padding-bottom: 2em !important;
   padding-left: 1em !important;
@@ -61,11 +87,11 @@ body {
 
 .navfooter {
   padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-bottom: 26em !important;
   padding-left: 11em !important;
   padding-right: 11em !important;
-  background: #393E41;
-  border-bottom: 0px solid #FEFFF5;
+  background: #F9F9F9;
+  border-bottom: 0px solid #F9F9F9;
 }
 
 .navfooter.mobile {
@@ -73,12 +99,12 @@ body {
   padding-bottom: 2em !important;
   padding-left: 1em !important;
   padding-right: 1em !important;
-  background: #393E41;
-  border-bottom: 0px solid #FEFFF5;
+  background: #F9F9F9;
+  border-bottom: 0px solid #F9F9F9;
 }
 
 .footheader {
-  color: #FEFFF5 !important;
+  color: #393E41 !important;
   padding-right: 0em !important;
 }
 
@@ -87,23 +113,16 @@ body {
 }
 
 .fontlight{
-  color: #FEFFF5 !important;
+  color: #F9F9F9 !important;
 }
 
 .navheader {
   padding-top: 2em !important;
   padding-bottom: 2em !important;
-  padding-left: 11em !important;
-  padding-right: 11em !important;
+  padding-left: 9em !important;
+  padding-right: 9em !important;
   background: #393E41;
-  border-bottom: 0px solid #FEFFF5;
-}
-
-.navheader a {
-  color: #FEFFF5;
-  text-decoration: unset;
-  margin-left: 14px;
-  margin-right: 14px;
+  border-bottom: 0px solid #F9F9F9;
 }
 
 .navheader.mobile {
@@ -112,23 +131,16 @@ body {
   padding-left: 1em !important;
   padding-right: 1em !important;
   background: #393E41;
-  border-bottom: 0px solid #FEFFF5;
-}
-
-.navheader.mobile a {
-  color: #0c0c0c;
-  text-decoration: unset;
-  margin-left: 14px;
-  margin-right: 14px;
+  border-bottom: 0px solid #F9F9F9;
 }
 
 .action.neg{
-  color: #FEFFF5 !important;
+  color: #F9F9F9 !important;
   background: #E94F37 !important;
 }
 
 .action{
-  color: #FEFFF5 !important;
+  color: #F9F9F9 !important;
   background: #44BBA4 !important;
 }
 
