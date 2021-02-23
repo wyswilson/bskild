@@ -794,11 +794,12 @@ class App extends React.Component {
 
     return (
       <div>
+
         <Modal
           basic
           onClose={this.inquirehelpmodal.bind(this,'',false)}
           open={this.state.inquireroleopen}
-          size='tiny'
+          size='fullscreen'
           centered={false}
         >
           <Header textAlign='left'>
@@ -887,7 +888,7 @@ class App extends React.Component {
           className={isMobile ? "navheader mobile" : "navheader"} 
           ref={(div) => { this.trynowpanel = div; }}           
         > 
-          <Menu fluid compact inverted secondary stackable>
+          <Menu fluid compact secondary stackable>
             <Menu.Item name='home'>
               <Image as='a' spaced='right'
               href='./' verticalAlign='middle' size='tiny'

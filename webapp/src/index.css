@@ -23,7 +23,7 @@ body {
   -o-background-size: cover !important;
 
   background-color: #393E41 !important;
-  padding-top: 20em !important;
+  padding-top: 15em !important;
   padding-bottom: 20em !important;
   padding-left: 10em !important;
   padding-right: 10em !important;
@@ -121,7 +121,7 @@ body {
   padding-bottom: 2em !important;
   padding-left: 9em !important;
   padding-right: 9em !important;
-  background: #393E41;
+  background: #F9F9F9;
   border-bottom: 0px solid #F9F9F9;
 }
 
@@ -130,7 +130,7 @@ body {
   padding-bottom: 2em !important;
   padding-left: 1em !important;
   padding-right: 1em !important;
-  background: #393E41;
+  background: #F9F9F9;
   border-bottom: 0px solid #F9F9F9;
 }
 
