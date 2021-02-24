@@ -899,8 +899,8 @@ class App extends React.Component {
                 </span>
               </Grid.Column>
               <Grid.Column verticalAlign='middle'>
-                <Dropdown name="keywords" 
-                  style={ isMobile ? { width: '22em'} : {width: '36em'} }
+                <Dropdown name="keywords" icon='search'
+                  style={ isMobile ? { width: '23em'} : {width: '38em'} }
                   inline search selection allowAdditions
                   additionLabel='Search with '
                   minCharacters={2}
