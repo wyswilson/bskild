@@ -124,13 +124,13 @@ def generateflatsitemap():
 			pageuri = rooturi + '/?q=' + conceptid + '&m=' + concepttype
 			print(pageuri);
 			csvoutput += "%s\n" % pageuri
-			
+
 	sitemapfile = open("./sitemap.csv", "w")
 	sitemapfile.write(csvoutput)
 	sitemapfile.close()
 
 if __name__ == "__main__":
-	dbAlignment()
+	#dbAlignment()
 	dbCounts()
 	#generateflatsitemap()
 	

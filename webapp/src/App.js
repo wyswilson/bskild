@@ -729,7 +729,7 @@ class App extends React.Component {
            <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
-                  Here are some of the most in-demand jobs this week
+                  Here are some of the most in-demand jobs in the last 3 days
                 </Header>
                 <Card.Group>
                   {this.state.occupationsindemand}
