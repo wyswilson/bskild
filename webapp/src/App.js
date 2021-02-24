@@ -63,7 +63,7 @@ class App extends React.Component {
                 <Label corner='right'>
                   <Icon name='user outline' />
                 </Label>
-                <Card.Header onClick={this.suggestionselected.bind(this,'occupations',item.id)}>
+                <Card.Header className='actionlink' onClick={this.suggestionselected.bind(this,'occupations',item.id)}>
                   <a href={ '/?q=' + item.id + '&m=o' }>
                   {item.name}
                   </a>
@@ -383,7 +383,7 @@ class App extends React.Component {
     if(mode === 'full' && type === 'occupations'){
       let renderskills = this.state.selectedoccupationskills.map((skillitem) => (
             <Table.Row key={'row' + skillitem.id}>
-              <Table.Cell key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id)}>
+              <Table.Cell className='actionlink' key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id)}>
                 <a href={ '/?q=' + skillitem.id + '&m=s' }>
                   <Popup content={skillitem.optionality + ' skill'}
                     trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
@@ -395,14 +395,9 @@ class App extends React.Component {
                 {skillitem.reusability} {skillitem.type}
               </Table.Cell>
               <Table.Cell key={'row.cell3' + skillitem.id} width={5}>
-                <Popup on='hover'
-                  content={'We can help you improve the skill with the right training'}
-                  trigger={
-                    <Button icon='bell' content='UPSKILL NOW'
-                      className='action'
-                      onClick={this.setskillsneedhelp.bind(this,skillitem.id)}
-                    />
-                  }
+                <Button icon='bell' content='UPSKILL NOW'
+                  className='action'
+                  onClick={this.setskillsneedhelp.bind(this,skillitem.id)}
                 />                
               </Table.Cell>
             </Table.Row>     
@@ -412,18 +407,13 @@ class App extends React.Component {
       if(this.state.selectedoccupationrelated.length > 0){
         renderroles = this.state.selectedoccupationrelated.map((occupationitem) => (
             <Table.Row key={'row' + occupationitem.id}>
-              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id)}>
+              <Table.Cell className='actionlink' key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id)}>
                 <a href={ '/?q=' + occupationitem.id + '&m=o' }><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id} width={5}>
-                <Popup on='hover'
-                  content={'We can help you reskill for a career change'}
-                  trigger={
-                    <Button icon='bell' content='ENQUIRE NOW'
-                      className='action'
-                      onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
-                    />
-                  }
+                <Button icon='bell' content='RESKILL NOW'
+                  className='action'
+                  onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
                 />
               </Table.Cell>
             </Table.Row>  
@@ -435,7 +425,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Top related roles for career change or progression</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Top roles related to {value}</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -445,7 +435,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills to perform this role</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills required for {value}</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -459,7 +449,7 @@ class App extends React.Component {
     else if(mode === 'full' && type === 'skills'){
       let renderroles = this.state.selectedskilloccupations.map((occupationitem) => (
             <Table.Row key={'row' + occupationitem.id}>
-              <Table.Cell key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id)}>
+              <Table.Cell className='actionlink' key={'row.cell1' + occupationitem.id} selectable onClick={this.suggestionselected.bind(this,'occupations',occupationitem.id)}>
                 <a href={ '/?q=' + occupationitem.id + '&m=o' }><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id}>
@@ -504,8 +494,8 @@ class App extends React.Component {
                     name={item.type === 'occupations' ? 'user outline'  : 'list'}
                   />
                 </Label>
-                <Card.Header onClick={this.suggestionselected.bind(this,item.type,item.key)}>
-                  <a as='h1' href={ item.type === 'occupations' ? '/?q=' + item.key + '&m=o'  : '/?q=' + item.key + '&m=s' }>
+                <Card.Header className='actionlink' onClick={this.suggestionselected.bind(this,item.type,item.key)}>
+                  <a href={ item.type === 'occupations' ? '/?q=' + item.key + '&m=o'  : '/?q=' + item.key + '&m=s' }>
                   {item.value}
                   </a>
                 </Card.Header>
@@ -690,7 +680,7 @@ class App extends React.Component {
               <Grid.Row textAlign='left'>
                 <Grid.Column>
                   <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
-                    Using a combination of open source and proprietary data and AI, <span className="positive">we help you</span> uncover development and progression opportunities in your workforce and realise them
+                    Using a combination of open source and proprietary data and AI, we help you uncover development and progression opportunities in your workforce and realise them
                   </Header>
                   <p className="fontlight" style={{ fontSize: '15px' }}>
 
@@ -745,9 +735,9 @@ class App extends React.Component {
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
-                  Want to improve your organisation's ability to upskill and reskill your workforce
-                  and retain talent but not sure where to begin? Reach out to us now
-                  to find out how <span className="positive">we can help you</span>
+                  Want to upskill and reskill your workforce
+                  and retain talent more effectively but not sure where to begin?
+                  Contact us now to find out how we can help you
                 </Header>
                 <p className="fontlight" style={{ fontSize: '15px' }}>
                   

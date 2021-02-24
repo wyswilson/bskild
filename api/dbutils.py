@@ -130,7 +130,7 @@ def generateflatsitemap():
 	sitemapfile.close()
 
 if __name__ == "__main__":
-	#dbAlignment()
+	dbAlignment()
 	dbCounts()
 	#generateflatsitemap()
 	

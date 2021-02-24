@@ -134,11 +134,11 @@ body {
   padding-right: 0.5em !important;
   font-weight: bold;
   size: 20px;
-  color:#393E41;
+  color:#44BBA4;
 }
 
 .menulink a:hover{
-  color:#44BBA4;
+  color:#393E41;
 }
 
 .action.neg{
@@ -155,9 +155,12 @@ body {
   color: #E94F37 !important;
 }
 
-.positive{
+.actionlink a{
   color: #44BBA4 !important;
+}
 
+.actionlink a:hover{
+  color: #393E41 !important;
 }
 
 .ui.modal:not(.compact) {
