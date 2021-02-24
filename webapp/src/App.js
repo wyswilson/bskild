@@ -395,7 +395,7 @@ class App extends React.Component {
                 {skillitem.reusability} {skillitem.type}
               </Table.Cell>
               <Table.Cell key={'row.cell3' + skillitem.id} width={5}>
-                <Button icon='bell' content='UPSKILL NOW'
+                <Button icon='mail' content='UPSKILL NOW'
                   className='action'
                   onClick={this.setskillsneedhelp.bind(this,skillitem.id)}
                 />                
@@ -411,7 +411,7 @@ class App extends React.Component {
                 <a href={ '/?q=' + occupationitem.id + '&m=o' }><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id} width={5}>
-                <Button icon='bell' content='RESKILL NOW'
+                <Button icon='mail' content='RESKILL NOW'
                   className='action'
                   onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
                 />
@@ -435,7 +435,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills required for {value}</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills for a {value}</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -462,7 +462,7 @@ class App extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='2'><Header as='h4'>Roles that require this skill</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='2'><Header as='h4'>Roles that require the skill</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -578,11 +578,9 @@ class App extends React.Component {
                   <p className="fontdark" style={{ fontSize: '15px' }}>
                     Uncover opportunities to upskill or reskill to future-proof yourself and your workforce using a combination of open source and proprietary data and AI
                   </p>
-                  <Button
-                      className='action'
-                      size='large' onClick={this.scrollto.bind(this,this.problemstatpanel)}>
-                      FIND OUT MORE
-                    </Button>
+                  <Button icon='toggle down' content='FIND OUT MORE'
+                    className='action'
+                    size='large' onClick={this.scrollto.bind(this,this.problemstatpanel)}/>
                 </Grid.Column>
                 <Grid.Column>
                 </Grid.Column>
@@ -746,18 +744,14 @@ class App extends React.Component {
               <Grid.Column verticalAlign="middle">
                 <Grid columns={2} doubling stackable>
                   <Grid.Column>
-                    <Button 
+                    <Button icon='mail' content='REQUEST A DEMO'
                       className='action'
-                      size='large' onClick={this.requestdemo.bind(this)}>
-                      REQUEST A DEMO
-                    </Button>
+                      size='large' onClick={this.requestdemo.bind(this)}/>
                   </Grid.Column>
                   <Grid.Column>
-                    <Button
+                    <Button icon='search' content='TRY IT OUT NOW'
                       className='action'
-                      size='large' onClick={this.scrollto.bind(this,this.trynowpanel)}>
-                      TRY IT OUT NOW
-                    </Button>
+                      size='large' onClick={this.scrollto.bind(this,this.trynowpanel)}/>
                   </Grid.Column>
                 </Grid>
               </Grid.Column>
