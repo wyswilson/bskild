@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Menu, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import {isMobile} from 'react-device-detect';
 import scrollToComponent from 'react-scroll-to-component';
@@ -169,12 +169,11 @@ class App extends React.Component {
         desc: item.desc,
         alts: item.alternatives ? item.alternatives : [],
         content: (
-          <Header size='small' content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
+          <Header size='small' icon={type === 'occupations' ? 'user outline'  : 'list'} content={item.name} subheader={item.desc.split(" ").splice(0,20).join(" ") + '...'} />
         ),
         type: type
       }
     ));
-    //icon={type === 'occupations' ? 'user outline'  : 'list'}
     this.setState({rawresponse: this.state.rawresponse.concat(suggestions)});
     this.setState({dropdownoptions: this.state.dropdownoptions.concat(updatedsuggestions)});
   }
@@ -295,7 +294,7 @@ class App extends React.Component {
     await this.setState({helpwithoccupation: occupationid});
     await this.setState({helpwithskill: ''}); 
 
-    const custommessage = 'I need help with progression from [' + this.state.selectedvalue + '] to [' + name + ']';
+    const custommessage = 'I need help with reskilling from [' + this.state.selectedvalue + '] to [' + name + ']';
     this.inquirehelpmodal(custommessage,state);
   }
 
@@ -375,7 +374,7 @@ class App extends React.Component {
   }
   
   requestdemo(){
-    const custommessage = 'I need help with general upskilling or progression';
+    const custommessage = 'I need help with general upskilling or reskilling';
     this.inquirehelpmodal(custommessage,true);
   }
 
@@ -385,16 +384,19 @@ class App extends React.Component {
       let renderskills = this.state.selectedoccupationskills.map((skillitem) => (
             <Table.Row key={'row' + skillitem.id}>
               <Table.Cell key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id)}>
-                <a href={ '/?q=' + skillitem.id + '&m=s' }><Popup content={skillitem.optionality + ' skill'}
-                  trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
-                />
-                {skillitem.name}</a>
+                <a href={ '/?q=' + skillitem.id + '&m=s' }>
+                  <Popup content={skillitem.optionality + ' skill'}
+                    trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
+                  />
+                  {skillitem.name}
+                </a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + skillitem.id}>
                 {skillitem.reusability} {skillitem.type}
               </Table.Cell>
               <Table.Cell key={'row.cell3' + skillitem.id} width={5}>
-                <Popup content={'We can help you improve the skill with the right training.'}
+                <Popup on='hover'
+                  content={'We can help you improve the skill with the right training'}
                   trigger={
                     <Button icon='bell' content='UPSKILL NOW'
                       className='action'
@@ -414,7 +416,8 @@ class App extends React.Component {
                 <a href={ '/?q=' + occupationitem.id + '&m=o' }><Icon name='user outline'/>{occupationitem.name}</a>
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id} width={5}>
-                <Popup content={'We can help you understand and close the skills gap required for a career change or progression.'}
+                <Popup on='hover'
+                  content={'We can help you reskill for a career change'}
                   trigger={
                     <Button icon='bell' content='ENQUIRE NOW'
                       className='action'
@@ -563,12 +566,10 @@ class App extends React.Component {
       results = (
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
-        >
-          <Grid celled='internally' columns='equal' doubling stackable>
-            <Grid.Column>
-              <Card.Group>{this.state.serp}</Card.Group>
-            </Grid.Column>
-          </Grid>
+        > 
+          <Card.Group stackable doubling>
+            {this.state.serp}
+          </Card.Group>
         </div>
       );
     }
@@ -578,9 +579,9 @@ class App extends React.Component {
           <div
             className={isMobile ? "bodyapex mobile" : "bodyapex"}
           >
-            <Grid columns='equal' doubling stackable>
-              <Grid.Row columns={2} textAlign='left' width={3}>
-                <Grid.Column>
+            <Grid>
+              <Grid.Row columns={2} textAlign='left'>
+                <Grid.Column width={8}>
                   <Header as='h2' style={{ fontSize: '30px' }} className="fontdark">
                     Be skilled where it matters
                   </Header>
@@ -689,7 +690,7 @@ class App extends React.Component {
               <Grid.Row textAlign='left'>
                 <Grid.Column>
                   <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
-                    Using a combination of open source and proprietary data and AI, we help you uncover development and progression opportunities in your workforce and realise them
+                    Using a combination of open source and proprietary data and AI, <span className="positive">we help you</span> uncover development and progression opportunities in your workforce and realise them
                   </Header>
                   <p className="fontlight" style={{ fontSize: '15px' }}>
 
@@ -728,7 +729,7 @@ class App extends React.Component {
            <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
-                  These are some of the most in-demand jobs this week
+                  Here are some of the most in-demand jobs this week
                 </Header>
                 <Card.Group>
                   {this.state.occupationsindemand}
@@ -744,11 +745,12 @@ class App extends React.Component {
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
                 <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
-                  Interested in finding out more?
+                  Want to improve your organisation's ability to upskill and reskill your workforce
+                  and retain talent but not sure where to begin? Reach out to us now
+                  to find out how <span className="positive">we can help you</span>
                 </Header>
                 <p className="fontlight" style={{ fontSize: '15px' }}>
-                  Do you want to improve your organisation's ability 
-                  in managing and retaining talent but not sure where to begin?
+                  
                 </p>
               </Grid.Column>
               <Grid.Column verticalAlign="middle">
@@ -779,15 +781,14 @@ class App extends React.Component {
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
         >
-        <Grid celled='internally' columns='equal' doubling stackable>
-          <Grid.Column>
-            <Header as='h4' textAlign='center' className='error'>
-              Oops, there has been a problem. Please click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh the page.
-              <br/>
+          <Message icon negative>
+            <Icon name='exclamation circle'/>
+            <Message.Content>
+              <Message.Header>Oops, there has been a problem.</Message.Header>
+              Please click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh the page.
               If the problem persists, <a href='/'>return to the home page</a> and try again.
-            </Header>
-          </Grid.Column>
-        </Grid>
+            </Message.Content>
+          </Message>
         </div>
       );
     }
@@ -800,7 +801,7 @@ class App extends React.Component {
           onClose={this.inquirehelpmodal.bind(this,'',false)}
           open={this.state.inquireroleopen}
           size='fullscreen'
-          centered={false}
+          centered={true}
         >
           <Header textAlign='left'>
             {this.state.inquirecustommessage}
@@ -829,7 +830,7 @@ class App extends React.Component {
               </Grid.Row>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
-                  <Input id="inquiryemail" label='Email' onChange={this.validateemail.bind(this)} placeholder='Email address...' fluid />
+                  <Input id="inquiryemail" label='Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' onChange={this.validateemail.bind(this)} placeholder='Email address...' fluid />
                   {
                     !this.state.isemailvalid && 
                     <Label basic color='red' pointing='above'>
@@ -838,7 +839,7 @@ class App extends React.Component {
                   } 
                 </Grid.Column>
                 <Grid.Column>
-                  <Input id="inquirycomp" label='Company' placeholder='Company name' fluid />
+                  <Input id="inquirycomp" label='Company&nbsp;&nbsp;' placeholder='Company name' fluid />
                 </Grid.Column>            
               </Grid.Row>
             </Grid>
@@ -876,55 +877,50 @@ class App extends React.Component {
           </Modal.Actions>
         </Modal>
 
-        <Loader active={this.state.mainpageloading}
-            size='medium'
-        >
-          <Header as='h4' textAlign='center' className='error'>
-            Click <a href={ this.state.selectedtype === 'occupations' ? '/?q=' + this.state.selectedid + '&m=o' : '/?q=' + this.state.selectedid + '&m=s' }>here</a> to refresh if the page doesn't load.
-          </Header>
+        <Loader active={this.state.mainpageloading} size='medium'>
+        Loading
         </Loader>
 
         <div
           className={isMobile ? "navheader mobile" : "navheader"} 
           ref={(div) => { this.trynowpanel = div; }}           
         > 
-          <Menu fluid compact secondary stackable>
-            <Menu.Item name='home'>
-              <Image as='a' spaced='right'
-              href='./' verticalAlign='middle' size='tiny'
-              src='./logo_small.png'/>   
-            </Menu.Item>
-            <Menu.Item
-              name='ABOUT'
-               onClick={this.scrollto.bind(this,this.whatwedopanel)}
-            />
-            <Menu.Item
-              name='CONTACT US'
-               onClick={this.scrollto.bind(this,this.contactuspanel)}
-            />
-            <Menu.Item>
-              <Dropdown name="keywords" 
-                style={ { width: this.state.isMobile ? '5em' : '40em' } }
-                floating inline
-                search compact
-                selection allowAdditions
-                additionLabel='Search with '
-                minCharacters={2}
-                selectOnBlur={false}
-                searchQuery={this.state.searchquery}
-                value={this.state.searchquery}
-                options={this.state.dropdownoptions}
-                noResultsMessage = "No results found"
-                onSearchChange={this.searchkeywords.bind(this)}
-                onChange={this.selectsuggestion.bind(this)}
-                placeholder='What role or skill do you need help with?'
-                onAddItem={this.searchkeywords.bind(this)}
-              />
-            </Menu.Item>
-          </Menu>
+          <Grid doubling stackable>
+            <Grid.Row columns={2}>
+              <Grid.Column width={5} verticalAlign='middle' textAlign='left'>
+                <span style={{ paddingLeft: '0.2em'}}></span>
+                <Image as='a' spaced='left' inline
+                href='./' size='tiny' src='./logo_small.png'/>
+                <span className="menulink">
+                  <a href="/#" onClick={this.scrollto.bind(this,this.whatwedopanel)}>ABOUT</a>
+                </span>
+                <span className="menulink">
+                  <a href="/#" onClick={this.scrollto.bind(this,this.contactuspanel)}>CONTACT US</a>
+                </span>
+              </Grid.Column>
+              <Grid.Column verticalAlign='middle'>
+                <Dropdown name="keywords" 
+                  style={ isMobile ? { width: '22em'} : {width: '36em'} }
+                  inline search selection allowAdditions
+                  additionLabel='Search with '
+                  minCharacters={2}
+                  selectOnBlur={false}
+                  searchQuery={this.state.searchquery}
+                  value={this.state.searchquery}
+                  options={this.state.dropdownoptions}
+                  noResultsMessage = "No results found"
+                  onSearchChange={this.searchkeywords.bind(this)}
+                  onChange={this.selectsuggestion.bind(this)}
+                  placeholder='What role or skill do you need help with?'
+                  onAddItem={this.searchkeywords.bind(this)}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
 
         { results }
+
         {
           !this.state.mainpageloading &&
           <div

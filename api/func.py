@@ -568,7 +568,7 @@ def fetchpopularoccupations(count):
 		FROM occupations AS o
 		LEFT JOIN jobpostings AS jp
 		ON o.conceptUri = jp.occupationUri
-		WHERE DATE_SUB(CURDATE(), INTERVAL 3 DAY) < jp.scrapeDate
+		WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) < jp.scrapeDate
 	) AS tmp
 	GROUP BY 2,3,4,5
 	ORDER BY 1 DESC
