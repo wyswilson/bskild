@@ -865,7 +865,7 @@ class Home extends React.Component {
         > 
           <Grid doubling stackable>
             <Grid.Row columns={2}>
-              <Grid.Column width={8} verticalAlign='middle' textAlign='left'>
+              <Grid.Column width={6} verticalAlign='middle' textAlign='left'>
                 <span style={{ paddingLeft: '0.2em'}}></span>
                 <Image as='a' spaced='left' inline
                 href='./' size='tiny' src='./logo_small.png'/>
@@ -876,7 +876,7 @@ class Home extends React.Component {
                 <span className="menulink">
                   <a href="#contact" 
                   onClick={this.requestdemo.bind(this)}>
-                  CONTACT US</a>
+                  CONTACT</a>
                 </span>
                 <span className="menulink">
                   {
@@ -886,7 +886,7 @@ class Home extends React.Component {
                   {
                     this.state.token && 
                     <a href="/profile">
-                      <Icon name='lock'/>MY PROFILE
+                      <Icon name='lock'/>PROFILE
                     </a>
                   }
                 </span>

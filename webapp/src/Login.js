@@ -62,7 +62,7 @@ class Login extends React.Component {
         > 
           <Grid doubling stackable>
             <Grid.Row columns={2}>
-              <Grid.Column width={8} verticalAlign='middle' textAlign='left'
+              <Grid.Column width={6} verticalAlign='middle' textAlign='left'
                 style={{ paddingTop: '0.6em'}}
               >
                 <span style={{ paddingLeft: '0.2em'}}></span>
@@ -70,7 +70,7 @@ class Login extends React.Component {
                 href='./' size='tiny' src='./logo_small.png'/>
                 <span className="menulink">
                   <a href="/home" >
-                    <Icon name='caret square left'/>BACK HOME
+                    <Icon name='caret square left'/>HOME
                   </a>
                 </span>
                 
