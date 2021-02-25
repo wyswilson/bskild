@@ -82,11 +82,11 @@ body {
 
 .navfooter {
   padding-top: 2em !important;
-  padding-bottom: 26em !important;
+  padding-bottom: 2em !important;
   padding-left: 10em !important;
   padding-right: 11em !important;
-  background: #F9F9F9;
-  border-bottom: 0px solid #F9F9F9;
+  background: #393E41;
+  border-bottom: 0px solid #393E41;
 }
 
 .navfooter.mobile {
@@ -94,12 +94,12 @@ body {
   padding-bottom: 2em !important;
   padding-left: 2em !important;
   padding-right: 1em !important;
-  background: #F9F9F9;
-  border-bottom: 0px solid #F9F9F9;
+  background: #393E41;
+  border-bottom: 0px solid #393E41;
 }
 
 .footheader {
-  color: #393E41 !important;
+  color: #F9F9F9 !important;
   padding-right: 0em !important;
 }
 
@@ -164,7 +164,6 @@ body {
 }
 
 .ui.modal:not(.compact) {
-  width: calc(100% - 50px) !important;
   margin-left: 25px !important;
   height: calc(100% - 50px) !important;
   margin-top: 25px !important;

@@ -24,6 +24,7 @@ import sys
 config = configparser.ConfigParser()
 config.read('conf.ini')
 
+apisecretkey	= config['auth']['secretkey']
 logfile 		= config['path']['log']
 idprefix 		= config['path']['idprefix']
 s3region 		= config['aws']['s3_region']
@@ -71,6 +72,99 @@ def _execute(db,query,params):
 
 	return cursor_
 
+def generatehash(password):
+	return werkzeug.security.generate_password_hash(password, method='sha256')
+
+def checkpassword(passwordhashed,passwordfromauth):
+	return werkzeug.security.check_password_hash(passwordhashed, passwordfromauth)
+
+def generatejwt(userid,username):
+	params = {'userid': userid,
+				'username': username,
+			'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1440)}
+	token = jwt.encode(params, apisecretkey, algorithm='HS256')
+	return token
+
+def validatetoken(token):
+	userid = None
+	username = None
+	try:
+		data = jwt.decode(token, apisecretkey)
+		userid = data['userid']
+		username = data['username']
+		return True,userid,username
+	except:
+		return False,userid,username
+
+def requiretoken(f):
+	@functools.wraps(f)
+	def decorator(*args, **kwargs):
+		headers = flask.request.headers
+		if 'access-token' in headers:
+			token = headers['access-token']
+			valid,userid,username = validatetoken(token)
+			if valid:
+				return f(userid, *args, **kwargs)
+			else:
+				return jsonifyoutput(401,"unauthorised access - invalid token",[])
+		else:
+			return jsonifyoutput(401,"unauthorised access - missing token",[])
+
+	return decorator
+
+def basicauth():
+    message = {'message': "authentication required"}
+    resp = flask.jsonify(message)
+
+    resp.status_code = 401
+    resp.headers['WWW-Authenticate'] = 'Basic realm="Example"'
+
+    return resp
+
+def requiresbasicauth(f):
+    @functools.wraps(f)
+    def decorated(*args, **kwargs):
+        auth = flask.request.authorization
+        if not auth: 
+            return basicauth()
+        elif auth.username != apiuser and auth.password != apipassword:
+            return basicauth()
+
+        return f(*args, **kwargs)
+    return decorated
+
+def validateemail(email):
+	if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
+		return True
+	else:
+		return False
+
+def finduserbyid(email):
+	query1 = """
+    	SELECT
+        	userId,firstName,pwdHashed
+    	FROM users
+    	WHERE email = %s
+	"""
+	cursor = _execute(db,query1,(email,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	if records:
+		userid = records[0][0]
+		fname = records[0][1]
+		passwordhashed = records[0][2]
+		return userid,fname, passwordhashed
+	else:
+		return "","",""
+
+def addnewuser(email,fname,lname,pwdHashed):
+	userid = hashlib.md5(email.encode('utf-8')).hexdigest()
+	query1 = "INSERT INTO users (userId,email,firstName,lastName,pwdHashed) VALUES (%s,%s,%s,%s,%s)"
+	cursor = _execute(db,query1,(userid,email,fname,lname,pwdHashed))
+	db.commit()
+	cursor.close()
+
 def registerinterest(fname,lname,email,company,occupationid,skillid):
 	occupationUri = "%s/occupation/%s" % (idprefix,occupationid)
 	skillUri = ''
@@ -85,7 +179,7 @@ def registerinterest(fname,lname,email,company,occupationid,skillid):
 	db.commit()
 	cursor.close()
 
-def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records):
+def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records,auth=None):
 	respobj = {}
 	respobj['status'] = statuscode
 	respobj['message'] = message
@@ -96,9 +190,14 @@ def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records):
 			respobj['count'] = 0
 	else:
 		respobj['count'] = len(records)
-	respobj[primaryresp] = records
+	if primaryresp != "":
+		respobj[primaryresp] = records
 
-	response = flask.jsonify(respobj),statuscode
+	if isinstance(auth, dict):
+		response = flask.jsonify(respobj),statuscode,auth
+	else:
+		response = flask.jsonify(respobj),statuscode
+
 	return response
 
 def jsonifyskillswithoccupations(records):
