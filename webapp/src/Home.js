@@ -597,7 +597,8 @@ class Home extends React.Component {
                     Be skilled where it matters
                   </Header>
                   <p className="fontdark" style={{ fontSize: '15px' }}>
-                    Uncover opportunities to upskill or reskill to future-proof yourself and your workforce using a unique blend of data and AI
+                    Uncover opportunities to upskill or reskill to future-proof yourself and
+                    <br/>your workforce using a unique blend of data and AI
                   </p>
                   <Button icon='toggle down' content='FIND OUT MORE'
                       className='action'
