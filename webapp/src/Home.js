@@ -13,7 +13,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchendpoint: 'http://bskild.xyz/v1',
+      apihost: 'http://bskild.xyz/v1',
       token: getToken(),
       searchquery: '',
       selectedid: '',
@@ -86,7 +86,7 @@ class Home extends React.Component {
   }
 
   async loadhighdemandoccupations(){
-    var requeststr = this.state.searchendpoint + '/occupations/highdemand?3'
+    var requeststr = this.state.apihost + '/occupations/highdemand?3'
     //console.log('fetch indemand occupations [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
@@ -102,7 +102,7 @@ class Home extends React.Component {
   async searchskills(query,mode){
     let suggestions = [];
 
-    var skillrequeststr = this.state.searchendpoint + '/skills/' + query + '?' + mode
+    var skillrequeststr = this.state.apihost + '/skills/' + query + '?' + mode
     //console.log('search skills [' + skillrequeststr + ']');
     try{
       const response = await axios.get(skillrequeststr);
@@ -123,7 +123,7 @@ class Home extends React.Component {
   async searchoccupations(query,mode){
     let suggestions = [];
 
-    var occupationrequeststr = this.state.searchendpoint + '/occupations/' + query + '?' + mode
+    var occupationrequeststr = this.state.apihost + '/occupations/' + query + '?' + mode
     //console.log('search occupations [' + occupationrequeststr + ']');
     try{
       const response = await axios.get(occupationrequeststr);
@@ -242,7 +242,7 @@ class Home extends React.Component {
   }
 
   async lookupoccupationsforskill(id){
-    var requeststr = this.state.searchendpoint + '/skills/' + id + '/occupations'
+    var requeststr = this.state.apihost + '/skills/' + id + '/occupations'
     //console.log('search skill occupations [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
@@ -256,7 +256,7 @@ class Home extends React.Component {
   }
 
   async lookupskillsforoccupation(id){
-    var requeststr = this.state.searchendpoint + '/occupations/' + id + '/skills?15'
+    var requeststr = this.state.apihost + '/occupations/' + id + '/skills?15'
     //console.log('search occupation skills [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
@@ -270,7 +270,7 @@ class Home extends React.Component {
   }
 
   async lookuprelatedoccupations(id){
-    var requeststr = this.state.searchendpoint + '/occupations/' + id + '/related?5'
+    var requeststr = this.state.apihost + '/occupations/' + id + '/related?5'
     //console.log('search related occupations [' + requeststr + ']');
     try{
       const response = await axios.get(requeststr);
@@ -371,7 +371,7 @@ class Home extends React.Component {
   async submitinquiry(fname,lname,email,company,occupation,skill){
 
     try{
-      const response = await axios.post(this.state.searchendpoint + '/inquiries', 
+      const response = await axios.post(this.state.apihost + '/inquiries', 
         {
           fname:fname,
           lname:lname,

@@ -9,7 +9,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      rootendpoint: 'http://127.0.0.1:8888/v1',
+      apihost: 'http://bskild.xyz/v1',
       token: getToken(),
       email: '',
       password: '',
@@ -33,7 +33,7 @@ class Login extends React.Component {
   }
 
   async login(event){
-    var requeststr = this.state.rootendpoint + '/users/login'
+    var requeststr = this.state.apihost + '/users/login'
     try{
       const response = await axios.post(requeststr, {},
         {

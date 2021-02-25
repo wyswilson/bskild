@@ -8,7 +8,7 @@ class Profile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchendpoint: 'http://bskild.xyz/v1',
+      apihost: 'http://bskild.xyz/v1',
       token: getToken()
 
     };
