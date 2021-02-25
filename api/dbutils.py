@@ -121,7 +121,7 @@ def generateflatsitemap():
 		matchobj = re.search('\/([^\/]+?)$', concepturi, re.IGNORECASE)
 		if matchobj:
 			conceptid = matchobj.group(1).strip()
-			pageuri = rooturi + '/?q=' + conceptid + '&m=' + concepttype
+			pageuri = rooturi + '/home?q=' + conceptid + '&m=' + concepttype
 			print(pageuri);
 			csvoutput += "%s\n" % pageuri
 
@@ -130,7 +130,7 @@ def generateflatsitemap():
 	sitemapfile.close()
 
 if __name__ == "__main__":
-	dbAlignment()
-	dbCounts()
-	#generateflatsitemap()
+	#dbAlignment()
+	#dbCounts()
+	generateflatsitemap()
 	
