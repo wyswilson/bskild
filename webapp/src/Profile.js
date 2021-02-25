@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
@@ -45,7 +44,7 @@ class Profile extends React.Component {
                   </a>
                 </span>
                 <span className="menulink">
-                  <a href="#" onClick={this.logout.bind(this)}>
+                  <a href="/home" onClick={this.logout.bind(this)}>
                     LOG OUT
                   </a>
                 </span>
