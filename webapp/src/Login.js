@@ -89,7 +89,7 @@ class Login extends React.Component {
             <Grid doubling stackable>
               <Grid.Row columns={1} divided>
                 <Grid.Column>
-                  <Input id="email" labelPosition='right' 
+                  <Input id="email" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.setemail.bind(this)}
                   >
@@ -100,7 +100,7 @@ class Login extends React.Component {
               </Grid.Row>
               <Grid.Row columns={1} divided>
                 <Grid.Column>
-                  <Input id="password" labelPosition='right' 
+                  <Input id="password" labelPosition='left' 
                     type='password' placeholder='' size='large'
                     onChange={this.setpassword.bind(this)}
                   >

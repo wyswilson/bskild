@@ -54,7 +54,27 @@ class Profile extends React.Component {
             </Grid.Row>
           </Grid>
         </div>
-
+        <div
+          className={isMobile ? "bodymain mobile" : "bodymain"}
+        >
+          <Grid celled='internally' columns='equal' doubling stackable>
+            <Grid.Row columns={2} divided>
+              <Grid.Column>
+              hi
+              </Grid.Column>
+              <Grid.Column>
+              ho
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row columns={2} divided>
+              <Grid.Column>
+              he
+              </Grid.Column>
+              <Grid.Column>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </div>
       </div>
     )
   }

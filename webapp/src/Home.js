@@ -353,7 +353,7 @@ class Home extends React.Component {
 
       this.submitinquiry(fname,lname,email,company,this.state.helpwithoccupation,this.state.helpwithskill);
 
-      const custommessage = 'Thank you. We\'ll respond to you within 24 hours.';
+      const custommessage = 'Thank you. We\'ll be in touch as soon as possible.';
       this.setState({inquirecustommessage: custommessage});
     }
     
@@ -585,7 +585,7 @@ class Home extends React.Component {
             <Grid>
               <Grid.Row columns={2} textAlign='left'>
                 <Grid.Column width={10}>
-                  <Header as='h2' style={{ fontSize: '30px' }} className="fontdark">
+                  <Header as='h2' style={ isMobile ? { fontSize: '30px' } : { fontSize: '40px' }} className="fontdark">
                     Be skilled where it matters
                   </Header>
                   <p className="fontdark" style={{ fontSize: '15px' }}>
@@ -609,11 +609,11 @@ class Home extends React.Component {
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Row textAlign='left'>
                 <Grid.Column>
-                  <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                  <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
                     New roles and skills continue to emerge while existing ones evolve or become redundant
                   </Header>
                   <p className="fontlight" style={{ fontSize: '15px' }}>
-                  Employers and workers alike do not have the tools and the data needed to deal with the changes, which results in mismatch between supply and demand in the labour market
+                  Employers and workers do not have the tools and the data to deal with the changes, which results in mismatch between supply and demand in the labour market
                   </p>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle">
@@ -648,11 +648,11 @@ class Home extends React.Component {
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Row textAlign='left'>
                 <Grid.Column>
-                  <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
-                    At the same time, improving productivity and retention requires employees to be continuously learning and growing
+                  <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
+                    Improving productivity and retention requires employees to be continuously learning and growing
                   </Header>
                   <p className="fontdark" style={{ fontSize: '15px' }}>
-                    The cost of maintaining a specialist function to identify and fulfill development or progression opportunities can remain out of reach for small to medium sized businesses
+                  Cost of maintaining a specialist function to identify and fulfill development and progression opportunities can be prohibitive for small to medium sized employers
                   </p>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle">
@@ -691,7 +691,7 @@ class Home extends React.Component {
             <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Row textAlign='left'>
                 <Grid.Column>
-                  <Header as='h4' style={{ fontSize: '19px' }} className="fontlight">
+                  <Header as='h4' style={{ fontSize: '20px' }} className="fontlight">
                     Using a unique blend of data and AI, we help you uncover development and progression opportunities in your workforce and realise them
                   </Header>
                   <p className="fontlight" style={{ fontSize: '15px' }}>
@@ -733,7 +733,7 @@ class Home extends React.Component {
           >
            <Grid celled='internally' columns='equal' doubling stackable>
               <Grid.Column>
-                <Header as='h4' style={{ fontSize: '19px' }} className="fontdark">
+                <Header as='h4' style={{ fontSize: '20px' }} className="fontdark">
                   Here are some of the most in-demand jobs in the last 3 days
                 </Header>
                 <Card.Group>
@@ -779,7 +779,7 @@ class Home extends React.Component {
             <Grid doubling stackable>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
-                  <Input id="inquirynamefirst" labelPosition='right' 
+                  <Input id="inquirynamefirst" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.validatename.bind(this)}
                     error={!this.state.isnamevalid}
@@ -793,7 +793,7 @@ class Home extends React.Component {
                   </Input>
                 </Grid.Column>
                 <Grid.Column>
-                  <Input id="inquirynamelast" labelPosition='right' 
+                  <Input id="inquirynamelast" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.validatename.bind(this)}
                     error={!this.state.isnamevalid}
@@ -809,7 +809,7 @@ class Home extends React.Component {
               </Grid.Row>
               <Grid.Row columns={2} divided>
                 <Grid.Column>
-                  <Input id="inquiryemail" labelPosition='right' 
+                  <Input id="inquiryemail" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.validateemail.bind(this)}
                     error={!this.state.isemailvalid}
@@ -823,7 +823,7 @@ class Home extends React.Component {
                   </Input>
                 </Grid.Column>
                 <Grid.Column>
-                  <Input id="inquirycomp" labelPosition='right' 
+                  <Input id="inquirycomp" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     error={!this.state.iscompvalid}
                   >
@@ -902,7 +902,7 @@ class Home extends React.Component {
                   {
                     this.state.token && 
                     <a href="/profile">
-                      <Icon name='lock'/>PROFILE
+                      PROFILE
                     </a>
                   }
                 </span>
