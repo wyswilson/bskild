@@ -342,6 +342,9 @@ class Home extends React.Component {
     if(company !== ''){
       this.setState({iscompvalid: true});      
     }
+    else{
+      this.setState({iscompvalid: false});      
+    }
 
     if(email !== '' && this.state.isemailvalid && this.state.isnamevalid && this.state.iscompvalid) { 
       console.log("forward inquiry");
@@ -354,18 +357,7 @@ class Home extends React.Component {
       this.setState({inquirecustommessage: custommessage});
     }
     
-    if(email === ''){
-      this.setState({isemailvalid: false});
-    }
-    if(fname === ''){
-      this.setState({isnamevalid: false});      
-    }
-    if(lname === ''){
-      this.setState({isnamevalid: false});      
-    }
-    if(company === ''){
-      this.setState({iscompvalid: false});
-    }
+
   }
 
   async submitinquiry(fname,lname,email,company,occupation,skill){
