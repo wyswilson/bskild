@@ -49,8 +49,7 @@ class Profile extends React.Component {
                   </a>
                 </span>
               </Grid.Column>
-              <Grid.Column verticalAlign='middle'>
-                
+              <Grid.Column>                
               </Grid.Column>
             </Grid.Row>
           </Grid>

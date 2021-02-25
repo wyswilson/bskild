@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, setUserSession } from './utils/common';
 
-import { Button, Icon, Label, Image, Grid, Input } from 'semantic-ui-react'
+import { Message, Button, Icon, Label, Image, Grid, Input } from 'semantic-ui-react'
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,7 +12,8 @@ class Login extends React.Component {
       rootendpoint: 'http://127.0.0.1:8888/v1',
       token: getToken(),
       email: '',
-      password: ''
+      password: '',
+      loginmsg: ''
     };
   }
 
@@ -42,6 +43,7 @@ class Login extends React.Component {
         }
       });
       console.log('login [' + response.data['message'] + ']');
+      this.setState({loginmsg: ''});  
       setUserSession(response.headers['access-token'],response.headers['name']);
         this.props.history.push({
           pathname: '/profile',
@@ -49,7 +51,8 @@ class Login extends React.Component {
         });
     }
     catch(err){
-      console.log('login error [' + err + ']');     
+      console.log('login error [' + err + ']');   
+      this.setState({loginmsg: 'Login unsuccessful'});  
     }
   }
 
@@ -73,10 +76,8 @@ class Login extends React.Component {
                     <Icon name='caret square left'/>HOME
                   </a>
                 </span>
-                
               </Grid.Column>
-              <Grid.Column verticalAlign='middle'>
-                
+              <Grid.Column>                
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -115,6 +116,14 @@ class Login extends React.Component {
                   >
                     <Icon name='caret square right' />&nbsp;&nbsp;&nbsp;&nbsp;LOG IN
                   </Button>
+                  {
+                    this.state.loginmsg !== '' &&
+                    <Message negative>
+                      <Message.Content>
+                        {this.state.loginmsg}
+                      </Message.Content>
+                    </Message>
+                  }
                 </Grid.Column>          
               </Grid.Row>
             </Grid>

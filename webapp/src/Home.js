@@ -33,7 +33,8 @@ class Home extends React.Component {
       occupationsindemand: '',
       mainpageloading: false,
       isemailvalid: true,
-      isnamevalid: true
+      isnamevalid: true,
+      iscompvalid: true
     };
   }  
 
@@ -338,7 +339,11 @@ class Home extends React.Component {
     const email = document.getElementById('inquiryemail').value;
     const company = document.getElementById('inquirycomp').value;
 
-    if(email !== '' && this.state.isemailvalid && this.state.isnamevalid) { 
+    if(company !== ''){
+      this.setState({iscompvalid: true});      
+    }
+
+    if(email !== '' && this.state.isemailvalid && this.state.isnamevalid && this.state.iscompvalid) { 
       console.log("forward inquiry");
       this.setState({inquireroleopen: false});
       this.setState({confirmformforwarded: true});
@@ -347,6 +352,19 @@ class Home extends React.Component {
 
       const custommessage = 'Thank you. We\'ll respond to you within 24 hours.';
       this.setState({inquirecustommessage: custommessage});
+    }
+    
+    if(email === ''){
+      this.setState({isemailvalid: false});
+    }
+    if(fname === ''){
+      this.setState({isnamevalid: false});      
+    }
+    if(lname === ''){
+      this.setState({isnamevalid: false});      
+    }
+    if(company === ''){
+      this.setState({iscompvalid: false});
     }
   }
 
@@ -574,7 +592,7 @@ class Home extends React.Component {
           >
             <Grid>
               <Grid.Row columns={2} textAlign='left'>
-                <Grid.Column width={8}>
+                <Grid.Column width={10}>
                   <Header as='h2' style={{ fontSize: '30px' }} className="fontdark">
                     Be skilled where it matters
                   </Header>
@@ -814,8 +832,13 @@ class Home extends React.Component {
                 <Grid.Column>
                   <Input id="inquirycomp" labelPosition='right' 
                     type='text' placeholder='' size='large'
+                    error={!this.state.iscompvalid}
                   >
-                    <Label basic color='black'>Company&nbsp;&nbsp;</Label>
+                    <Label basic
+                      color={!this.state.iscompvalid ? 'red' : 'black'}
+                    >
+                      Company&nbsp;&nbsp;
+                    </Label>
                     <input />
                   </Input>
                 </Grid.Column>            
