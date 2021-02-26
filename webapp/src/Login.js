@@ -52,7 +52,7 @@ class Login extends React.Component {
     }
     catch(err){
       console.log('login error [' + err + ']');   
-      this.setState({loginmsg: 'Login unsuccessful'});  
+      this.setState({loginmsg: 'Login error'});  
     }
   }
 
@@ -66,7 +66,7 @@ class Login extends React.Component {
           <Grid doubling stackable>
             <Grid.Row columns={2}>
               <Grid.Column width={6} verticalAlign='middle' textAlign='left'
-                style={{ paddingTop: '0.7em'}}
+                style={{ paddingTop: '0.75em'}}
               >
                 <span style={{ paddingLeft: '0.2em'}}></span>
                 <Image as='a' spaced='left' inline
@@ -87,9 +87,9 @@ class Login extends React.Component {
           className={isMobile ? "bodymain mobile" : "bodymain"} 
         > 
             <Grid doubling stackable>
-              <Grid.Row columns={1} divided>
-                <Grid.Column>
-                  <Input id="email" labelPosition='left' 
+              <Grid.Row columns={1}>
+                <Grid.Column width={10}>
+                  <Input id="email" labelPosition='left' fluid
                     type='text' placeholder='' size='large'
                     onChange={this.setemail.bind(this)}
                   >
@@ -98,9 +98,9 @@ class Login extends React.Component {
                   </Input>
                 </Grid.Column>
               </Grid.Row>
-              <Grid.Row columns={1} divided>
-                <Grid.Column>
-                  <Input id="password" labelPosition='left' 
+              <Grid.Row columns={1}>
+                <Grid.Column width={10}>
+                  <Input id="password" labelPosition='left' fluid
                     type='password' placeholder='' size='large'
                     onChange={this.setpassword.bind(this)}
                   >
@@ -109,16 +109,20 @@ class Login extends React.Component {
                   </Input>
                 </Grid.Column>          
               </Grid.Row>
-              <Grid.Row columns={1} divided>
-                <Grid.Column>
+              <Grid.Row columns={2}>
+                <Grid.Column width={3}>
                   <Button className='action'
                     onClick={this.login.bind(this)}
                   >
                     <Icon name='caret square right' />&nbsp;&nbsp;&nbsp;&nbsp;LOG IN
                   </Button>
+                </Grid.Column>
+                <Grid.Column width={7} textAlign='left'>
                   {
                     this.state.loginmsg !== '' &&
-                    <Message negative>
+                    <Message negative size='small' compact
+                      style={{paddingTop:'0.65em',paddingBottom:'0.65em'}}
+                    >
                       <Message.Content>
                         {this.state.loginmsg}
                       </Message.Content>

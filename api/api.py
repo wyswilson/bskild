@@ -57,7 +57,7 @@ def uservalidate(token):
 	print('hit [uservalidate] with [%s]' % (token))
 
 	valid, userid, firstname = func.validatetoken(token)
-	userid,firstname,lastname,email,passwordhashed = func.finduserbyid(userid)
+	userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
 	
 	userrecords = []
 	user = {}
@@ -65,6 +65,9 @@ def uservalidate(token):
 	user['firstname'] = firstname
 	user['lastname'] = lastname
 	user['email'] = email
+	user['countrycode'] = countrycode
+	user['countryname'] = countryname
+	user['statename'] = statename
 
 	userrecords.append(user)
 
@@ -73,11 +76,23 @@ def uservalidate(token):
 	else:
 		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})			
 
-@app.route('/v1/users/<userid>', methods=['POST'])
+@app.route('/v1/users', methods=['PUT'])
+@func.requiretoken
 def userupdate(userid):
 	print('hit [userupdate]')
 
-	return func.jsonifyoutput(501,"endpoint not implemented","","",[])
+	status = "User information updated"
+	statuscode = 200
+
+	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
+	firstname	= jsondata["firstname"]
+	lastname	= jsondata["lastname"]	
+	countrycode	= jsondata["countrycode"]
+	statename 	= jsondata["statename"]
+
+	func.updateuserinfo(userid,firstname,lastname,countrycode,statename)
+
+	return func.jsonifyoutput(statuscode,status,"","",[])
 
 @app.route('/v1/users', methods=['POST'])
 def useraddorlogin():

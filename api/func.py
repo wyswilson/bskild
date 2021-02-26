@@ -139,12 +139,26 @@ def validateemail(email):
 	else:
 		return False
 
+def updateuserinfo(userid,firstname,lastname,countrycode,statename):
+	query2 = """
+		UPDATE users
+		SET firstName = %s, lastName = %s,
+		countryCode = %s, stateName = %s
+		WHERE userid = %s
+	"""
+	cursor = _execute(db,query2,(firstname,lastname,countrycode,statename,userid))
+	db.commit()
+	cursor.close()
+
 def finduserbyid(emailoruserid):
 	query1 = """
     	SELECT
-        	userId,firstName,lastName,email,pwdHashed
-    	FROM users
-    	WHERE email = %s OR userId = %s
+        	u.userId,u.firstName,u.lastName,u.email,u.pwdHashed,
+        	gc.countryCode,gc.countryName,u.stateName
+    	FROM users as u
+    	JOIN geo_countries as gc
+    	ON u.countryCode = gc.countryCode
+    	WHERE u.email = %s OR u.userId = %s
 	"""
 	cursor = _execute(db,query1,(emailoruserid,emailoruserid))
 	records = cursor.fetchall()
@@ -153,10 +167,13 @@ def finduserbyid(emailoruserid):
 	if records:
 		userid = records[0][0]
 		firstname = records[0][1]
-		lastName = records[0][2]
+		lastname = records[0][2]
 		email = records[0][3]
 		passwordhashed = records[0][4]
-		return userid,firstname,lastName,email,passwordhashed
+		countrycode = records[0][5]
+		countryname = records[0][6]
+		statename = records[0][7]
+		return userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename
 	else:
 		return "","","","",""
 
