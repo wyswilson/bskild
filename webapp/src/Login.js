@@ -33,7 +33,7 @@ class Login extends React.Component {
   }
 
   async login(event){
-    var requeststr = this.state.apihost + '/users/login'
+    var requeststr = this.state.apihost + '/users'
     try{
       const response = await axios.post(requeststr, {},
         {

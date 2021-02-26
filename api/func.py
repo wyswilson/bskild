@@ -78,23 +78,23 @@ def generatehash(password):
 def checkpassword(passwordhashed,passwordfromauth):
 	return werkzeug.security.check_password_hash(passwordhashed, passwordfromauth)
 
-def generatejwt(userid,username):
+def generatejwt(userid,firstname):
 	params = {'userid': userid,
-				'username': username,
+				'firstname': firstname,
 			'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1440)}
 	token = jwt.encode(params, apisecretkey, algorithm='HS256')
 	return token
 
 def validatetoken(token):
 	userid = None
-	username = None
+	firstname = None
 	try:
 		data = jwt.decode(token, apisecretkey)
 		userid = data['userid']
-		username = data['username']
-		return True,userid,username
+		firstname = data['firstname']
+		return True,userid,firstname
 	except:
-		return False,userid,username
+		return False,userid,firstname
 
 def requiretoken(f):
 	@functools.wraps(f)
@@ -102,13 +102,13 @@ def requiretoken(f):
 		headers = flask.request.headers
 		if 'access-token' in headers:
 			token = headers['access-token']
-			valid,userid,username = validatetoken(token)
+			valid,userid,firstname = validatetoken(token)
 			if valid:
 				return f(userid, *args, **kwargs)
 			else:
-				return jsonifyoutput(401,"unauthorised access - invalid token",[])
+				return jsonifyoutput(401,"unauthorised access - invalid token","","",[])
 		else:
-			return jsonifyoutput(401,"unauthorised access - missing token",[])
+			return jsonifyoutput(401,"unauthorised access - missing token","","",[])
 
 	return decorator
 
@@ -139,24 +139,26 @@ def validateemail(email):
 	else:
 		return False
 
-def finduserbyid(email):
+def finduserbyid(emailoruserid):
 	query1 = """
     	SELECT
-        	userId,firstName,pwdHashed
+        	userId,firstName,lastName,email,pwdHashed
     	FROM users
-    	WHERE email = %s
+    	WHERE email = %s OR userId = %s
 	"""
-	cursor = _execute(db,query1,(email,))
+	cursor = _execute(db,query1,(emailoruserid,emailoruserid))
 	records = cursor.fetchall()
 	cursor.close()
 
 	if records:
 		userid = records[0][0]
-		fname = records[0][1]
-		passwordhashed = records[0][2]
-		return userid,fname, passwordhashed
+		firstname = records[0][1]
+		lastName = records[0][2]
+		email = records[0][3]
+		passwordhashed = records[0][4]
+		return userid,firstname,lastName,email,passwordhashed
 	else:
-		return "","",""
+		return "","","","",""
 
 def addnewuser(email,fname,lname,pwdHashed):
 	userid = hashlib.md5(email.encode('utf-8')).hexdigest()
@@ -455,6 +457,36 @@ def jsonifyjobpostings(records):
 		results.append(occupation)
 
 	return results
+
+def jsonifycountries(records):
+	results = []
+	for record in records:
+		countryCode = record[0]
+		countryName = record[1]
+
+		country = {}
+		country['id'] = countryCode
+		country['name'] = countryName
+
+		results.append(country)
+
+	return results
+
+def searchcountries(countryname):
+	query1 = """
+	SELECT 
+		countryCode,countryName
+	FROM geo_countries
+	WHERE MATCH (countryName) AGAINST (%s IN BOOLEAN MODE)
+	OR countryCode = %s
+	ORDER BY population desc 
+	"""
+	countrynamewilcard = "%s*" % countryname
+	cursor = _execute(db,query1,(countrynamewilcard,countryname))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
 
 def searchskills_exact(skillid):
 	conceptUri = "%s/skill/%s" % (idprefix,skillid)

@@ -909,7 +909,7 @@ class Home extends React.Component {
               </Grid.Column>
               <Grid.Column verticalAlign='top'>
                 <Dropdown name="keywords" icon='search'
-                  style={ isMobile ? { width: '22em'} : {width: '34em'} }
+                  style={ isMobile ? { paddingTop:'1em', fontSize:'15px', height:'3em', width: '22em'} : { paddingTop:'1em', fontSize:'15px',height:'3em',width: '34em'} }
                   inline search selection allowAdditions
                   additionLabel='Search with '
                   minCharacters={2}

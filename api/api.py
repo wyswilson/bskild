@@ -21,58 +21,6 @@ flask_cors.CORS(app,
 #501#Not Implemented
 #401#Unauthorized
 
-@app.route('/v1/user/validate/<token>', methods=['GET'])
-def uservalidate(token):
-	print('hit [uservalidate] with [%s]' % (token))
-
-	valid, userid, username = func.validatetoken(token)
-	if valid:
-		firstname = username.split(' ', 1)[0]
-		return func.jsonifyoutput(200,"login successful","","",[],{'Access-Token': token, 'Name': firstname})
-	else:
-		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})			
-
-@app.route('/v1/users/login', methods=['POST'])
-def userlogin():
-	print('hit [userlogin]')
-
-	auth = flask.request.authorization
-	email = auth.username
-	password = auth.password
-	
-	if not auth or not email or not password:
-		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
-	userid,fname,passwordhashed = func.finduserbyid(email)
-	if userid != "" and func.checkpassword(passwordhashed,password):
-		token = func.generatejwt(userid,fname)
-		tokenstr = token.decode('UTF-8')
-		return func.jsonifyoutput(200,"login successful","","",[],{'Access-Token': tokenstr, 'Name': fname})
-	else:
-		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
-		#return flask.make_response('could not verify',  401, {'WWW.Authentication': 'Basic realm: "login required"'})
-
-@app.route('/v1/users/add', methods=['POST'])
-def useradd():
-	print('hit [useradd]')
-
-	data 		= json.loads(flask.request.get_data().decode('UTF-8'))
-	email 		= data["email"]
-	password 	= data["password"]
-	fname 		= data["fname"]
-	lname 		= data["lname"]
-
-	#,use_blacklist=True check_mx=True, from_address='wyswilson@live.com', helo_host='my.host.name', smtp_timeout=10, dns_timeout=10, 
-	#if validate_email.validate_email(email_address=email):
-	if func.validateemail(email) and fname != '' and lname != '':
-		try:
-			func.addnewuser(email,fname,lname,func.generatehash(password))
-			return func.jsonifyoutput(200,"user registered","","",[])
-		except:
-			return func.jsonifyoutput(403,"user is already registered","","",[])
-	elif fullname == '':
-		return func.jsonifyoutput(412,"invalid fullname - try again","","",[])
-	else:
-		return func.jsonifyoutput(412,"invalid user email - try again","","",[])
 
 @app.route("/")
 @app.route("/v1")
@@ -103,6 +51,81 @@ def registerinquiry():
 	func.registerinterest(fname,lname,email,company,occupationid,skillid);
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
+
+@app.route('/v1/users/<token>', methods=['GET'])
+def uservalidate(token):
+	print('hit [uservalidate] with [%s]' % (token))
+
+	valid, userid, firstname = func.validatetoken(token)
+	userid,firstname,lastname,email,passwordhashed = func.finduserbyid(userid)
+	
+	userrecords = []
+	user = {}
+	user['userid'] = userid
+	user['firstname'] = firstname
+	user['lastname'] = lastname
+	user['email'] = email
+
+	userrecords.append(user)
+
+	if valid:
+		return func.jsonifyoutput(200,"identity verified. hello %s" % firstname,"users","",userrecords,{'Access-Token': token, 'Name': firstname})
+	else:
+		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})			
+
+@app.route('/v1/users/<userid>', methods=['POST'])
+def userupdate(userid):
+	print('hit [userupdate]')
+
+	return func.jsonifyoutput(501,"endpoint not implemented","","",[])
+
+@app.route('/v1/users', methods=['POST'])
+def useraddorlogin():
+	print('hit [useraddorlogin]')
+
+	auth = flask.request.authorization
+	if auth is not None:
+		email = auth.username
+		password = auth.password
+		if not email or not password:
+			return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
+		else:
+			userid,firstname,lastname,email,passwordhashed = func.finduserbyid(email)
+			if userid != "" and func.checkpassword(passwordhashed,password):
+				token = func.generatejwt(userid,firstname)
+				tokenstr = token.decode('UTF-8')
+				return func.jsonifyoutput(200,"login successful","","",[],{'Access-Token': tokenstr, 'Name': firstname})
+			else:
+				return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
+	else:
+		jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
+		email 		= jsondata["email"]
+		password 	= jsondata["password"]
+		firstname	= jsondata["firstname"]
+		lastname	= jsondata["lastname"]
+
+		#,use_blacklist=True check_mx=True, from_address='wyswilson@live.com', helo_host='my.host.name', smtp_timeout=10, dns_timeout=10, 
+		#if validate_email.validate_email(email_address=email):
+		if func.validateemail(email) and firstname != '' and lastname != '':
+			try:
+				func.addnewuser(email,firstname,lastname,func.generatehash(password))
+				return func.jsonifyoutput(200,"user registered","","",[])
+			except:
+				return func.jsonifyoutput(403,"user already exists","","",[])
+		elif fullname == '':
+			return func.jsonifyoutput(412,"invalid fullname - try again","","",[])
+		else:
+			return func.jsonifyoutput(412,"invalid user email - try again","","",[])
+
+@app.route("/v1/gazetteer/countries/<countryname>", methods=['GET'])
+def getcountries(countryname):
+	print('hit [getcountries]')
+
+	status = "Countries found"
+	statuscode = 200
+	records = func.searchcountries(countryname);
+
+	return func.jsonifyoutput(statuscode,status,"countries","",func.jsonifycountries(records))
 
 @app.route("/v1/occupations/highdemand", methods=['GET'])
 def getpopularoccupations():
