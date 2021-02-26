@@ -105,7 +105,7 @@ def useraddorlogin():
 		if not email or not password:
 			return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
 		else:
-			userid,firstname,lastname,email,passwordhashed = func.finduserbyid(email)
+			userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(email)
 			if userid != "" and func.checkpassword(passwordhashed,password):
 				token = func.generatejwt(userid,firstname)
 				tokenstr = token.decode('UTF-8')

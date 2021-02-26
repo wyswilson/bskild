@@ -10,6 +10,7 @@ class Login extends React.Component {
     super(props)
     this.state = {
       apihost: 'http://bskild.xyz/v1',
+      //apihost: 'http://127.0.0.1:8888/v1',      
       token: getToken(),
       email: '',
       password: '',
