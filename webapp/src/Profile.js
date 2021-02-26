@@ -97,9 +97,14 @@ class Profile extends React.Component {
     }  
   }
 
+  async preloadData(){
+    await this.validateusertoken();
+    await this.loadlocationdata();
+
+  }
+
   componentDidMount() {
-    this.validateusertoken();
-    this.loadlocationdata();
+    this.preloadData();
   }
 
   render() {
@@ -146,45 +151,51 @@ class Profile extends React.Component {
               <Grid.Column>
                 <Segment raised>
                   <Grid columns='equal' doubling stackable>
-                    <Grid.Row columns={2}>
-                      <Grid.Column width={4}>
-                        Name
+                    <Grid.Row columns={3}>
+                      <Grid.Column width={4} verticalAlign='middle'>
+                        <b>Full name</b>
                       </Grid.Column>
                       <Grid.Column>
-                        <Input transparent
+                        <Input transparent fluid
                           value={this.state.firstname}
                         />
-                        <Input transparent
+                      </Grid.Column>
+                      <Grid.Column>
+                        <Input transparent fluid
                           value={this.state.lastname} 
                         />
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row columns={2}>
-                      <Grid.Column width={4}>
-                        Email
+                      <Grid.Column width={4} verticalAlign='middle'>
+                        <b>Email</b>
                       </Grid.Column>
                       <Grid.Column>
-                        <Input transparent
+                        <Input transparent fluid
                           value={this.state.email} 
                         />
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row columns={2}>
-                      <Grid.Column width={4}>
-                        Location
+                      <Grid.Column width={4} verticalAlign='middle'>
+                        <b>Location</b>
                       </Grid.Column>
                       <Grid.Column>
-                        <Dropdown 
+                        <Dropdown fluid
+                          placeholder='Country'
                           name='country' 
                           search selection 
                           options={this.state.countries}
                           onChange={this.selectgeo.bind(this)}
+                          noResultsMessage='Nothing found'
                         />
-                        <Dropdown 
+                        <Dropdown fluid
+                          placeholder='State'
                           name='state' 
                           search selection 
                           options={this.state.states}
                           onChange={this.selectgeo.bind(this)}
+                          noResultsMessage='Select country'
                         />
                       </Grid.Column>
                     </Grid.Row>
