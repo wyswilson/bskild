@@ -458,24 +458,52 @@ def jsonifyjobpostings(records):
 
 	return results
 
-def jsonifycountries(records):
+def jsonifygeo(records,geotype):
 	results = []
 	for record in records:
-		countryCode = record[0]
-		countryName = record[1]
+		code = record[0]
+		name = record[1]
+		population = record[2]
 
-		country = {}
-		country['id'] = countryCode
-		country['name'] = countryName
+		place = {}
+		place['id'] = code
+		place['name'] = name
+		place['population'] = population
+		if geotype == 'country':
+			continent = record[3]
+			place['continent'] = continent
 
-		results.append(country)
+		results.append(place)
 
 	return results
+
+def searchstatesprovinces(countrycode):
+
+	query1 = """
+	SELECT stateId, district, totalPopulation
+	FROM (
+		SELECT 
+			district,
+			GROUP_CONCAT(cityId
+	     	ORDER BY cityId ASC
+	     	SEPARATOR '-') AS stateId,
+		  	SUM(population) AS totalPopulation
+		FROM geo_cities
+		WHERE countryCode = %s
+		GROUP BY 1
+	) as x
+	ORDER BY 3 desc
+	"""
+	cursor = _execute(db,query1,(countrycode,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records	
 
 def searchcountries():
 	query1 = """
 	SELECT 
-		countryCode,countryName
+		countryCode,countryName,population,continent
 	FROM geo_countries
 	ORDER BY population desc 
 	"""

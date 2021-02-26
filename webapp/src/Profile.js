@@ -17,7 +17,7 @@ class Profile extends React.Component {
       countrycode: '',
       citycode: '',
       countries: [],
-      citiesforselectedcountry: []
+      states: []
     };
   }
 
@@ -39,15 +39,43 @@ class Profile extends React.Component {
       console.log('validate user [' + err + ']');     
     }  
   }
-  
-  updatecities(event,data){
+
+  async updatestatesdata(countrycode){
+    try{
+      const requeststr = this.state.apihost + '/gazetteer/states/' + countrycode
+      const response = await axios.get(requeststr);
+      console.log('get states [' + response.data['message'] + ']');
+      const rawstates = response.data['states'];
+      const states = rawstates.map((item) => (
+        {
+          key: item.id,
+          text: item.name,
+          value: item.name
+        }
+      ));
+
+      this.setState({states: states});
+    }
+    catch(err){
+      console.log('get states [' + err + ']');     
+    }  
+  }
+
+  selectgeo(event,data){
     const field = data.name;
     if(field === 'country'){
       const selectedcountry = data.value;
       let selectedarr = this.state.countries.filter(suggest => suggest.value.includes(selectedcountry))[0];
-      this.setState({countrycode: selectedarr.key});
+      const selectedcountrycode = selectedarr.key
+      this.setState({countrycode: selectedcountrycode});
+      this.updatestatesdata(selectedcountrycode);
+    }
+    else if(field === 'state'){
+      const selectedstate = data.value;
+      console.log(selectedstate);
     }
   }
+
   async loadlocationdata(){
     try{
       const requeststr = this.state.apihost + '/gazetteer/countries'
@@ -55,17 +83,17 @@ class Profile extends React.Component {
       console.log('get countries [' + response.data['message'] + ']');
       const rawcountries = response.data['countries'];
       const countries = rawcountries.map((item) => (
-      {
-        key: item.id,
-        text: item.name,
-        value: item.name
-      }
-    ));
+        {
+          key: item.id,
+          text: item.name,
+          value: item.name
+        }
+      ));
 
       this.setState({countries: countries});
     }
     catch(err){
-      console.log('validate user [' + err + ']');     
+      console.log('get countries [' + err + ']');     
     }  
   }
 
@@ -150,9 +178,14 @@ class Profile extends React.Component {
                           name='country' 
                           search selection 
                           options={this.state.countries}
-                          onChange={this.updatecities.bind(this)}
+                          onChange={this.selectgeo.bind(this)}
                         />
-
+                        <Dropdown 
+                          name='state' 
+                          search selection 
+                          options={this.state.states}
+                          onChange={this.selectgeo.bind(this)}
+                        />
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>

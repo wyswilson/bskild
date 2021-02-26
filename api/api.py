@@ -117,15 +117,25 @@ def useraddorlogin():
 		else:
 			return func.jsonifyoutput(412,"invalid user email - try again","","",[])
 
+@app.route("/v1/gazetteer/states/<countrycode>", methods=['GET'])
+def getstates(countrycode):
+	print('hit [getstates]')
+
+	status = "States or provinces found for query"
+	statuscode = 200
+	records = func.searchstatesprovinces(countrycode);
+
+	return func.jsonifyoutput(statuscode,status,"states","",func.jsonifygeo(records,'state'))
+
 @app.route("/v1/gazetteer/countries", methods=['GET'])
 def getcountries():
 	print('hit [getcountries]')
 
-	status = "Countries found"
+	status = "All countries returned"
 	statuscode = 200
 	records = func.searchcountries();
 
-	return func.jsonifyoutput(statuscode,status,"countries","",func.jsonifycountries(records))
+	return func.jsonifyoutput(statuscode,status,"countries","",func.jsonifygeo(records,'country'))
 
 @app.route("/v1/occupations/highdemand", methods=['GET'])
 def getpopularoccupations():
