@@ -66,7 +66,7 @@ class Login extends React.Component {
           <Grid doubling stackable>
             <Grid.Row columns={2}>
               <Grid.Column width={6} verticalAlign='middle' textAlign='left'
-                style={{ paddingTop: '0.6em'}}
+                style={{ paddingTop: '0.7em'}}
               >
                 <span style={{ paddingLeft: '0.2em'}}></span>
                 <Image as='a' spaced='left' inline

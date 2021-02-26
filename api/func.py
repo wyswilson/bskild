@@ -472,17 +472,14 @@ def jsonifycountries(records):
 
 	return results
 
-def searchcountries(countryname):
+def searchcountries():
 	query1 = """
 	SELECT 
 		countryCode,countryName
 	FROM geo_countries
-	WHERE MATCH (countryName) AGAINST (%s IN BOOLEAN MODE)
-	OR countryCode = %s
 	ORDER BY population desc 
 	"""
-	countrynamewilcard = "%s*" % countryname
-	cursor = _execute(db,query1,(countrynamewilcard,countryname))
+	cursor = _execute(db,query1,None)
 	records = cursor.fetchall()
 	cursor.close()
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
+import { Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -13,7 +13,9 @@ class Profile extends React.Component {
       token: getToken(),
       email: '',
       firstname: '',
-      lastname: ''
+      lastname: '',
+      countries: [],
+      citiesforselectedcountry: []
     };
   }
 
@@ -23,11 +25,11 @@ class Profile extends React.Component {
   }
 
   async validateusertoken(){
-     try{
+    try{
       const requeststr = this.state.apihost + '/users/' + this.state.token
       const response = await axios.get(requeststr);
       console.log('validate user [' + response.data['message'] + ']');
-      this.setState({firstname: response.data['users'][0]['email']})
+      this.setState({email: response.data['users'][0]['email']})
       this.setState({firstname: response.data['users'][0]['firstname']})
       this.setState({lastname: response.data['users'][0]['lastname']})
     }
@@ -36,8 +38,21 @@ class Profile extends React.Component {
     }  
   }
 
+  async loadlocationdata(){
+    try{
+      const requeststr = this.state.apihost + '/gazetteer/countries'
+      const response = await axios.get(requeststr);
+      console.log('get countries [' + response.data['message'] + ']');
+      this.setState({countries: response.data['countries']});
+    }
+    catch(err){
+      console.log('validate user [' + err + ']');     
+    }  
+  }
+
   componentDidMount() {
     this.validateusertoken();
+    this.loadlocationdata();
   }
 
   render() {
@@ -50,7 +65,7 @@ class Profile extends React.Component {
           <Grid doubling stackable>
             <Grid.Row columns={2}>
               <Grid.Column width={6} verticalAlign='middle' textAlign='left'
-                style={{ paddingTop: '0.6em'}}
+                style={{ paddingTop: '0.75em'}}
               >
                 <span style={{ paddingLeft: '0.2em'}}></span>
                 <Image as='a' spaced='left' inline
@@ -89,11 +104,11 @@ class Profile extends React.Component {
                         Name
                       </Grid.Column>
                       <Grid.Column>
-                        <Input transparent placeholder='Search...' 
+                        <Input transparent
                           value={this.state.firstname}
                         />
-                        <Input transparent placeholder='Search...'
-                          value={this.state.firstname} 
+                        <Input transparent
+                          value={this.state.lastname} 
                         />
                       </Grid.Column>
                     </Grid.Row>
@@ -102,7 +117,21 @@ class Profile extends React.Component {
                         Email
                       </Grid.Column>
                       <Grid.Column>
-                        <Input transparent placeholder='Email...' />
+                        <Input transparent
+                          value={this.state.email} 
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row columns={2}>
+                      <Grid.Column width={4}>
+                        Location
+                      </Grid.Column>
+                      <Grid.Column>
+                        <Dropdown 
+                        placeholder='State' 
+                        search selection 
+                        options={this.state.countries} />
+
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>

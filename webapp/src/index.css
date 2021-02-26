@@ -112,8 +112,8 @@ body {
 }
 
 .navheader {
-  padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-top: 1.5em !important;
+  padding-bottom: 1.5em !important;
   padding-left: 9em !important;
   padding-right: 9em !important;
   background: #F9F9F9;
@@ -121,8 +121,8 @@ body {
 }
 
 .navheader.mobile {
-  padding-top: 2em !important;
-  padding-bottom: 2em !important;
+  padding-top: 1.5em !important;
+  padding-bottom: 1.5em !important;
   padding-left: 1em !important;
   padding-right: 1em !important;
   background: #F9F9F9;

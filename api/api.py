@@ -117,13 +117,13 @@ def useraddorlogin():
 		else:
 			return func.jsonifyoutput(412,"invalid user email - try again","","",[])
 
-@app.route("/v1/gazetteer/countries/<countryname>", methods=['GET'])
-def getcountries(countryname):
+@app.route("/v1/gazetteer/countries", methods=['GET'])
+def getcountries():
 	print('hit [getcountries]')
 
 	status = "Countries found"
 	statuscode = 200
-	records = func.searchcountries(countryname);
+	records = func.searchcountries();
 
 	return func.jsonifyoutput(statuscode,status,"countries","",func.jsonifycountries(records))
 
@@ -272,5 +272,5 @@ def getoccupationsbyskills(skill):
 	return func.jsonifyoutput(statuscode,status,"skills","occupations",func.jsonifyskillswithoccupations(records))
 
 if __name__ == "__main__":
-	#app.run(debug=True,host='0.0.0.0',port=8888)
-	waitress.serve(app, host="0.0.0.0", port=8888)
+	app.run(debug=True,host='0.0.0.0',port=8888)
+	#waitress.serve(app, host="0.0.0.0", port=8888)
