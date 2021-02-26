@@ -6,8 +6,8 @@ import { getToken } from './utils/common';
 import { Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import scrollToComponent from 'react-scroll-to-component';
-import queryString from 'query-string'
 import validator from 'validator'
+import queryString from 'query-string'
 
 class Home extends React.Component {
   constructor(props) {
@@ -290,7 +290,7 @@ class Home extends React.Component {
 
   async inquirehelpmodalskills(state,occupationid,name){
     await this.setState({helpwithoccupation: occupationid});
-    const custommessage = 'I need help with upskilling a specific skill for [' + name + ']';
+    const custommessage = 'I\'m interested in upskilling a specific skill for [' + name + ']';
     this.inquirehelpmodal(custommessage,state);
   }
 
@@ -298,7 +298,7 @@ class Home extends React.Component {
     await this.setState({helpwithoccupation: occupationid});
     await this.setState({helpwithskill: ''}); 
 
-    const custommessage = 'I need help with reskilling from [' + this.state.selectedvalue + '] to [' + name + ']';
+    const custommessage = 'I\'m interested in reskilling from [' + this.state.selectedvalue + '] to [' + name + ']';
     this.inquirehelpmodal(custommessage,state);
   }
 
@@ -314,39 +314,53 @@ class Home extends React.Component {
 
   validateemail(event){
     const email = document.getElementById('inquiryemail').value;
-    if(validator.isEmail(email)) { 
-      this.setState({isemailvalid: true});
+    this.checkemail(email);
+  }
+
+  async checkemail(email){
+    if(email !== '' && validator.isEmail(email)) { 
+      await this.setState({isemailvalid: true});
     }
     else{
-       this.setState({isemailvalid: false});     
+      await this.setState({isemailvalid: false});     
     }
   }
 
   validatename(event){
     const fname = document.getElementById('inquirynamefirst').value;
     const lname = document.getElementById('inquirynamelast').value;
-    if( validator.isAlpha(fname) && validator.isAlpha(lname) ) { 
-      this.setState({isnamevalid: true});
+    this.checkname(fname,lname);
+  }
+
+  async checkname(fname,lname){
+    if(fname !== '' && lname !== '' &&  validator.isAlpha(fname) && validator.isAlpha(lname) ) { 
+      await this.setState({isnamevalid: true});
     }
     else{
-       this.setState({isnamevalid: false});     
+      await this.setState({isnamevalid: false});     
     }
   }
 
-  forwardinquiry(){
+  async checkcompany(cname){
+    if(cname !== ''){
+      await this.setState({iscompvalid: true});      
+    }
+    else{
+      await this.setState({iscompvalid: false});      
+    }
+  }
+
+  async forwardinquiry(){
     const fname = document.getElementById('inquirynamefirst').value;
     const lname = document.getElementById('inquirynamelast').value;
     const email = document.getElementById('inquiryemail').value;
     const company = document.getElementById('inquirycomp').value;
 
-    if(company !== ''){
-      this.setState({iscompvalid: true});      
-    }
-    else{
-      this.setState({iscompvalid: false});      
-    }
-
-    if(email !== '' && this.state.isemailvalid && this.state.isnamevalid && this.state.iscompvalid) { 
+    await this.checkname(fname,lname);
+    await this.checkcompany(company);
+    await this.checkemail(email);
+    
+    if(this.state.isemailvalid && this.state.isnamevalid && this.state.iscompvalid) { 
       console.log("forward inquiry");
       this.setState({inquireroleopen: false});
       this.setState({confirmformforwarded: true});
@@ -356,8 +370,6 @@ class Home extends React.Component {
       const custommessage = 'Thank you. We\'ll be in touch as soon as possible.';
       this.setState({inquirecustommessage: custommessage});
     }
-    
-
   }
 
   async submitinquiry(fname,lname,email,company,occupation,skill){
@@ -387,7 +399,7 @@ class Home extends React.Component {
   }
   
   requestdemo(){
-    const custommessage = 'I want to learn more about how I can better upskill and reskill my workforce';
+    const custommessage = 'I\'m interested in finding out more about how bSkild can help me';
     this.inquirehelpmodal(custommessage,true);
   }
 
@@ -782,7 +794,7 @@ class Home extends React.Component {
                   <Input id="inquirynamefirst" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.validatename.bind(this)}
-                    error={!this.state.isnamevalid}
+                    error={!this.state.isnamevalid} fluid
                   >
                     <Label basic
                       color={!this.state.isnamevalid ? 'red' : 'black'}
@@ -796,7 +808,7 @@ class Home extends React.Component {
                   <Input id="inquirynamelast" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.validatename.bind(this)}
-                    error={!this.state.isnamevalid}
+                    error={!this.state.isnamevalid} fluid
                   >
                     <Label basic
                       color={!this.state.isnamevalid ? 'red' : 'black'}
@@ -812,7 +824,7 @@ class Home extends React.Component {
                   <Input id="inquiryemail" labelPosition='left' 
                     type='text' placeholder='' size='large'
                     onChange={this.validateemail.bind(this)}
-                    error={!this.state.isemailvalid}
+                    error={!this.state.isemailvalid} fluid
                   >
                     <Label basic
                       color={!this.state.isemailvalid ? 'red' : 'black'}
@@ -825,7 +837,7 @@ class Home extends React.Component {
                 <Grid.Column>
                   <Input id="inquirycomp" labelPosition='left' 
                     type='text' placeholder='' size='large'
-                    error={!this.state.iscompvalid}
+                    error={!this.state.iscompvalid} fluid
                   >
                     <Label basic
                       color={!this.state.iscompvalid ? 'red' : 'black'}
