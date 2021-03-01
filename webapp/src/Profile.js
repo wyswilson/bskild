@@ -48,12 +48,14 @@ class Profile extends React.Component {
       await this.setState({statename: response.data['users'][0]['statename']})
     }
     catch(err){
-      if(err.response.status === 401){
-        removeUserSession();
-        this.props.history.push('/home');
-      }
-      else{
-        console.log('validate user [' + err.response + ']');
+      if(err.response){
+        if(err.response.status === 401){
+          removeUserSession();
+          this.props.history.push('/home');
+        }
+        else{
+          console.log('validate user [' + err.response + ']');
+        }
       }
     }  
   }
