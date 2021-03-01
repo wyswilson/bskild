@@ -36,7 +36,8 @@ class Home extends React.Component {
       mainpageloading: false,
       isemailvalid: true,
       isnamevalid: true,
-      iscompvalid: true
+      iscompvalid: true,
+      ispagefav: false
     };
   }  
 
@@ -59,12 +60,14 @@ class Home extends React.Component {
         await this.setState({userid: response.data['users'][0]['userid']})
       }
       catch(err){
-        if(err.response.status === 401){
-          removeUserSession();
-          this.props.history.push('/home');
-        }
-        else{
-          console.log('validate user [' + err.response + ']');
+        if(err.response){
+          if(err.response.status === 401){
+            removeUserSession();
+            this.props.history.push('/home');
+          }
+          else{
+            console.log('validate user [' + err.response + ']');
+          }
         }
         
       }  

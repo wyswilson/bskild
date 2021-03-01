@@ -133,6 +133,21 @@ def requiresbasicauth(f):
         return f(*args, **kwargs)
     return decorated
 
+def saveuserfavroles(userid,conceptid,concepttype):
+	concepturi = ''
+	if concepttype == 'occupations':
+		concepturi = "%s/occupation/%s" % (idprefix,conceptid)
+	else if concepttype == 'skills':
+		concepturi = "%s/skill/%s" % (idprefix,conceptid)
+
+	query2 = """
+		REPLACE INTO users_favs (userId,conceptUri,conceptType)
+		VALUES (%s,%s,%s)
+	"""
+	cursor = _execute(db,query2,(userid,concepturi,concepttype))
+	db.commit()
+	cursor.close()	
+
 def validateemail(email):
 	if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
 		return True

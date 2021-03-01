@@ -108,7 +108,9 @@ def setuserfav(userid):
 	conceptid	= jsondata["conceptId"]	
 	concepttype	= jsondata["conceptType"]
 
+	print(conceptid + concepttype)
 
+	func.saveuserfavroles(userid,conceptid,concepttype)
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
