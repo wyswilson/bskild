@@ -57,7 +57,7 @@ def registerinquiry():
 @app.route('/v1/users', methods=['GET'])
 @func.requiretoken
 def uservalidate(userid):
-	print('hit [uservalidate] with [%s]' % (token))
+	print('hit [uservalidate] with [%s]' % (userid))
 
 	userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
 
