@@ -35,8 +35,15 @@ class Profile extends React.Component {
 
   async validateusertoken(){
     try{
-      const requeststr = this.state.apihost + '/users/' + this.state.token
-      const response = await axios.get(requeststr);
+      const requeststr = this.state.apihost + '/users'
+      const response = await axios.get(requeststr,
+        {
+          headers: {
+            "content-type": "application/json",
+            "access-token": this.state.token
+          }
+        }
+      );
       console.log('validate user [' + response.data['message'] + ']');
       this.setState({userid: response.data['users'][0]['userid']})
       this.setState({email: response.data['users'][0]['email']})

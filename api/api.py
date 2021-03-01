@@ -54,29 +54,26 @@ def registerinquiry():
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users/<token>', methods=['GET'])
-def uservalidate(token):
+@app.route('/v1/users', methods=['GET'])
+@func.requiretoken
+def uservalidate(userid):
 	print('hit [uservalidate] with [%s]' % (token))
 
-	valid, userid, firstname = func.validatetoken(token)
-	if valid:
-		userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
-	
-		userrecords = []
-		user = {}
-		user['userid'] = userid
-		user['firstname'] = firstname
-		user['lastname'] = lastname
-		user['email'] = email
-		user['countrycode'] = countrycode
-		user['countryname'] = countryname
-		user['statename'] = statename
+	userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
 
-		userrecords.append(user)
+	userrecords = []
+	user = {}
+	user['userid'] = userid
+	user['firstname'] = firstname
+	user['lastname'] = lastname
+	user['email'] = email
+	user['countrycode'] = countrycode
+	user['countryname'] = countryname
+	user['statename'] = statename
 
-		return func.jsonifyoutput(200,"identity verified. hello %s" % firstname,"users","",userrecords,{'Access-Token': token, 'Name': firstname})
-	else:
-		return func.jsonifyoutput(401,"token has expired","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})			
+	userrecords.append(user)
+
+	return func.jsonifyoutput(200,"identity verified. hello %s" % firstname,"users","",userrecords,{'Access-Token': token, 'Name': firstname})
 
 @app.route('/v1/users', methods=['PUT'])
 @func.requiretoken

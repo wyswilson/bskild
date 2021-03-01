@@ -21,8 +21,15 @@ class Login extends React.Component {
   async validatetoken(){
     if(this.state.token){
       try{
-        const requeststr = this.state.apihost + '/users/' + this.state.token
-        const response = await axios.get(requeststr);
+        const requeststr = this.state.apihost + '/users'
+        const response = await axios.get(requeststr,
+          {
+            headers: {
+              "content-type": "application/json",
+              "access-token": this.state.token
+            }
+          }
+        );
         console.log('validate user [' + response.data['message'] + ']');
         this.props.history.push('/profile');
       }
