@@ -104,7 +104,7 @@ def requiretoken(f):
 			token = headers['access-token']
 			valid,userid,firstname = validatetoken(token)
 			if valid:
-				return f(userid, *args, **kwargs)
+				return f(userid,token, *args, **kwargs)
 			else:
 				return jsonifyoutput(401,"unauthorised access - invalid token","","",[])
 		else:

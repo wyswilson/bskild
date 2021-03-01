@@ -56,7 +56,7 @@ def registerinquiry():
 
 @app.route('/v1/users', methods=['GET'])
 @func.requiretoken
-def uservalidate(userid):
+def uservalidate(userid,token):
 	print('hit [uservalidate] with [%s]' % (userid))
 
 	userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
@@ -77,7 +77,7 @@ def uservalidate(userid):
 
 @app.route('/v1/users', methods=['PUT'])
 @func.requiretoken
-def updateuser(userid):
+def updateuser(userid,token):
 	print('hit [userupdate]')
 
 	status = "User information updated"
@@ -95,7 +95,7 @@ def updateuser(userid):
 
 @app.route('/v1/users/favs', methods=['POST'])
 @func.requiretoken
-def setuserfav(userid):
+def setuserfav(userid,token):
 	print('hit [setuserfavs]')
 
 	status = "User favourite set"
