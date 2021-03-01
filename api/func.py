@@ -184,7 +184,7 @@ def addnewuser(email,fname,lname,pwdHashed):
 	db.commit()
 	cursor.close()
 
-def registerinterest(fname,lname,email,company,occupationid,skillid):
+def registerinterest(clientip,fname,lname,email,company,occupationid,skillid):
 	occupationUri = "%s/occupation/%s" % (idprefix,occupationid)
 	skillUri = ''
 
@@ -193,8 +193,8 @@ def registerinterest(fname,lname,email,company,occupationid,skillid):
 
 	inquirydate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-	query1 = "INSERT INTO inquiries (inquiryDate,firstname,lastname,email,company,occupationUri,skillUri) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-	cursor = _execute(db,query1,(inquirydate,fname,lname,email,company,occupationUri,skillUri))
+	query1 = "INSERT INTO inquiries (inquiryDate,clientIp,firstname,lastname,email,company,occupationUri,skillUri) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+	cursor = _execute(db,query1,(inquirydate,clientip,fname,lname,email,company,occupationUri,skillUri))
 	db.commit()
 	cursor.close()
 

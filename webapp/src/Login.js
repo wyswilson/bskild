@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { isMobile } from 'react-device-detect';
-import { getToken, setUserSession } from './utils/common';
+import { getToken, setUserSession, removeUserSession } from './utils/common';
 
 import { Message, Button, Icon, Label, Image, Grid, Input } from 'semantic-ui-react'
 
@@ -18,9 +18,28 @@ class Login extends React.Component {
     };
   }
 
+  async validatetoken(){
+    if(this.state.token){
+      try{
+        const requeststr = this.state.apihost + '/users/' + this.state.token
+        const response = await axios.get(requeststr);
+        console.log('validate user [' + response.data['message'] + ']');
+        this.props.history.push('/profile');
+      }
+      catch(err){
+        if(err.response.status === 401){
+          removeUserSession();
+          this.props.history.push('/home');
+        }
+        else{
+          console.log('validate user [' + err.response + ']');
+        }
+      }  
+    }
+  }
 
   componentDidMount() {
-    
+    this.validatetoken();
   }
 
   setemail(event){

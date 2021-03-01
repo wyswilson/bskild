@@ -48,7 +48,13 @@ class Profile extends React.Component {
       await this.setState({statename: response.data['users'][0]['statename']})
     }
     catch(err){
-      console.log('validate user [' + err + ']');     
+      if(err.response.status === 401){
+        removeUserSession();
+        this.props.history.push('/home');
+      }
+      else{
+        console.log('validate user [' + err.response + ']');
+      }
     }  
   }
 
@@ -111,11 +117,6 @@ class Profile extends React.Component {
     }  
   }
 
-  async preloadData(){
-    await this.loadlocationdata();
-    await this.validateusertoken();
-  }
-
   updatename(event,data){
     const value = data.value;
     if(data.name === 'firstname'){
@@ -170,13 +171,15 @@ class Profile extends React.Component {
       }  
     }
     else{
-       console.log('INVALID');
-     
+      console.log('INVALID');
+      this.setState({userinfoupdateok: false});
+      this.setState({userinfoupdatemsg: 'Incomplete information'});
     }
   }
 
-  componentDidMount() {
-    this.preloadData();
+  async componentDidMount() {
+    await this.loadlocationdata();
+    await this.validateusertoken();
   }
 
   render() {
@@ -259,7 +262,7 @@ class Profile extends React.Component {
                       <Grid.Column width={4} verticalAlign='middle'>
                         <b>Location</b>
                       </Grid.Column>
-                      <Grid.Column width={12}>
+                      <Grid.Column width={6}>
                         <Dropdown fluid
                           placeholder='Country'
                           name='country' 
@@ -270,6 +273,8 @@ class Profile extends React.Component {
                           noResultsMessage='Nothing found'
                           selectOnBlur={false}
                         />
+                      </Grid.Column>
+                      <Grid.Column width={6}>
                         <Dropdown fluid
                           placeholder='State'
                           name='state' 

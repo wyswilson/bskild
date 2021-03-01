@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { isMobile } from 'react-device-detect';
-import { getToken } from './utils/common';
+import { getToken, removeUserSession } from './utils/common';
 
-import { Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Rating, Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import scrollToComponent from 'react-scroll-to-component';
 import validator from 'validator'
@@ -13,8 +13,10 @@ class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      apihost: 'http://bskild.xyz/v1',
+      //apihost: 'http://bskild.xyz/v1',
+      apihost: 'http://127.0.0.1:8888/v1',      
       token: getToken(),
+      userid:'',
       searchquery: '',
       selectedid: '',
       selectedtype: '',
@@ -48,7 +50,28 @@ class Home extends React.Component {
 
   }
 
-  componentDidMount() {
+  async validatetoken(){
+    if(this.state.token){
+      try{
+        const requeststr = this.state.apihost + '/users/' + this.state.token
+        const response = await axios.get(requeststr);
+        console.log('validate user [' + response.data['message'] + ']');
+        await this.setState({userid: response.data['users'][0]['userid']})
+      }
+      catch(err){
+        if(err.response.status === 401){
+          removeUserSession();
+          this.props.history.push('/home');
+        }
+        else{
+          console.log('validate user [' + err.response + ']');
+        }
+        
+      }  
+    }
+  }
+
+  async componentDidMount() {
     const queryobj = queryString.parse(window.location.search);
     if(queryobj['q'] !== '' && queryobj['m'] === 's'){
       this.suggestionselected('skills',queryobj['q']);
@@ -57,7 +80,8 @@ class Home extends React.Component {
       this.suggestionselected('occupations',queryobj['q']);
     }
 
-    this.loadhighdemandoccupations();
+    await this.loadhighdemandoccupations();
+    await this.validatetoken();
   }
 
   renderoccupationsindemand(occupations){
@@ -403,6 +427,35 @@ class Home extends React.Component {
     this.inquirehelpmodal(custommessage,true);
   }
 
+  async setuserfav(event){
+    console.log(this.state.userid + '-' + this.state.selectedid)
+
+    if(this.state.userid !== ''){
+      try{
+        const response = await axios.post(this.state.apihost + '/users/favs', 
+          {
+            conceptId:this.state.selectedid,
+            conceptType:'occupations'
+          }, 
+          {
+            headers: {
+              'crossDomain': true,
+              "content-type": "application/json",
+              "access-token": this.state.token
+            }
+          }
+        )
+        console.log('set user fav [' + response.data['message'] + ']');
+      }
+      catch(err){
+        console.log('set user fav [' + err + ']');     
+      }    
+    }
+    else{
+
+    }
+  }
+
   renderextracontent(mode,type,id,value){
     let render = ''; 
     if(mode === 'full' && type === 'occupations'){
@@ -519,10 +572,18 @@ class Home extends React.Component {
                     name={item.type === 'occupations' ? 'user outline'  : 'list'}
                   />
                 </Label>
-                <Card.Header className='actionlink' onClick={this.suggestionselected.bind(this,item.type,item.key)}>
-                  <a href={ item.type === 'occupations' ? '/home?q=' + item.key + '&m=o'  : '/home?q=' + item.key + '&m=s' }>
+                <Card.Header className='actionlink'>
+                  <a  onClick={this.suggestionselected.bind(this,item.type,item.key)}
+                   href={ item.type === 'occupations' ? '/home?q=' + item.key + '&m=o'  : '/home?q=' + item.key + '&m=s' }>
                   {item.value}
                   </a>
+                  { ' ' }
+                  {
+                    item.type === 'occupations' && mode !== 'lite' &&
+                    <Rating icon='star' maxRating={1} size='small'
+                      onClick={this.setuserfav.bind(this)}
+                    />
+                  }
                 </Card.Header>
                 <Card.Meta>
                   {item.type === 'occupations' ? 'role'  : 'skill'}

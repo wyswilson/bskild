@@ -48,7 +48,9 @@ def registerinquiry():
 	occupationid = data["occupation"]
 	skillid = data["skill"]
 
-	func.registerinterest(fname,lname,email,company,occupationid,skillid);
+	clientip = flask.request.access_route[0]
+
+	func.registerinterest(clientip,fname,lname,email,company,occupationid,skillid);
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
@@ -57,28 +59,28 @@ def uservalidate(token):
 	print('hit [uservalidate] with [%s]' % (token))
 
 	valid, userid, firstname = func.validatetoken(token)
-	userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
-	
-	userrecords = []
-	user = {}
-	user['userid'] = userid
-	user['firstname'] = firstname
-	user['lastname'] = lastname
-	user['email'] = email
-	user['countrycode'] = countrycode
-	user['countryname'] = countryname
-	user['statename'] = statename
-
-	userrecords.append(user)
-
 	if valid:
+		userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
+	
+		userrecords = []
+		user = {}
+		user['userid'] = userid
+		user['firstname'] = firstname
+		user['lastname'] = lastname
+		user['email'] = email
+		user['countrycode'] = countrycode
+		user['countryname'] = countryname
+		user['statename'] = statename
+
+		userrecords.append(user)
+
 		return func.jsonifyoutput(200,"identity verified. hello %s" % firstname,"users","",userrecords,{'Access-Token': token, 'Name': firstname})
 	else:
-		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})			
+		return func.jsonifyoutput(401,"token has expired","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})			
 
 @app.route('/v1/users', methods=['PUT'])
 @func.requiretoken
-def userupdate(userid):
+def updateuser(userid):
 	print('hit [userupdate]')
 
 	status = "User information updated"
@@ -94,9 +96,25 @@ def userupdate(userid):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
+@app.route('/v1/users/favs', methods=['POST'])
+@func.requiretoken
+def setuserfav(userid):
+	print('hit [setuserfavs]')
+
+	status = "User favourite set"
+	statuscode = 200
+
+	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
+	conceptid	= jsondata["conceptId"]	
+	concepttype	= jsondata["conceptType"]
+
+
+
+	return func.jsonifyoutput(statuscode,status,"","",[])
+
 @app.route('/v1/users', methods=['POST'])
-def useraddorlogin():
-	print('hit [useraddorlogin]')
+def addorloginuser():
+	print('hit [addorloginuser]')
 
 	auth = flask.request.authorization
 	if auth is not None:
@@ -295,6 +313,7 @@ def getoccupationsbyskills(skill):
 		status = "Exact skill id or name required for occupations lookup"
 
 	return func.jsonifyoutput(statuscode,status,"skills","occupations",func.jsonifyskillswithoccupations(records))
+
 
 if __name__ == "__main__":
 	#app.run(debug=True,host='0.0.0.0',port=8888)
