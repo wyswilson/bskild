@@ -137,7 +137,7 @@ def saveuserfavroles(userid,conceptid,concepttype):
 	concepturi = ''
 	if concepttype == 'occupations':
 		concepturi = "%s/occupation/%s" % (idprefix,conceptid)
-	else if concepttype == 'skills':
+	elif concepttype == 'skills':
 		concepturi = "%s/skill/%s" % (idprefix,conceptid)
 
 	query2 = """
