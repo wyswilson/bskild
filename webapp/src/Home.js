@@ -37,7 +37,8 @@ class Home extends React.Component {
       isemailvalid: true,
       isnamevalid: true,
       iscompvalid: true,
-      ispagefav: false
+      ispagefav: false,
+      userfavs: []
     };
   }  
 
@@ -65,6 +66,7 @@ class Home extends React.Component {
         );
         console.log('validate user [' + response.data['message'] + ']');
         await this.setState({userid: response.data['users'][0]['userid']})
+        await this.setState({userfavs: response.data['users'][0]['occupations']})
       }
       catch(err){
         if(err.response){
@@ -82,6 +84,8 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
+    await this.validatetoken();
+
     const queryobj = queryString.parse(window.location.search);
     if(queryobj['q'] !== '' && queryobj['m'] === 's'){
       this.suggestionselected('skills',queryobj['q']);
@@ -89,9 +93,10 @@ class Home extends React.Component {
     else if(queryobj['q'] !== '' && queryobj['m'] === 'o'){
       this.suggestionselected('occupations',queryobj['q']);
     }
-
-    await this.loadhighdemandoccupations();
-    await this.validatetoken();
+    else{
+       await this.loadhighdemandoccupations();
+    }
+   
   }
 
   renderoccupationsindemand(occupations){
@@ -254,6 +259,8 @@ class Home extends React.Component {
     await this.setState({selectedid: id});
     await this.setState({selectedtype: type});
 
+    console.log(this.state.userfavs);
+    
     if(type === 'skills'){
       const options = await this.searchskills(id,'full');
       await this.resetsuggestions();

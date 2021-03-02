@@ -165,32 +165,110 @@ def updateuserinfo(userid,firstname,lastname,countrycode,statename):
 	db.commit()
 	cursor.close()
 
-def finduserbyid(emailoruserid):
-	query1 = """
-    	SELECT
-        	u.userId,u.firstName,u.lastName,u.email,u.pwdHashed,
-        	gc.countryCode,gc.countryName,u.stateName
-    	FROM users as u
-    	JOIN geo_countries as gc
-    	ON u.countryCode = gc.countryCode
-    	WHERE u.email = %s OR u.userId = %s
-	"""
-	cursor = _execute(db,query1,(emailoruserid,emailoruserid))
-	records = cursor.fetchall()
-	cursor.close()
+def jsonifyusers(records):
+	results = []
+	occupationsbyuser = []
+	firstnames 		= {}
+	lastnames 		= {}
+	emails 			= {}
+	passwordshashed = {}
+	countrycodes 	= {}
+	countrynames 	= {}
+	statenames 		= {}
+	occupations 	= {}
+	for record in records:	
+		userid 		= record[0]
+		firstname 	= record[1]
+		lastname 	= record[2]
+		email 		= record[3]
+		#passwordhashed = record[4]
+		countrycode = record[5]
+		countryname = record[6]
+		statename 	= record[7]
+		occupationuri 	= record[8]
+		occupationname 	= record[9]
+		occupationdesc 	= record[10]
 
-	if records:
-		userid = records[0][0]
-		firstname = records[0][1]
-		lastname = records[0][2]
-		email = records[0][3]
-		passwordhashed = records[0][4]
-		countrycode = records[0][5]
-		countryname = records[0][6]
-		statename = records[0][7]
-		return userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename
+		occupationid = occupationuri.split("/occupation/")[1]
+
+		occupationdetails = {}
+		occupationdetails['id'] = occupationid
+		occupationdetails['name'] = occupationname
+		occupationdetails['desc'] = occupationdesc
+
+		occupationsbyuser.append(occupationdetails)
+		
+		firstnames[userid] = firstname
+		lastnames[userid] = lastname
+		emails[userid] = email
+		#passwordshashed[userid] = passwordhashed
+		countrycodes[userid] = countrycode
+		countrynames[userid] = countryname
+		statenames[userid] = statename
+		occupations[userid] = occupationsbyuser
+
+	for userid in firstnames:
+		firstname = firstnames[userid]
+		lastname = lastnames[userid]
+		email = emails[userid]
+		#passwordhashed = passwordshashed[userid]
+		countrycode = countrycodes[userid]
+		countryname = countrynames[userid]
+		statename = statenames[userid]
+		occupationsbyuser = occupations[userid]
+
+		user = {}
+		user['userid'] = userid
+		user['firstname'] = firstname
+		user['lastname'] = lastname
+		user['email'] = email
+		#user['passwordhashed'] = passwordhashed
+		user['countrycode'] = countrycode
+		user['countryname'] = countryname
+		user['statename'] = statename
+		user['occupations'] = occupationsbyuser
+
+		results.append(user)	
+
+	return results
+
+def finduserbyid(emailoruserid,mode):
+	if mode != 'lite':
+		query1 = """
+		SELECT
+		  	u.userId,u.firstName,u.lastName,u.email,u.pwdHashed,
+		  	gc.countryCode,gc.countryName,u.stateName,
+		  	o.conceptUri,o.preferredLabel,o.description
+		FROM users as u
+		JOIN geo_countries as gc
+		ON u.countryCode = gc.countryCode
+		JOIN users_favs AS uf
+		ON u.userId = uf.userId AND uf.conceptType = 'occupation'
+		JOIN occupations AS o
+		ON uf.conceptUri = o.conceptUri
+		WHERE u.email = %s OR u.userId = %s
+		"""
+		cursor = _execute(db,query1,(emailoruserid,emailoruserid))
+		records = cursor.fetchall()
+		cursor.close()
+
+		return records
 	else:
-		return "","","","",""
+		query1 = """
+		SELECT
+		  	u.userId,u.firstName,u.pwdHashed
+		FROM users as u
+		WHERE u.email = %s OR u.userId = %s
+		"""
+		cursor = _execute(db,query1,(emailoruserid,emailoruserid))
+		records = cursor.fetchall()
+		cursor.close()
+
+		userid = records[0][0]
+		fname = records[0][1]
+		pwdhashed = records[0][2]
+
+		return userid,fname,pwdhashed
 
 def addnewuser(email,fname,lname,pwdHashed):
 	userid = hashlib.md5(email.encode('utf-8')).hexdigest()
@@ -756,7 +834,7 @@ def fetchpopularoccupations(count):
 		FROM occupations AS o
 		LEFT JOIN jobpostings AS jp
 		ON o.conceptUri = jp.occupationUri
-		WHERE DATE_SUB(CURDATE(), INTERVAL 3 DAY) < jp.scrapeDate
+		WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) < jp.scrapeDate
 	) AS tmp
 	GROUP BY 2,3,4,5
 	ORDER BY 1 DESC

@@ -59,21 +59,9 @@ def registerinquiry():
 def uservalidate(userid,token):
 	print('hit [uservalidate] with [%s]' % (userid))
 
-	userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(userid)
+	records = func.finduserbyid(userid,'full')
 
-	userrecords = []
-	user = {}
-	user['userid'] = userid
-	user['firstname'] = firstname
-	user['lastname'] = lastname
-	user['email'] = email
-	user['countrycode'] = countrycode
-	user['countryname'] = countryname
-	user['statename'] = statename
-
-	userrecords.append(user)
-
-	return func.jsonifyoutput(200,"identity verified. hello %s" % firstname,"users","",userrecords,{'Access-Token': token, 'Name': firstname})
+	return func.jsonifyoutput(200,"identity verified","users","",func.jsonifyusers(records),{'Access-Token': token, 'Name': records[0][1]})
 
 @app.route('/v1/users', methods=['PUT'])
 @func.requiretoken
@@ -122,7 +110,7 @@ def addorloginuser():
 		if not email or not password:
 			return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
 		else:
-			userid,firstname,lastname,email,passwordhashed,countrycode,countryname,statename = func.finduserbyid(email)
+			userid,firstname,passwordhashed = func.finduserbyid(email,'lite')
 			if userid != "" and func.checkpassword(passwordhashed,password):
 				token = func.generatejwt(userid,firstname)
 				tokenstr = token.decode('UTF-8')
