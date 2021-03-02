@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, setUserSession, removeUserSession } from './utils/common';
 
-import { Modal, Header, Segment, Divider, Message, Button, Icon, Label, Image, Grid, Input } from 'semantic-ui-react'
+import { Modal, Header, Divider, Message, Button, Icon, Label, Image, Grid, Input } from 'semantic-ui-react'
 import validator from 'validator'
 
 class Login extends React.Component {

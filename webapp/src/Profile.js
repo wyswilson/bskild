@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Header, Label, List, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
+import { List, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
 import validator from 'validator'
 
 class Profile extends React.Component {
