@@ -616,21 +616,23 @@ class Home extends React.Component {
                         {
                           item.type === 'occupations' && mode !== 'lite' &&
                           <Popup className='popup' inverted flowing hoverable
-                            content='You can only add to your profile if you are logged in'
                             disabled={this.state.userid === '' ? false : true}
-                            trigger={   
-                            <span>
-                            <Button
-                            className='action' disabled={this.state.userid === '' ? true : false}
-                            size='tiny' onClick={this.toggleuserfav.bind(this)}
-                            >
-                              <Icon name='clipboard outline'/>
-                              <span id='savefavbutton'>
-                                {this.state.ispagefav ? 'REMOVE FROM PROFILE' : 'ADD TO PROFILE'}
+                            trigger={
+                              <span>
+                              <Button
+                              className='action' disabled={this.state.userid === '' ? true : false}
+                              size='tiny' onClick={this.toggleuserfav.bind(this)}
+                              >
+                                <Icon name='clipboard outline'/>
+                                <span id='savefavbutton'>
+                                  {this.state.ispagefav ? 'REMOVE FROM PROFILE' : 'ADD TO PROFILE'}
+                                </span>
+                              </Button>
                               </span>
-                            </Button>
-                            </span>
-                          }/>
+                            }
+                          >
+                          Please <a href='/login'>login</a> to add to your profile
+                          </Popup>
                         }
                       </Grid.Column>
                     </Grid.Row> 
@@ -902,7 +904,7 @@ class Home extends React.Component {
               <Grid.Row columns={2} divided>
                 <Grid.Column>
                   <Input id="inquirynamefirst" labelPosition='left' 
-                    type='text' placeholder='' size='large'
+                    type='text'
                     onChange={this.validatename.bind(this)}
                     error={!this.state.isnamevalid} fluid
                   >
@@ -916,7 +918,7 @@ class Home extends React.Component {
                 </Grid.Column>
                 <Grid.Column>
                   <Input id="inquirynamelast" labelPosition='left' 
-                    type='text' placeholder='' size='large'
+                    type='text'
                     onChange={this.validatename.bind(this)}
                     error={!this.state.isnamevalid} fluid
                   >
@@ -932,7 +934,7 @@ class Home extends React.Component {
               <Grid.Row columns={2} divided>
                 <Grid.Column>
                   <Input id="inquiryemail" labelPosition='left' 
-                    type='text' placeholder='' size='large'
+                    type='text'
                     onChange={this.validateemail.bind(this)}
                     error={!this.state.isemailvalid} fluid
                   >
@@ -946,7 +948,7 @@ class Home extends React.Component {
                 </Grid.Column>
                 <Grid.Column>
                   <Input id="inquirycomp" labelPosition='left' 
-                    type='text' placeholder='' size='large'
+                    type='text'
                     error={!this.state.iscompvalid} fluid
                   >
                     <Label basic
