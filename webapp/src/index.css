@@ -168,3 +168,9 @@ body {
   height: calc(100% - 50px) !important;
   margin-top: 25px !important;
 }
+
+.popup{
+  border-radius: 0;
+  opacity: 0.7;
+  padding: 2em;
+}

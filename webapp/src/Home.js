@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Rating, Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
+import { Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
 import _ from 'lodash'
 import scrollToComponent from 'react-scroll-to-component';
 import validator from 'validator'
@@ -454,8 +454,7 @@ class Home extends React.Component {
     this.inquirehelpmodal(custommessage,true);
   }
 
-  async toggleuserfav(){
-
+  async toggleuserfav(event){
     if(this.state.userid !== ''){
       try{
         const response = await axios.post(this.state.apihost + '/users/favs', 
@@ -472,13 +471,19 @@ class Home extends React.Component {
           }
         )
         console.log('set user fav [' + response.data['message'] + ']');
+
+        if(!this.state.ispagefav){
+          this.setState({ispagefav: true});
+          document.getElementById('savefavbutton').innerText  = 'REMOVE FROM PROFILE';
+        }
+        else{
+          this.setState({ispagefav: false});
+          document.getElementById('savefavbutton').innerText  = 'ADD TO PROFILE';
+        }
       }
       catch(err){
         console.log('set user fav [' + err + ']');     
       }    
-    }
-    else{
-
     }
   }
 
@@ -500,7 +505,7 @@ class Home extends React.Component {
               </Table.Cell>
               <Table.Cell key={'row.cell3' + skillitem.id} width={5}>
                 <Button icon='mail' content='UPSKILL NOW'
-                  className='action'
+                  className='action' size='tiny'
                   onClick={this.setskillsneedhelp.bind(this,skillitem.id)}
                 />                
               </Table.Cell>
@@ -516,7 +521,7 @@ class Home extends React.Component {
               </Table.Cell>
               <Table.Cell key={'row.cell2' + occupationitem.id} width={5}>
                 <Button icon='mail' content='RESKILL NOW'
-                  className='action'
+                  className='action' size='tiny'
                   onClick={this.inquirehelpmodaloccupation.bind(this,true,occupationitem.id,occupationitem.name)}
                 />
               </Table.Cell>
@@ -598,36 +603,40 @@ class Home extends React.Component {
                     name={item.type === 'occupations' ? 'user outline'  : 'list'}
                   />
                 </Label>
-                <Card.Header className='actionlink'>
-                  <a  onClick={this.suggestionselected.bind(this,item.type,item.key)}
-                   href={ item.type === 'occupations' ? '/home?q=' + item.key + '&m=o'  : '/home?q=' + item.key + '&m=s' }>
-                  {item.value}
-                  </a>
-                  { ' ' }
-                  {
-                    item.type === 'occupations' && mode !== 'lite' &&
-                    !this.state.ispagefav &&
-                    <Icon.Group size='small'
-                       onClick={this.toggleuserfav.bind(this)}
-                    >
-                      <Icon name='clipboard outline'/>
-                      <Icon corner name='add' />
-                    </Icon.Group>
-                  }
-                  {
-                    item.type === 'occupations' && mode !== 'lite' &&
-                    this.state.ispagefav &&
-                    <Icon.Group size='small'
-                       onClick={this.toggleuserfav.bind(this)}
-                    >
-                      <Icon name='clipboard'/>
-                      <Icon corner name='add' />
-                    </Icon.Group>
-                  }
+                <Card.Header>
+                  <Grid stackable>
+                    <Grid.Row columns={2}>
+                      <Grid.Column width={11} className='actionlink'>
+                        <a onClick={this.suggestionselected.bind(this,item.type,item.key)}
+                         href={ item.type === 'occupations' ? '/home?q=' + item.key + '&m=o'  : '/home?q=' + item.key + '&m=s' }>
+                        {item.value}
+                        </a>
+                      </Grid.Column>
+                      <Grid.Column width={4} textAlign='left' verticalAlign='middle'>
+                        {
+                          item.type === 'occupations' && mode !== 'lite' &&
+                          <Popup className='popup' inverted flowing hoverable
+                            content='You can only add to your profile if you are logged in'
+                            disabled={this.state.userid === '' ? false : true}
+                            trigger={   
+                            <span>
+                            <Button
+                            className='action' disabled={this.state.userid === '' ? true : false}
+                            size='tiny' onClick={this.toggleuserfav.bind(this)}
+                            >
+                              <Icon name='clipboard outline'/>
+                              <span id='savefavbutton'>
+                                {this.state.ispagefav ? 'REMOVE FROM PROFILE' : 'ADD TO PROFILE'}
+                              </span>
+                            </Button>
+                            </span>
+                          }/>
+                        }
+                      </Grid.Column>
+                    </Grid.Row> 
+                  </Grid>             
                 </Card.Header>
-                <Card.Meta>
-                  {item.type === 'occupations' ? 'role'  : 'skill'}
-                </Card.Meta>
+               
               </Card.Content>
               <Card.Content style = {mode !== 'lite' ? { paddingLeft: 0, paddingRight: 0 } : {}}>
               {
@@ -637,7 +646,7 @@ class Home extends React.Component {
                     <Table.Row key='descriptionheader'>
                       <Table.HeaderCell>
                         <Header as='h4'>
-                          { item.type === 'occupations' ? 'Description'  : 'Description'}
+                          { item.type === 'occupations' ? 'Description of the role'  : 'Description of the skill'}
                         </Header>
                       </Table.HeaderCell>
                     </Table.Row>
@@ -707,8 +716,8 @@ class Home extends React.Component {
                   </p>
                   <Button icon='toggle down' content='FIND OUT MORE'
                       className='action'
-                      size='large' onClick={this.scrollto.bind(this,this.about)}/>
-
+                      size='large' onClick={this.scrollto.bind(this,this.about)}
+                  />
                 </Grid.Column>
                 <Grid.Column>
                 </Grid.Column>

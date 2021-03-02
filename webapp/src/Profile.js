@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
+import { Header, Label, List, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
 import validator from 'validator'
 
 class Profile extends React.Component {
@@ -24,7 +24,8 @@ class Profile extends React.Component {
       isfirstnamevalid: true,
       islastnamevalid: true,
       userinfoupdatemsg: '',
-      userinfoupdateok: true
+      userinfoupdateok: true,
+      userfavs: []
     };
   }
 
@@ -53,6 +54,8 @@ class Profile extends React.Component {
       await this.setState({countrycode: response.data['users'][0]['countrycode']})
       await this.filterstatesdata(this.state.countrycode);
       await this.setState({statename: response.data['users'][0]['statename']})
+      await this.setState({userfavs: response.data['users'][0]['occupations']})
+      
     }
     catch(err){
       if(err.response){
@@ -65,6 +68,21 @@ class Profile extends React.Component {
         }
       }
     }  
+  }
+
+  renderuserfavs(){
+    let userfavspanel = this.state.userfavs.map((item) => (
+          <List.Item key={item.id}
+             href={'/home?q=' + item.id + '&m=o'}
+          >
+          {item.name}
+          </List.Item>
+        ));
+    return (
+      <List bulleted>
+      {userfavspanel}
+      </List>
+    );
   }
 
   async filterstatesdata(countrycode){
@@ -229,7 +247,7 @@ class Profile extends React.Component {
             <Grid.Row columns={2}>
               <Grid.Column>
                 <Segment raised>
-                Pellentesque habitant morbi tristique senectus
+                {this.renderuserfavs()}
                 </Segment>
               </Grid.Column>
               <Grid.Column>
@@ -322,19 +340,7 @@ class Profile extends React.Component {
                   </Grid>
                 </Segment>
               </Grid.Column>
-            </Grid.Row>
-            <Grid.Row columns={2}>
-              <Grid.Column>
-                <Segment raised>
-                Pellentesque habitant morbi tristique senectus
-                </Segment>
-              </Grid.Column>
-              <Grid.Column>
-                <Segment raised>
-                Pellentesque habitant morbi tristique senectus
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
+            </Grid.Row>            
           </Grid>
         </div>
       </div>
