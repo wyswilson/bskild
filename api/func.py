@@ -140,13 +140,32 @@ def saveuserfavroles(userid,conceptid,concepttype):
 	elif concepttype == 'skills':
 		concepturi = "%s/skill/%s" % (idprefix,conceptid)
 
-	query2 = """
-		REPLACE INTO users_favs (userId,conceptUri,conceptType)
-		VALUES (%s,%s,%s)
+	query1 = """
+	SELECT
+	  	*
+	FROM users_favs
+	WHERE userId = %s AND conceptUri = %s
 	"""
-	cursor = _execute(db,query2,(userid,concepturi,concepttype))
-	db.commit()
-	cursor.close()	
+	cursor = _execute(db,query1,(userid,concepturi))
+	records = cursor.fetchall()
+	cursor.close()
+
+	if len(records) == 0:
+		query2 = """
+			REPLACE INTO users_favs (userId,conceptUri,conceptType)
+			VALUES (%s,%s,%s)
+		"""
+		cursor = _execute(db,query2,(userid,concepturi,concepttype))
+		db.commit()
+		cursor.close()	
+	else:
+		query2 = """
+			DELETE FROM users_favs
+			WHERE userId = %s AND conceptUri = %s
+		"""
+		cursor = _execute(db,query2,(userid,concepturi))
+		db.commit()
+		cursor.close()			
 
 def validateemail(email):
 	if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:

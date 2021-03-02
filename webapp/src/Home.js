@@ -253,14 +253,24 @@ class Home extends React.Component {
     }
   }
 
+  checkisfav(selectedid){
+    const obj = this.state.userfavs.find(o => o.id === selectedid);
+    if(obj){
+      this.setState({ispagefav: true});
+    }
+    else{
+      this.setState({ispagefav: false});
+    }
+  }
+
   async suggestionselected(type,id){
     this.setState({mainpageloading: true});
 
     await this.setState({selectedid: id});
     await this.setState({selectedtype: type});
 
-    console.log(this.state.userfavs);
-    
+    await this.checkisfav(id);
+
     if(type === 'skills'){
       const options = await this.searchskills(id,'full');
       await this.resetsuggestions();
@@ -444,8 +454,7 @@ class Home extends React.Component {
     this.inquirehelpmodal(custommessage,true);
   }
 
-  async setuserfav(event){
-    console.log(this.state.userid + '-' + this.state.selectedid)
+  async toggleuserfav(){
 
     if(this.state.userid !== ''){
       try{
@@ -597,9 +606,23 @@ class Home extends React.Component {
                   { ' ' }
                   {
                     item.type === 'occupations' && mode !== 'lite' &&
-                    <Rating icon='star' maxRating={1} size='small'
-                      onClick={this.setuserfav.bind(this)}
-                    />
+                    !this.state.ispagefav &&
+                    <Icon.Group size='small'
+                       onClick={this.toggleuserfav.bind(this)}
+                    >
+                      <Icon name='clipboard outline'/>
+                      <Icon corner name='add' />
+                    </Icon.Group>
+                  }
+                  {
+                    item.type === 'occupations' && mode !== 'lite' &&
+                    this.state.ispagefav &&
+                    <Icon.Group size='small'
+                       onClick={this.toggleuserfav.bind(this)}
+                    >
+                      <Icon name='clipboard'/>
+                      <Icon corner name='add' />
+                    </Icon.Group>
                   }
                 </Card.Header>
                 <Card.Meta>
