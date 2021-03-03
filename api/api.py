@@ -81,12 +81,27 @@ def updateuser(userid,token):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
+@app.route('/v1/users/career/<occupationid>', methods=['PUT'])
+@func.requiretoken
+def updateusercareer(userid,token,occupationid):
+	print('hit [updateusercareer]')
+	
+	status = "User career updated"
+	statuscode = 200
+
+	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
+	instances = jsondata[0]['instances']
+	
+	func.updatecareerinstances(userid,occupationid,instances)
+
+	return func.jsonifyoutput(statuscode,status,"","",[])
+
 @app.route('/v1/users/career', methods=['POST'])
 @func.requiretoken
 def setusercareer(userid,token):
-	print('hit [setuserfavs]')
+	print('hit [setusercareer]')
 
-	status = "User favourite set"
+	status = "New role added to user's profile"
 	statuscode = 200
 
 	jsondata 	= json.loads(flask.request.get_data().decode('UTF-8'))
@@ -300,5 +315,5 @@ def getoccupationsbyskills(skill):
 
 
 if __name__ == "__main__":
-	app.run(debug=True,host='0.0.0.0',port=8888)
-	#waitress.serve(app, host="0.0.0.0", port=8888)
+	#app.run(debug=True,host='0.0.0.0',port=8888)
+	waitress.serve(app, host="0.0.0.0", port=8888)

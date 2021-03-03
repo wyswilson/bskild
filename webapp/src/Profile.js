@@ -13,6 +13,7 @@ class Profile extends React.Component {
     super(props)
     this.state = {
       apihost: 'http://bskild.xyz/v1',
+      //apihost: 'http://127.0.0.1:8888/v1',      
       token: getToken(),
       userid: '',
       email: '',
@@ -111,6 +112,31 @@ class Profile extends React.Component {
     console.log(this.state.usercareer);
   }
   
+  async updatecareerdata(occupationid){
+    const occupationtoupdate = this.state.usercareer.filter(function( obj ) {
+      return obj.id === occupationid;
+    });
+    
+    try{
+      const requeststr = this.state.apihost + '/users/career/' + occupationid
+      const response = await axios.put(requeststr,
+        occupationtoupdate, 
+        {
+          headers: {
+            'crossDomain': true,
+            "content-type": "application/json",
+            "access-token": this.state.token
+          }
+        }
+      );
+      console.log('update user career [' + response.data['message'] + ']');
+      
+    }
+    catch(err){
+      console.log('update user career [' + err + ']');     
+    }  
+  }
+
   async handlecompanychange(occupationid,instanceid){
     const companyfieldid = 'company-' + occupationid + '-' + instanceid;
     const companyname = document.getElementById(companyfieldid).value;
@@ -127,8 +153,22 @@ class Profile extends React.Component {
       usercareerpanel.push(
           <Item key={item.id}>
             <Item.Content>
-              <Item.Header as='a' href={'/home?q=' + item.id + '&m=o'}>
-              {item.name}
+              <Item.Header>
+                <Grid stackable doubling  divided>
+                  <Grid.Row columns={2}>
+                    <Grid.Column width={13} className='actionlink'>
+                      <a href={'/home?q=' + item.id + '&m=o'}>
+                      {item.name}
+                      </a>
+                    </Grid.Column>
+                    <Grid.Column width={2} textAlign='right'>
+                      <Icon name='save' size='small' link
+                        color='green'
+                        onClick={this.updatecareerdata.bind(this,item.id)}
+                      />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
               </Item.Header>
               <Item.Extra>
                 <Table stackable size='small' compact collapsing>

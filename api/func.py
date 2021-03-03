@@ -163,6 +163,23 @@ def saveuserroles(userid,conceptid):
 		db.commit()
 		cursor.close()			
 
+def updatecareerinstances(userid,occupationid,instances):
+	concepturi = "%s/occupation/%s" % (idprefix,occupationid)
+
+	for instance in instances:
+		instanceid 	= instance['instanceid']
+		company 	= instance['company']
+		datefrom 	= instance['datefrom']
+		dateto 		= instance['dateto']
+
+		query2 = """
+			UPDATE careers SET company = %s, dateFrom = %s, dateTo = %s
+			WHERE userId = %s AND occupationUri = %s AND instanceId = %s
+		"""
+		cursor = _execute(db,query2,(company,datefrom,dateto,userid,concepturi,instanceid))
+		db.commit()
+		cursor.close()	
+
 def validateemail(email):
 	if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
 		return True
