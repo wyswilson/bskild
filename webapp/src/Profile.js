@@ -3,11 +3,10 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Item, Label, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
-import validator from 'validator'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import _ from 'lodash'
+import { Label, Table, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
+import _ from 'lodash';
+import validator from 'validator';
+import DatePicker from "react-date-picker";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -29,13 +28,7 @@ class Profile extends React.Component {
       userinfoupdatemsg: '',
       userinfoupdateok: true,
       userprofile: [],
-      usercareer: {},
-      date:new Date(),
-      customdateinput: ({ value, onClick }) => (
-        <Label className="example-custom-input" onClick={onClick}>
-          {value}
-        </Label>
-      )
+      usercareer: {}
     };
   }
 
@@ -111,52 +104,68 @@ class Profile extends React.Component {
     }  
   }
 
-  handledateselect(field,selectedid,selecteddate){
-    console.log(selectedid + '-' + field + '-' + selecteddate);
-
+  async handledateselect(datetype,occupationid,instanceid,newdate){
+    let careerobj = this.state.usercareer;
+    careerobj[occupationid]['instances'][instanceid][datetype] = newdate;
+    await this.setState({usercareer: careerobj});
+    console.log(this.state.usercareer);
   }
-   
+  
+  async handlecompanychange(occupationid,instanceid){
+    const companyfieldid = 'company-' + occupationid + '-' + instanceid;
+    const companyname = document.getElementById(companyfieldid).value;
+    let careerobj = this.state.usercareer;
+    careerobj[occupationid]['instances'][instanceid]['company'] = companyname;
+    await this.setState({usercareer: careerobj});
+    console.log(this.state.usercareer);
+  }
+
   renderusercareer(){
     let usercareerpanel = [];
 
-    _.each(this.state.usercareer, (item) => {
+    _.each(this.state.usercareer, (item, i) => {
       usercareerpanel.push(
           <Item key={item.id}>
-          <Item.Content>
-            <Item.Header as='a' href={'/home?q=' + item.id + '&m=o'}>
-            {item.name}
-            </Item.Header>
-            <Item.Extra>
-              {
-                item.instances.map((instance) =>
-                    <li key={ instance.instanceid }>
-                      @
-                      {
-                        <Input size='small'
-                        >{instance.company}</Input>
-                      }
-                      from {' '}
-                      <DatePicker 
-                        customInput={<this.state.customdateinput />}
-                        showMonthYearPicker
-                        dateFormat='yyyy-MM'
-                        selected={instance.datefrom ? instance.datefrom : (new Date())}
-                        onSelect={this.handledateselect.bind(this,'datefrom',item.id)} //when day is clicked
-                      />{' '}
-                      to {' '}
-                      <DatePicker 
-                        customInput={<this.state.customdateinput />}
-                        showMonthYearPicker
-                        dateFormat='yyyy-MM'
-                        selected={instance.dateto ? instance.datefrom : (new Date())}
-                        onSelect={this.handledateselect.bind(this,'dateto',item.id)} //when day is clicked
-                      />
-                    </li>
-                )
-              }
-            </Item.Extra>
-          </Item.Content>
-          
+            <Item.Content>
+              <Item.Header as='a' href={'/home?q=' + item.id + '&m=o'}>
+              {item.name}
+              </Item.Header>
+              <Item.Extra>
+                <Table stackable size='small' compact collapsing>
+                <Table.Body>
+                {
+                  item.instances.map((instance, j) =>
+                    <Table.Row>
+                      <Table.Cell>
+                        <Input size='small' style={{width:'20em'}}
+                          iconPosition='left'
+                          icon='at' placeholder='Company'
+                          onChange={this.handlecompanychange.bind(this,i,j)}
+                          id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
+                         />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Label>
+                          <DatePicker clearIcon={null} format='yyyy-MM' maxDetail='month'
+                              onChange={this.handledateselect.bind(this,'datefrom',i,j)}
+                              value={instance.datefrom}
+                              monthPlaceholder='mm' yearPlaceholder='yyyy'
+                          />
+                          <Icon name='long arrow alternate right' fitted size='large'/>
+                          <DatePicker clearIcon={null} format='yyyy-MM' maxDetail='month'
+                              onChange={this.handledateselect.bind(this,'dateto',i,j)}
+                              value={instance.dateto}
+                              monthPlaceholder='mm' yearPlaceholder='yyyy'
+                          />
+                        </Label>
+                      </Table.Cell>
+                    </Table.Row>
+                  )
+                }
+                </Table.Body>
+                </Table>
+              </Item.Extra>
+            </Item.Content>
           </Item>
         )
     });

@@ -3,11 +3,11 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react'
-import _ from 'lodash'
+import { Message, Loader, Image, Input, Modal, Table, Popup, List, Button, Label, Icon, Dropdown, Header, Grid, Card } from 'semantic-ui-react';
+import _ from 'lodash';
 import scrollToComponent from 'react-scroll-to-component';
-import validator from 'validator'
-import queryString from 'query-string'
+import validator from 'validator';
+import queryString from 'query-string';
 
 class Home extends React.Component {
   constructor(props) {
