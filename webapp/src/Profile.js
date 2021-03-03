@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Label, Table, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
+import { Popup, Label, Table, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import validator from 'validator';
 import DatePicker from "react-date-picker";
@@ -154,21 +154,20 @@ class Profile extends React.Component {
           <Item key={item.id}>
             <Item.Content>
               <Item.Header>
-                <Grid stackable doubling  divided>
-                  <Grid.Row columns={2}>
-                    <Grid.Column width={13} className='actionlink'>
-                      <a href={'/home?q=' + item.id + '&m=o'}>
-                      {item.name}
-                      </a>
-                    </Grid.Column>
-                    <Grid.Column width={2} textAlign='right'>
-                      <Icon name='save' size='small' link
-                        color='green'
-                        onClick={this.updatecareerdata.bind(this,item.id)}
-                      />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
+                <span className='actionlink'>
+                  <a href={'/home?q=' + item.id + '&m=o'}>
+                  {item.name}
+                  </a>
+                </span>
+                { ' ' }
+                <Popup content={'Save your changes'}
+                  trigger={
+                  <Icon name='save' size='small' link
+                    color='green'
+                    onClick={this.updatecareerdata.bind(this,item.id)}
+                  />
+                }/>
+
               </Item.Header>
               <Item.Extra>
                 <Table stackable size='small' compact collapsing>
