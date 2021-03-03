@@ -267,9 +267,9 @@ def finduserbyid(emailoruserid,mode):
 		JOIN geo_countries as gc
 		ON u.countryCode = gc.countryCode
 		JOIN careers AS uf
-		ON u.userId = uf.userId AND uf.conceptType = 'occupation'
+		ON u.userId = uf.userId
 		JOIN occupations AS o
-		ON uf.conceptUri = o.conceptUri
+		ON uf.occupationUri = o.conceptUri
 		WHERE u.email = %s OR u.userId = %s
 		"""
 		cursor = _execute(db,query1,(emailoruserid,emailoruserid))
