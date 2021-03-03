@@ -207,13 +207,21 @@ def jsonifyusers(records):
 		occupationuri 	= record[8]
 		occupationname 	= record[9]
 		occupationdesc 	= record[10]
+		instanceid 		= record[11]
+		company 		= record[12]
+		datefrom 		= record[13]
+		dateto 			= record[14]
 
 		occupationid = occupationuri.split("/occupation/")[1]
 
 		occupationdetails = {}
-		occupationdetails['id'] = occupationid
+		occupationdetails['occupationid'] = occupationid
 		occupationdetails['name'] = occupationname
 		occupationdetails['desc'] = occupationdesc
+		occupationdetails['instanceid'] = instanceid
+		occupationdetails['company'] = company
+		occupationdetails['datefrom'] = datefrom
+		occupationdetails['dateto'] = dateto
 
 		occupationsbyuser.append(occupationdetails)
 		
@@ -257,7 +265,8 @@ def finduserbyid(emailoruserid,mode):
 		SELECT
 		  	u.userId,u.firstName,u.lastName,u.email,u.pwdHashed,
 		  	gc.countryCode,gc.countryName,u.stateName,
-		  	o.conceptUri,o.preferredLabel,o.description
+		  	o.conceptUri,o.preferredLabel,o.description,
+		  	uf.instanceId,uf.company,uf.dateFrom,uf.dateTo
 		FROM users as u
 		JOIN geo_countries as gc
 		ON u.countryCode = gc.countryCode
