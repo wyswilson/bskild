@@ -89,12 +89,10 @@ def setuserfav(userid,token):
 	status = "User favourite set"
 	statuscode = 200
 
-	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
-	conceptid	= jsondata["conceptId"]
+	jsondata 	= json.loads(flask.request.get_data().decode('UTF-8'))
+	occupationid= jsondata["occupationId"]
 
-	print(conceptid + concepttype)
-
-	func.saveuserroles(userid,conceptid)
+	func.saveuserroles(userid,occupationid)
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
@@ -302,5 +300,5 @@ def getoccupationsbyskills(skill):
 
 
 if __name__ == "__main__":
-	#app.run(debug=True,host='0.0.0.0',port=8888)
-	waitress.serve(app, host="0.0.0.0", port=8888)
+	app.run(debug=True,host='0.0.0.0',port=8888)
+	#waitress.serve(app, host="0.0.0.0", port=8888)
