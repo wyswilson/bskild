@@ -90,12 +90,11 @@ def setuserfav(userid,token):
 	statuscode = 200
 
 	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
-	conceptid	= jsondata["conceptId"]	
-	concepttype	= jsondata["conceptType"]
+	conceptid	= jsondata["conceptId"]
 
 	print(conceptid + concepttype)
 
-	func.saveuserfavroles(userid,conceptid,concepttype)
+	func.saveuserroles(userid,conceptid)
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 

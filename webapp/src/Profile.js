@@ -3,8 +3,11 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { List, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
+import { Item, Label, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react'
 import validator from 'validator'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import _ from 'lodash'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -25,7 +28,14 @@ class Profile extends React.Component {
       islastnamevalid: true,
       userinfoupdatemsg: '',
       userinfoupdateok: true,
-      userfavs: []
+      userprofile: [],
+      usercareer: {},
+      date:new Date(),
+      customdateinput: ({ value, onClick }) => (
+        <Label className="example-custom-input" onClick={onClick}>
+          {value}
+        </Label>
+      )
     };
   }
 
@@ -54,8 +64,24 @@ class Profile extends React.Component {
       await this.setState({countrycode: response.data['users'][0]['countrycode']})
       await this.filterstatesdata(this.state.countrycode);
       await this.setState({statename: response.data['users'][0]['statename']})
-      await this.setState({userfavs: response.data['users'][0]['occupations']})
+      await this.setState({userprofile: response.data['users'][0]['occupations']})
       
+      let careerobj = {}
+      await _.each(this.state.userprofile, (item, i) => {
+        let careerinstance = {};
+        careerinstance['instanceid'] = item.instanceid;
+        careerinstance['company'] = item.company;
+        careerinstance['datefrom'] = item.datefrom;
+        careerinstance['dateto'] = item.dateto;
+        if(item.occupationid in careerobj){
+          careerobj[item.occupationid].push(careerinstance);
+        }
+        else{
+          careerobj[item.occupationid] = [careerinstance];
+        }
+        
+      });
+      this.setState({usercareer: careerobj});
     }
     catch(err){
       if(err.response){
@@ -70,18 +96,55 @@ class Profile extends React.Component {
     }  
   }
 
-  renderuserfavs(){
-    let userfavspanel = this.state.userfavs.map((item) => (
-          <List.Item key={item.id}
-             href={'/home?q=' + item.id + '&m=o'}
-          >
-          {item.name}
-          </List.Item>
-        ));
+  handledateselect(field,selectedid,selecteddate){
+    console.log(selectedid + '-' + field + '-' + selecteddate);
+
+  }
+   
+  renderusercareer(){
+    let usercareerpanel = [];
+
+    _.each(this.state.usercareer, (item, id) => {
+      usercareerpanel.push(
+          <Item key={item.id}>
+          <Item.Content>
+            <Item.Header as='a' href={'/home?q=' + item.id + '&m=o'}>
+            {id} - {item.name}
+            </Item.Header>
+            <Item.Meta>
+              <span className='cinema'>{item.company}</span>
+            </Item.Meta>
+            <Item.Description>
+              
+            </Item.Description>
+            <Item.Extra>
+              from {' '}
+              <DatePicker 
+                customInput={<this.state.customdateinput />}
+                showMonthYearPicker
+                dateFormat='yyyy-MM'
+                selected={item.datefrom}
+                onSelect={this.handledateselect.bind(this,'datefrom',item.id)} //when day is clicked
+              />
+              to {' '}
+              <DatePicker 
+                customInput={<this.state.customdateinput />}
+                showMonthYearPicker
+                dateFormat='yyyy-MM'
+                selected={item.dateto}
+                onSelect={this.handledateselect.bind(this,'dateto',item.id)} //when day is clicked
+              />
+            </Item.Extra>
+          </Item.Content>
+          
+          </Item>
+        )
+    });
+
     return (
-      <List bulleted>
-      {userfavspanel}
-      </List>
+      <Item.Group divided>
+      {usercareerpanel}
+      </Item.Group>
     );
   }
 
@@ -247,7 +310,7 @@ class Profile extends React.Component {
             <Grid.Row columns={2}>
               <Grid.Column>
                 <Segment raised>
-                {this.renderuserfavs()}
+                {this.renderusercareer()}
                 </Segment>
               </Grid.Column>
               <Grid.Column>

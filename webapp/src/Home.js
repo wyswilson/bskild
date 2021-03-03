@@ -459,8 +459,7 @@ class Home extends React.Component {
       try{
         const response = await axios.post(this.state.apihost + '/users/favs', 
           {
-            conceptId:this.state.selectedid,
-            conceptType:'occupations'
+            occupationId:this.state.selectedid
           }, 
           {
             headers: {

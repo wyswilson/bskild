@@ -133,18 +133,14 @@ def requiresbasicauth(f):
         return f(*args, **kwargs)
     return decorated
 
-def saveuserfavroles(userid,conceptid,concepttype):
-	concepturi = ''
-	if concepttype == 'occupations':
-		concepturi = "%s/occupation/%s" % (idprefix,conceptid)
-	elif concepttype == 'skills':
-		concepturi = "%s/skill/%s" % (idprefix,conceptid)
+def saveuserroles(userid,conceptid):
+	concepturi = "%s/occupation/%s" % (idprefix,conceptid)
 
 	query1 = """
 	SELECT
 	  	*
-	FROM users_favs
-	WHERE userId = %s AND conceptUri = %s
+	FROM careers
+	WHERE userId = %s AND occupationUri = %s
 	"""
 	cursor = _execute(db,query1,(userid,concepturi))
 	records = cursor.fetchall()
@@ -152,16 +148,16 @@ def saveuserfavroles(userid,conceptid,concepttype):
 
 	if len(records) == 0:
 		query2 = """
-			REPLACE INTO users_favs (userId,conceptUri,conceptType)
+			REPLACE INTO careers (userId,occupationUri)
 			VALUES (%s,%s,%s)
 		"""
-		cursor = _execute(db,query2,(userid,concepturi,concepttype))
+		cursor = _execute(db,query2,(userid,concepturi))
 		db.commit()
 		cursor.close()	
 	else:
 		query2 = """
-			DELETE FROM users_favs
-			WHERE userId = %s AND conceptUri = %s
+			DELETE FROM careers
+			WHERE userId = %s AND occupationUri = %s
 		"""
 		cursor = _execute(db,query2,(userid,concepturi))
 		db.commit()
