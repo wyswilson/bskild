@@ -266,7 +266,7 @@ def finduserbyid(emailoruserid,mode):
 		FROM users as u
 		JOIN geo_countries as gc
 		ON u.countryCode = gc.countryCode
-		JOIN users_favs AS uf
+		JOIN careers AS uf
 		ON u.userId = uf.userId AND uf.conceptType = 'occupation'
 		JOIN occupations AS o
 		ON uf.conceptUri = o.conceptUri
