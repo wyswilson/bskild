@@ -254,7 +254,7 @@ class Home extends React.Component {
   }
 
   checkisfav(selectedid){
-    const obj = this.state.userfavs.find(o => o.id === selectedid);
+    const obj = this.state.userfavs.find(o => o.occupationid === selectedid);
     if(obj){
       this.setState({ispagefav: true});
     }
