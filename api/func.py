@@ -149,7 +149,7 @@ def saveuserroles(userid,conceptid):
 	if len(records) == 0:
 		query2 = """
 			REPLACE INTO careers (userId,occupationUri)
-			VALUES (%s,%s,%s)
+			VALUES (%s,%s)
 		"""
 		cursor = _execute(db,query2,(userid,concepturi))
 		db.commit()

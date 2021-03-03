@@ -81,9 +81,9 @@ def updateuser(userid,token):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users/favs', methods=['POST'])
+@app.route('/v1/users/career', methods=['POST'])
 @func.requiretoken
-def setuserfav(userid,token):
+def setusercareer(userid,token):
 	print('hit [setuserfavs]')
 
 	status = "User favourite set"
