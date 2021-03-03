@@ -66,22 +66,37 @@ class Profile extends React.Component {
       await this.setState({statename: response.data['users'][0]['statename']})
       await this.setState({userprofile: response.data['users'][0]['occupations']})
       
-      let careerobj = {}
+      let occupations = [];
+      let occupationexisted = [];
       await _.each(this.state.userprofile, (item, i) => {
+        const occid = item.occupationid;        
         let careerinstance = {};
         careerinstance['instanceid'] = item.instanceid;
         careerinstance['company'] = item.company;
         careerinstance['datefrom'] = item.datefrom;
         careerinstance['dateto'] = item.dateto;
-        if(item.occupationid in careerobj){
-          careerobj[item.occupationid].push(careerinstance);
+
+        if(occupationexisted.includes(occid)){
+          let obj = occupations.find(o => o.id === occid);
+          obj['instances'].push(careerinstance);
+          occupations = occupations.filter(function( obj ) {
+            return obj.id !== occid;
+          });
+          occupations.push(obj);
         }
         else{
-          careerobj[item.occupationid] = [careerinstance];
+          let occupation = {}
+          occupation['id'] = occid;
+          occupation['name'] = item.name;
+          occupation['instances'] = [careerinstance];
+          occupations.push(occupation);
+
+          occupationexisted.push(occid);
         }
         
       });
-      this.setState({usercareer: careerobj});
+      console.log(occupations);
+      this.setState({usercareer: occupations});
     }
     catch(err){
       if(err.response){
@@ -104,36 +119,41 @@ class Profile extends React.Component {
   renderusercareer(){
     let usercareerpanel = [];
 
-    _.each(this.state.usercareer, (item, id) => {
+    _.each(this.state.usercareer, (item) => {
       usercareerpanel.push(
           <Item key={item.id}>
           <Item.Content>
             <Item.Header as='a' href={'/home?q=' + item.id + '&m=o'}>
-            {id} - {item.name}
+            {item.name}
             </Item.Header>
-            <Item.Meta>
-              <span className='cinema'>{item.company}</span>
-            </Item.Meta>
-            <Item.Description>
-              
-            </Item.Description>
             <Item.Extra>
-              from {' '}
-              <DatePicker 
-                customInput={<this.state.customdateinput />}
-                showMonthYearPicker
-                dateFormat='yyyy-MM'
-                selected={item.datefrom}
-                onSelect={this.handledateselect.bind(this,'datefrom',item.id)} //when day is clicked
-              />
-              to {' '}
-              <DatePicker 
-                customInput={<this.state.customdateinput />}
-                showMonthYearPicker
-                dateFormat='yyyy-MM'
-                selected={item.dateto}
-                onSelect={this.handledateselect.bind(this,'dateto',item.id)} //when day is clicked
-              />
+              {
+                item.instances.map((instance) =>
+                    <li key={ instance.instanceid }>
+                      @
+                      {
+                        <Input size='small'
+                        >{instance.company}</Input>
+                      }
+                      from {' '}
+                      <DatePicker 
+                        customInput={<this.state.customdateinput />}
+                        showMonthYearPicker
+                        dateFormat='yyyy-MM'
+                        selected={instance.datefrom ? instance.datefrom : (new Date())}
+                        onSelect={this.handledateselect.bind(this,'datefrom',item.id)} //when day is clicked
+                      />{' '}
+                      to {' '}
+                      <DatePicker 
+                        customInput={<this.state.customdateinput />}
+                        showMonthYearPicker
+                        dateFormat='yyyy-MM'
+                        selected={instance.dateto ? instance.datefrom : (new Date())}
+                        onSelect={this.handledateselect.bind(this,'dateto',item.id)} //when day is clicked
+                      />
+                    </li>
+                )
+              }
             </Item.Extra>
           </Item.Content>
           
