@@ -494,6 +494,7 @@ class Home extends React.Component {
               <Table.Cell className='actionlink' key={'row.cell1' + skillitem.id} selectable onClick={this.suggestionselected.bind(this,'skills',skillitem.id)}>
                 <a href={ '/home?q=' + skillitem.id + '&m=s' }>
                   <Popup content={skillitem.optionality + ' skill'}
+                    className='popup' inverted flowing hoverable
                     trigger={<Icon name='list' color={skillitem.optionality !== 'optional' ? 'red'  : 'green'}/>}
                   />
                   {skillitem.name}

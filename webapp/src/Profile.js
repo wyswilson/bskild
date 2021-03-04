@@ -29,7 +29,8 @@ class Profile extends React.Component {
       userinfoupdatemsg: '',
       userinfoupdateok: true,
       userprofile: [],
-      usercareer: {}
+      usercareer: {},
+      savepopupmsgs: {}
     };
   }
 
@@ -86,6 +87,9 @@ class Profile extends React.Component {
           occupations.push(occupation);
 
           occupationexisted.push(occid);
+          let savemsgs = this.state.savepopupmsgs;
+          savemsgs[occid] = 'Save your changes';
+          this.setState({savepopupmsgs: savemsgs});
         }
         
       });
@@ -130,10 +134,16 @@ class Profile extends React.Component {
         }
       );
       console.log('update user career [' + response.data['message'] + ']');
-      
+      console.log('savepopup-' + occupationid);
+      let savemsgs = this.state.savepopupmsgs;
+      savemsgs[occupationid] = 'Changes was saved';
+      this.setState({savepopupmsgs: savemsgs});
     }
     catch(err){
       console.log('update user career [' + err + ']');     
+      let savemsgs = this.state.savepopupmsgs;
+      savemsgs[occupationid] = 'Unable to save changes';
+      this.setState({savepopupmsgs: savemsgs});
     }  
   }
 
@@ -160,13 +170,15 @@ class Profile extends React.Component {
                   </a>
                 </span>
                 { ' ' }
-                <Popup content={'Save your changes'}
+                <Popup className='popup' inverted flowing hoverable
                   trigger={
-                  <Icon name='save' size='small' link
-                    color='green'
-                    onClick={this.updatecareerdata.bind(this,item.id)}
-                  />
-                }/>
+                    <Icon name='save' size='small' link
+                      color='green'
+                      onClick={this.updatecareerdata.bind(this,item.id)}
+                    />
+                  }
+                >{this.state.savepopupmsgs[item.id]}
+                </Popup>
 
               </Item.Header>
               <Item.Extra>
