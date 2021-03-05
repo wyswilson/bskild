@@ -205,20 +205,18 @@ class Profile extends React.Component {
                   item.instances.map((instance, j) =>
                     <Table.Row key={instance.instanceid}>
                       <Table.Cell>
-                        <Input size='small' style={{width:'13em'}}
+                        <Input size='small' style={{width:'8em'}}
                           iconPosition='left'
                           icon='at' placeholder='Company'
                           onChange={this.handlecompanychange.bind(this,i,j)}
                           id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
                          />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Input size='small' style={{width:'8em'}} placeholder='yyyy-mm'
+                        <Input size='small' style={{width:'7.5em'}} placeholder='yyyy-mm'
                           onChange={this.handledatechange.bind(this,'datefrom',i,j)}
                           id={'datefrom-' + i + '-' + j}
                           value={!instance.datefrom ? '' : instance.datefrom}
                         />
-                        <Input size='small' style={{width:'8em'}} placeholder='yyyy-mm'
+                        <Input size='small' style={{width:'7.5em'}} placeholder='yyyy-mm'
                           onChange={this.handledatechange.bind(this,'dateto',i,j)}
                           id={'dateto-' + i + '-' + j}
                           value={!instance.dateto ? '' : instance.dateto}
