@@ -233,8 +233,8 @@ def jsonifyusers(records):
 		occupationdetails['desc'] = occupationdesc
 		occupationdetails['instanceid'] = instanceid
 		occupationdetails['company'] = company
-		occupationdetails['datefrom'] = datefrom
-		occupationdetails['dateto'] = dateto
+		occupationdetails['datefrom'] = datefrom.strftime("%Y-%m-%d")
+		occupationdetails['dateto'] = dateto.strftime("%Y-%m-%d")
 
 		occupationsbyuser.append(occupationdetails)
 		

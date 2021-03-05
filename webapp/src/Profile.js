@@ -3,10 +3,9 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Popup, Label, Table, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
+import { Popup, Table, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import validator from 'validator';
-import DatePicker from "react-date-picker";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -109,11 +108,29 @@ class Profile extends React.Component {
     }  
   }
 
-  async handledateselect(datetype,occupationid,instanceid,newdate){
-    let careerobj = this.state.usercareer;
-    careerobj[occupationid]['instances'][instanceid][datetype] = newdate;
-    await this.setState({usercareer: careerobj});
-    console.log(this.state.usercareer);
+  async handledatechange(datetype,occupationid,instanceid){
+    const datefromfieldid = datetype + '-' + occupationid + '-' + instanceid;
+    let datefrom = document.getElementById(datefromfieldid).value;
+    console.log(datefrom);
+
+    if(/^[\d]{0,4}(?:-\d{0,2}){0,2}$/.test(datefrom)){
+      let careerobj = this.state.usercareer;
+
+      if(/^\d{4}-\d{2}$/.test(datefrom)){
+        datefrom = datefrom + '-01';
+      }
+      else if(/^\d{4}-\d{2}-$/.test(datefrom)){
+        datefrom = datefrom + '01';
+      }
+      else if(/^\d{4}-\d{2}-0$/.test(datefrom)){
+        datefrom = datefrom + '1';
+      }
+
+      careerobj[occupationid]['instances'][instanceid][datetype] = datefrom;
+      await this.setState({usercareer: careerobj});
+      console.log(this.state.usercareer);
+      console.log("isdate");
+    }
   }
   
   async updatecareerdata(occupationid){
@@ -186,9 +203,9 @@ class Profile extends React.Component {
                 <Table.Body>
                 {
                   item.instances.map((instance, j) =>
-                    <Table.Row>
+                    <Table.Row key={instance.instanceid}>
                       <Table.Cell>
-                        <Input size='small' style={{width:'20em'}}
+                        <Input size='small' style={{width:'13em'}}
                           iconPosition='left'
                           icon='at' placeholder='Company'
                           onChange={this.handlecompanychange.bind(this,i,j)}
@@ -196,19 +213,16 @@ class Profile extends React.Component {
                          />
                       </Table.Cell>
                       <Table.Cell>
-                        <Label>
-                          <DatePicker clearIcon={null} format='yyyy-MM' maxDetail='month'
-                              onChange={this.handledateselect.bind(this,'datefrom',i,j)}
-                              value={instance.datefrom}
-                              monthPlaceholder='mm' yearPlaceholder='yyyy'
-                          />
-                          <Icon name='long arrow alternate right' fitted size='large'/>
-                          <DatePicker clearIcon={null} format='yyyy-MM' maxDetail='month'
-                              onChange={this.handledateselect.bind(this,'dateto',i,j)}
-                              value={instance.dateto}
-                              monthPlaceholder='mm' yearPlaceholder='yyyy'
-                          />
-                        </Label>
+                        <Input size='small' style={{width:'8em'}} placeholder='yyyy-mm'
+                          onChange={this.handledatechange.bind(this,'datefrom',i,j)}
+                          id={'datefrom-' + i + '-' + j}
+                          value={!instance.datefrom ? '' : instance.datefrom}
+                        />
+                        <Input size='small' style={{width:'8em'}} placeholder='yyyy-mm'
+                          onChange={this.handledatechange.bind(this,'dateto',i,j)}
+                          id={'dateto-' + i + '-' + j}
+                          value={!instance.dateto ? '' : instance.dateto}
+                        />
                       </Table.Cell>
                     </Table.Row>
                   )
