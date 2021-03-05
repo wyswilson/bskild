@@ -225,6 +225,12 @@ def jsonifyusers(records):
 		datefrom 		= record[13]
 		dateto 			= record[14]
 
+		try:
+			datefrom = datefrom.strftime("%Y-%m-%d")
+			dateto = dateto.strftime("%Y-%m-%d")
+		except:
+			pass
+
 		occupationid = occupationuri.split("/occupation/")[1]
 
 		occupationdetails = {}
@@ -233,8 +239,8 @@ def jsonifyusers(records):
 		occupationdetails['desc'] = occupationdesc
 		occupationdetails['instanceid'] = instanceid
 		occupationdetails['company'] = company
-		occupationdetails['datefrom'] = datefrom.strftime("%Y-%m-%d")
-		occupationdetails['dateto'] = dateto.strftime("%Y-%m-%d")
+		occupationdetails['datefrom'] = datefrom
+		occupationdetails['dateto'] = dateto
 
 		occupationsbyuser.append(occupationdetails)
 		
