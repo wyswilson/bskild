@@ -77,19 +77,19 @@ class Profile extends React.Component {
     let occupations = [];
     let occupationexisted = [];
 
+    let hasnullinstance = {};      
     _.each(userprofile, (item, i) => {
       const occid = item.occupationid;  
-      let isnullinstance = {};      
       let careerinstance = {};
       careerinstance['instanceid'] = item.instanceid;
       careerinstance['company'] = item.company;
       careerinstance['datefrom'] = item.datefrom;
       careerinstance['dateto'] = item.dateto;
-      if(item.company === ''){
-        isnullinstance[occid] = true;
+      if(!(occid in hasnullinstance) && item.company === ''){
+        hasnullinstance[occid] = true;
       }
-      else{
-        isnullinstance[occid] = false;        
+      else if(!(occid in hasnullinstance)){
+        hasnullinstance[occid] = false;
       }
 
       if(occupationexisted.includes(occid)){
@@ -101,27 +101,28 @@ class Profile extends React.Component {
         occupations.push(obj);
       }
       else{
-        let careerinstancenew = {};
-        careerinstancenew['instanceid'] = '0';
-        careerinstancenew['company'] = '';
-        careerinstancenew['datefrom'] = '';
-        careerinstancenew['dateto'] = '';
-
         let occupation = {}
         occupation['id'] = occid;
         occupation['name'] = item.name;
-        if(isnullinstance[occid]){
-          occupation['instances'] = [careerinstance];
-        }
-        else{
-          occupation['instances'] = [careerinstancenew,careerinstance];
-        }
+        occupation['instances'] = [careerinstance];
 
         occupations.push(occupation);
         occupationexisted.push(occid);
       }
       
     });
+
+    _.each(hasnullinstance, (value, key) => {
+      console.log(key + '-' + value);
+      let careerinstancenew = {};
+      careerinstancenew['instanceid'] = '0';
+      careerinstancenew['company'] = '';
+      careerinstancenew['datefrom'] = '';
+      careerinstancenew['dateto'] = '';
+
+      
+    });
+
     this.setState({usercareer: occupations});
   }
 

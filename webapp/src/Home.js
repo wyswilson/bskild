@@ -457,7 +457,7 @@ class Home extends React.Component {
   async toggleuserfav(event){
     if(this.state.userid !== ''){
       try{
-        const response = await axios.post(this.state.apihost + '/users/career', 
+        const response = await axios.post(this.state.apihost + '/careers', 
           {
             occupationId:this.state.selectedid
           }, 
