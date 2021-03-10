@@ -314,7 +314,7 @@ def finduserbyid(emailoruserid,mode):
 		JOIN occupations AS o
 		ON uf.occupationUri = o.conceptUri
 		WHERE u.email = %s OR u.userId = %s
-		ORDER BY uf.dateFrom DESC
+		ORDER BY uf.company,uf.dateFrom DESC
 		"""
 		cursor = _execute(db,query1,(emailoruserid,emailoruserid))
 		records = cursor.fetchall()
