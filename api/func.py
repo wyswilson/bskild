@@ -164,12 +164,13 @@ def saveuserroles(userid,conceptid):
 		cursor.close()			
 
 def deletecareerinstance(userid,occupationid,instanceid):
+	concepturi = "%s/occupation/%s" % (idprefix,occupationid)
 
-	query2 = """
+	query1 = """
 		DELETE FROM careers 
 		WHERE userId = %s AND occupationUri = %s AND instanceId = %s
 	"""
-	cursor = _execute(db,query2,(userid,concepturi,instanceid))
+	cursor = _execute(db,query1,(userid,concepturi,instanceid))
 	db.commit()
 	cursor.close()
 

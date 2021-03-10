@@ -81,7 +81,7 @@ def updateuser(userid,token):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/careers/<occupationid>/<instanceid>', methods=['PUT'])
+@app.route('/v1/careers/<occupationid>/<instanceid>', methods=['DELETE'])
 @func.requiretoken
 def deleteusercareerinstance(userid,token,occupationid,instanceid):
 	print('hit [deleteusercareerinstance]')

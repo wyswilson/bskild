@@ -28,8 +28,7 @@ class Profile extends React.Component {
       userinfoupdatemsg: '',
       userinfoupdateok: true,
       userprofile: [],
-      usercareer: {},
-      savepopupmsgs: {}
+      usercareer: {}
     };
   }
 
@@ -59,57 +58,7 @@ class Profile extends React.Component {
       await this.filterstatesdata(this.state.countrycode);
       await this.setState({statename: response.data['users'][0]['statename']})
       await this.setState({userprofile: response.data['users'][0]['occupations']})
-      
-      let occupations = [];
-      let occupationexisted = [];
-      await _.each(this.state.userprofile, (item, i) => {
-        const occid = item.occupationid;  
-        let isnullinstance = false;      
-        let careerinstance = {};
-        careerinstance['instanceid'] = item.instanceid;
-        careerinstance['company'] = item.company;
-        careerinstance['datefrom'] = item.datefrom;
-        careerinstance['dateto'] = item.dateto;
-        if(item.company === ''){
-          isnullinstance = true;
-        }
-
-        if(occupationexisted.includes(occid)){
-          let obj = occupations.find(o => o.id === occid);
-          obj['instances'].push(careerinstance);
-          occupations = occupations.filter(function( obj ) {
-            return obj.id !== occid;
-          });
-          occupations.push(obj);
-        }
-        else{
-          let careerinstancenew = {};
-          careerinstancenew['instanceid'] = '0';
-          careerinstancenew['company'] = '';
-          careerinstancenew['datefrom'] = '';
-          careerinstancenew['dateto'] = '';
-
-          let occupation = {}
-          occupation['id'] = occid;
-          occupation['name'] = item.name;
-          if(isnullinstance){
-            occupation['instances'] = [careerinstance];
-          }
-          else{
-            occupation['instances'] = [careerinstancenew,careerinstance];
-          }
-
-          occupations.push(occupation);
-
-          occupationexisted.push(occid);
-          let savemsgs = this.state.savepopupmsgs;
-          savemsgs[occid] = 'Save your changes';
-          this.setState({savepopupmsgs: savemsgs});
-        }
-        
-      });
-      console.log(occupations);
-      this.setState({usercareer: occupations});
+      this.loadusercareer(this.state.userprofile);      
     }
     catch(err){
       if(err.response){
@@ -122,6 +71,54 @@ class Profile extends React.Component {
         }
       }
     }  
+  }
+
+  loadusercareer(userprofile){
+    let occupations = [];
+    let occupationexisted = [];
+    _.each(userprofile, (item, i) => {
+      const occid = item.occupationid;  
+      let isnullinstance = false;      
+      let careerinstance = {};
+      careerinstance['instanceid'] = item.instanceid;
+      careerinstance['company'] = item.company;
+      careerinstance['datefrom'] = item.datefrom;
+      careerinstance['dateto'] = item.dateto;
+      if(item.company === ''){
+        isnullinstance = true;
+      }
+
+      if(occupationexisted.includes(occid)){
+        let obj = occupations.find(o => o.id === occid);
+        obj['instances'].push(careerinstance);
+        occupations = occupations.filter(function( obj ) {
+          return obj.id !== occid;
+        });
+        occupations.push(obj);
+      }
+      else{
+        let careerinstancenew = {};
+        careerinstancenew['instanceid'] = '0';
+        careerinstancenew['company'] = '';
+        careerinstancenew['datefrom'] = '';
+        careerinstancenew['dateto'] = '';
+
+        let occupation = {}
+        occupation['id'] = occid;
+        occupation['name'] = item.name;
+        if(isnullinstance){
+          occupation['instances'] = [careerinstance];
+        }
+        else{
+          occupation['instances'] = [careerinstancenew,careerinstance];
+        }
+
+        occupations.push(occupation);
+        occupationexisted.push(occid);
+      }
+      
+    });
+    this.setState({usercareer: occupations});
   }
 
   async handledatechange(datetype,occupationid,instanceid){
@@ -168,22 +165,17 @@ class Profile extends React.Component {
       );
       console.log('update user career [' + response.data['message'] + ']');
       console.log('savepopup-' + occupationid);
-      let savemsgs = this.state.savepopupmsgs;
-      savemsgs[occupationid] = 'Changes was saved';
-      this.setState({savepopupmsgs: savemsgs});
+      this.validateusertoken();
     }
     catch(err){
-      console.log('update user career [' + err + ']');     
-      let savemsgs = this.state.savepopupmsgs;
-      savemsgs[occupationid] = 'Unable to save changes';
-      this.setState({savepopupmsgs: savemsgs});
+      console.log('update user career [' + err + ']');
     }  
   }
 
   async deletecareerrow(occupationid,instanceid){
     try{
       const requeststr = this.state.apihost + '/careers/' + occupationid + '/' + instanceid
-      const response = await axios.put(requeststr,
+      const response = await axios.delete(requeststr,
         {
           headers: {
             'crossDomain': true,
@@ -193,6 +185,8 @@ class Profile extends React.Component {
         }
       );
       console.log('delete user career instance [' + response.data['message'] + ']');
+      this.validateusertoken();
+      
     }
     catch(err){
       console.log('delete user career instance [' + err + ']');     
@@ -223,15 +217,14 @@ class Profile extends React.Component {
                 </span>
                 { ' ' }
                 <Popup className='popup' inverted flowing hoverable
+                  content='Save your changes'
                   trigger={
                     <Icon name='save' size='small' link
                       color='green'
                       onClick={this.updatecareerdata.bind(this,item.id)}
                     />
                   }
-                >{this.state.savepopupmsgs[item.id]}
-                </Popup>
-
+                />
               </Item.Header>
               <Item.Extra>
                 <Grid stackable>
@@ -269,6 +262,7 @@ class Profile extends React.Component {
                         {
                           instance.instanceid !== '0' && 
                           <Popup className='popup' inverted flowing hoverable
+                            content='Delete row'
                             trigger={
                               <Icon name='delete' size='small' link
                                 inverted
@@ -276,8 +270,7 @@ class Profile extends React.Component {
                                 onClick={this.deletecareerrow.bind(this,item.id,instance.instanceid)}
                               />
                             }
-                          >Delete
-                          </Popup>
+                          />
                         }
                       </Grid.Column>
                     </Grid.Row>
