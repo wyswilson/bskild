@@ -76,16 +76,20 @@ class Profile extends React.Component {
   loadusercareer(userprofile){
     let occupations = [];
     let occupationexisted = [];
+
     _.each(userprofile, (item, i) => {
       const occid = item.occupationid;  
-      let isnullinstance = false;      
+      let isnullinstance = {};      
       let careerinstance = {};
       careerinstance['instanceid'] = item.instanceid;
       careerinstance['company'] = item.company;
       careerinstance['datefrom'] = item.datefrom;
       careerinstance['dateto'] = item.dateto;
       if(item.company === ''){
-        isnullinstance = true;
+        isnullinstance[occid] = true;
+      }
+      else{
+        isnullinstance[occid] = false;        
       }
 
       if(occupationexisted.includes(occid)){
@@ -106,7 +110,7 @@ class Profile extends React.Component {
         let occupation = {}
         occupation['id'] = occid;
         occupation['name'] = item.name;
-        if(isnullinstance){
+        if(isnullinstance[occid]){
           occupation['instances'] = [careerinstance];
         }
         else{
