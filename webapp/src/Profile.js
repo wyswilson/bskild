@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Popup, Table, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
+import { Popup, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import validator from 'validator';
 
@@ -164,6 +164,25 @@ class Profile extends React.Component {
     }  
   }
 
+  async deletecareerrow(occupationid,instanceid){
+    try{
+      const requeststr = this.state.apihost + '/users/career/' + occupationid + '/' + instanceid
+      const response = await axios.delete(requeststr,
+        {
+          headers: {
+            'crossDomain': true,
+            "content-type": "application/json",
+            "access-token": this.state.token
+          }
+        }
+      );
+      console.log('delete user career instance [' + response.data['message'] + ']');
+    }
+    catch(err){
+      console.log('delete user career instance [' + err + ']');     
+     }  
+  }
+
   async handlecompanychange(occupationid,instanceid){
     const companyfieldid = 'company-' + occupationid + '-' + instanceid;
     const companyname = document.getElementById(companyfieldid).value;
@@ -199,34 +218,39 @@ class Profile extends React.Component {
 
               </Item.Header>
               <Item.Extra>
-                <Table stackable size='small' compact collapsing>
-                <Table.Body>
                 {
                   item.instances.map((instance, j) =>
-                    <Table.Row key={instance.instanceid}>
-                      <Table.Cell>
-                        <Input size='small' style={{width:'8em'}}
-                          iconPosition='left'
-                          icon='at' placeholder='Company'
-                          onChange={this.handlecompanychange.bind(this,i,j)}
-                          id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
-                         />
-                        <Input size='small' style={{width:'7.5em'}} placeholder='yyyy-mm'
-                          onChange={this.handledatechange.bind(this,'datefrom',i,j)}
-                          id={'datefrom-' + i + '-' + j}
-                          value={!instance.datefrom ? '' : instance.datefrom}
-                        />
-                        <Input size='small' style={{width:'7.5em'}} placeholder='yyyy-mm'
-                          onChange={this.handledatechange.bind(this,'dateto',i,j)}
-                          id={'dateto-' + i + '-' + j}
-                          value={!instance.dateto ? '' : instance.dateto}
-                        />
-                      </Table.Cell>
-                    </Table.Row>
+                    <div>
+                      <Input size='mini' style={{width:'8em'}}
+                        iconPosition='left'
+                        icon='at' placeholder='Company'
+                        onChange={this.handlecompanychange.bind(this,i,j)}
+                        id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
+                       />
+                      <Input size='mini' style={{width:'7.5em'}} placeholder='yyyy-mm'
+                        onChange={this.handledatechange.bind(this,'datefrom',i,j)}
+                        id={'datefrom-' + i + '-' + j}
+                        value={!instance.datefrom ? '' : instance.datefrom}
+                      />
+                      <Input size='mini' style={{width:'7.5em'}} placeholder='yyyy-mm'
+                        onChange={this.handledatechange.bind(this,'dateto',i,j)}
+                        id={'dateto-' + i + '-' + j}
+                        value={!instance.dateto ? '' : instance.dateto}
+                      />
+                      { ' '}
+                      <Popup className='popup' inverted flowing hoverable
+                        trigger={
+                          <Icon name='delete' size='small' link
+                            inverted
+                            color='green'
+                            onClick={this.deletecareerrow.bind(this,item.id,instance.instanceid)}
+                          />
+                        }
+                      >{this.state.savepopupmsgs[item.id]}
+                      </Popup>
+                    </div>
                   )
                 }
-                </Table.Body>
-                </Table>
               </Item.Extra>
             </Item.Content>
           </Item>
