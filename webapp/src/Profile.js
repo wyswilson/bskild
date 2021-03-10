@@ -155,7 +155,7 @@ class Profile extends React.Component {
     });
     
     try{
-      const requeststr = this.state.apihost + '/users/career/' + occupationid
+      const requeststr = this.state.apihost + '/careers/' + occupationid
       const response = await axios.put(requeststr,
         occupationtoupdate, 
         {
@@ -182,8 +182,8 @@ class Profile extends React.Component {
 
   async deletecareerrow(occupationid,instanceid){
     try{
-      const requeststr = this.state.apihost + '/users/career/' + occupationid + '/' + instanceid
-      const response = await axios.delete(requeststr,
+      const requeststr = this.state.apihost + '/careers/' + occupationid + '/' + instanceid
+      const response = await axios.put(requeststr,
         {
           headers: {
             'crossDomain': true,

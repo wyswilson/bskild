@@ -81,7 +81,7 @@ def updateuser(userid,token):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users/career/<occupationid>/<instanceid>', methods=['DELETE'])
+@app.route('/v1/careers/<occupationid>/<instanceid>', methods=['PUT'])
 @func.requiretoken
 def deleteusercareerinstance(userid,token,occupationid,instanceid):
 	print('hit [deleteusercareerinstance]')
@@ -93,7 +93,7 @@ def deleteusercareerinstance(userid,token,occupationid,instanceid):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users/career/<occupationid>', methods=['PUT'])
+@app.route('/v1/careers/<occupationid>', methods=['PUT'])
 @func.requiretoken
 def updateusercareer(userid,token,occupationid):
 	print('hit [updateusercareer]')
@@ -108,7 +108,7 @@ def updateusercareer(userid,token,occupationid):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users/career', methods=['POST'])
+@app.route('/v1/careers', methods=['POST'])
 @func.requiretoken
 def setusercareer(userid,token):
 	print('hit [setusercareer]')
