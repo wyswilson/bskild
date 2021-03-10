@@ -63,12 +63,16 @@ class Profile extends React.Component {
       let occupations = [];
       let occupationexisted = [];
       await _.each(this.state.userprofile, (item, i) => {
-        const occid = item.occupationid;        
+        const occid = item.occupationid;  
+        let isnullinstance = false;      
         let careerinstance = {};
         careerinstance['instanceid'] = item.instanceid;
         careerinstance['company'] = item.company;
         careerinstance['datefrom'] = item.datefrom;
         careerinstance['dateto'] = item.dateto;
+        if(item.company === ''){
+          isnullinstance = true;
+        }
 
         if(occupationexisted.includes(occid)){
           let obj = occupations.find(o => o.id === occid);
@@ -79,10 +83,22 @@ class Profile extends React.Component {
           occupations.push(obj);
         }
         else{
+          let careerinstancenew = {};
+          careerinstancenew['instanceid'] = '0';
+          careerinstancenew['company'] = '';
+          careerinstancenew['datefrom'] = '';
+          careerinstancenew['dateto'] = '';
+
           let occupation = {}
           occupation['id'] = occid;
           occupation['name'] = item.name;
-          occupation['instances'] = [careerinstance];
+          if(isnullinstance){
+            occupation['instances'] = [careerinstance];
+          }
+          else{
+            occupation['instances'] = [careerinstancenew,careerinstance];
+          }
+
           occupations.push(occupation);
 
           occupationexisted.push(occid);
@@ -218,39 +234,56 @@ class Profile extends React.Component {
 
               </Item.Header>
               <Item.Extra>
+                <Grid stackable>
                 {
                   item.instances.map((instance, j) =>
-                    <div>
-                      <Input size='mini' style={{width:'8em'}}
-                        iconPosition='left'
-                        icon='at' placeholder='Company'
-                        onChange={this.handlecompanychange.bind(this,i,j)}
-                        id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
-                       />
-                      <Input size='mini' style={{width:'7.5em'}} placeholder='yyyy-mm'
-                        onChange={this.handledatechange.bind(this,'datefrom',i,j)}
-                        id={'datefrom-' + i + '-' + j}
-                        value={!instance.datefrom ? '' : instance.datefrom}
-                      />
-                      <Input size='mini' style={{width:'7.5em'}} placeholder='yyyy-mm'
-                        onChange={this.handledatechange.bind(this,'dateto',i,j)}
-                        id={'dateto-' + i + '-' + j}
-                        value={!instance.dateto ? '' : instance.dateto}
-                      />
-                      { ' '}
-                      <Popup className='popup' inverted flowing hoverable
-                        trigger={
-                          <Icon name='delete' size='small' link
-                            inverted
-                            color='green'
-                            onClick={this.deletecareerrow.bind(this,item.id,instance.instanceid)}
-                          />
+                    <Grid.Row columns={4} key={instance.instanceid}>
+                      <Grid.Column>
+                        <Input size='mini'
+                          fluid
+                          iconPosition='left'
+                          icon='at' placeholder='Company'
+                          onChange={this.handlecompanychange.bind(this,i,j)}
+                          id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
+                         />
+                      </Grid.Column>
+                      <Grid.Column>
+                        <Input size='mini'
+                          fluid
+                          placeholder='yyyy-mm'
+                          onChange={this.handledatechange.bind(this,'datefrom',i,j)}
+                          id={'datefrom-' + i + '-' + j}
+                          value={!instance.datefrom ? '' : instance.datefrom}
+                        />
+                      </Grid.Column>
+                      <Grid.Column>
+                        <Input size='mini'
+                          fluid
+                          placeholder='yyyy-mm'
+                          onChange={this.handledatechange.bind(this,'dateto',i,j)}
+                          id={'dateto-' + i + '-' + j}
+                          value={!instance.dateto ? '' : instance.dateto}
+                        />
+                      </Grid.Column>
+                      <Grid.Column>
+                        {
+                          instance.instanceid !== '0' && 
+                          <Popup className='popup' inverted flowing hoverable
+                            trigger={
+                              <Icon name='delete' size='small' link
+                                inverted
+                                color='green'
+                                onClick={this.deletecareerrow.bind(this,item.id,instance.instanceid)}
+                              />
+                            }
+                          >Delete
+                          </Popup>
                         }
-                      >{this.state.savepopupmsgs[item.id]}
-                      </Popup>
-                    </div>
+                      </Grid.Column>
+                    </Grid.Row>
                   )
                 }
+                </Grid>
               </Item.Extra>
             </Item.Content>
           </Item>

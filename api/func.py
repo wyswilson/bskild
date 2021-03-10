@@ -182,13 +182,22 @@ def updatecareerinstances(userid,occupationid,instances):
 		datefrom 	= instance['datefrom']
 		dateto 		= instance['dateto']
 
-		query2 = """
-			UPDATE careers SET company = %s, dateFrom = %s, dateTo = %s
-			WHERE userId = %s AND occupationUri = %s AND instanceId = %s
-		"""
-		cursor = _execute(db,query2,(company,datefrom,dateto,userid,concepturi,instanceid))
-		db.commit()
-		cursor.close()	
+		if instanceid != '0':
+			query2 = """
+				UPDATE careers SET company = %s, dateFrom = %s, dateTo = %s
+				WHERE userId = %s AND occupationUri = %s AND instanceId = %s
+			"""
+			cursor = _execute(db,query2,(company,datefrom,dateto,userid,concepturi,instanceid))
+			db.commit()
+			cursor.close()
+		else:
+			query3 = """
+				INSERT INTO careers (userId,occupationUri,company,dateFrom,dateTo)
+				VALUES (%s,%s,%s,%s,%s)
+			"""
+			cursor = _execute(db,query3,(userid,concepturi,company,datefrom,dateto))
+			db.commit()
+			cursor.close()	
 
 def validateemail(email):
 	if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
