@@ -112,16 +112,29 @@ class Profile extends React.Component {
       
     });
 
-    _.each(hasnullinstance, (value, key) => {
-      console.log(key + '-' + value);
+    _.each(hasnullinstance, (value, occid) => {
+      console.log(occid + '-' + value);
       let careerinstancenew = {};
       careerinstancenew['instanceid'] = '0';
       careerinstancenew['company'] = '';
       careerinstancenew['datefrom'] = '';
       careerinstancenew['dateto'] = '';
 
-      
+      if(!value){
+        let allotheroccupations = occupations.filter(function( obj ) {
+          return obj.id !== occid;
+        });
+
+        let targetoccupation = occupations.filter(function( obj ) {
+          return obj.id === occid;
+        });
+
+        targetoccupation[0]['instances'].push(careerinstancenew);
+        occupations = [...allotheroccupations, ...targetoccupation];
+      }
+
     });
+
 
     this.setState({usercareer: occupations});
   }
