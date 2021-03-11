@@ -55,7 +55,7 @@ class Home extends React.Component {
   async validatetoken(){
     if(this.state.token){
       try{
-        const requeststr = this.state.apihost + '/users'
+        const requeststr = this.state.apihost + '/users/auth'
         const response = await axios.get(requeststr,
           {
             headers: {
@@ -454,10 +454,10 @@ class Home extends React.Component {
     this.inquirehelpmodal(custommessage,true);
   }
 
-  async toggleuserfav(event){
+  async saveoccupationtoprofile(event){
     if(this.state.userid !== ''){
       try{
-        const response = await axios.post(this.state.apihost + '/careers', 
+        const response = await axios.put(this.state.apihost + '/users/career', 
           {
             occupationId:this.state.selectedid
           }, 
@@ -621,7 +621,7 @@ class Home extends React.Component {
                               <span>
                               <Button
                               className='action' disabled={this.state.userid === '' ? true : false}
-                              size='tiny' onClick={this.toggleuserfav.bind(this)}
+                              size='tiny' onClick={this.saveoccupationtoprofile.bind(this)}
                               >
                                 <Icon name='clipboard outline'/>
                                 <span id='savefavbutton'>

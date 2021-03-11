@@ -27,7 +27,7 @@ class Login extends React.Component {
   async validatetoken(){
     if(this.state.token){
       try{
-        const requeststr = this.state.apihost + '/users'
+        const requeststr = this.state.apihost + '/users/auth'
         const response = await axios.get(requeststr,
           {
             headers: {
@@ -66,7 +66,7 @@ class Login extends React.Component {
   }
 
   async login(event){
-    var requeststr = this.state.apihost + '/users'
+    var requeststr = this.state.apihost + '/users/auth'
     try{
       const response = await axios.post(requeststr, {},
         {

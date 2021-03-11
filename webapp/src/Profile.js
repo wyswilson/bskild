@@ -39,7 +39,7 @@ class Profile extends React.Component {
 
   async validateusertoken(){
     try{
-      const requeststr = this.state.apihost + '/users'
+      const requeststr = this.state.apihost + '/users/auth'
       const response = await axios.get(requeststr,
         {
           headers: {
@@ -170,8 +170,8 @@ class Profile extends React.Component {
     });
     
     try{
-      const requeststr = this.state.apihost + '/careers/' + occupationid
-      const response = await axios.put(requeststr,
+      const requeststr = this.state.apihost + '/users/career/' + occupationid
+      const response = await axios.post(requeststr,
         occupationtoupdate, 
         {
           headers: {
@@ -192,7 +192,7 @@ class Profile extends React.Component {
 
   async deletecareerrow(occupationid,instanceid){
     try{
-      const requeststr = this.state.apihost + '/careers/' + occupationid + '/' + instanceid
+      const requeststr = this.state.apihost + '/users/career/' + occupationid + '/' + instanceid
       const response = await axios.delete(requeststr,
         {
           headers: {
@@ -249,7 +249,7 @@ class Profile extends React.Component {
                 {
                   item.instances.map((instance, j) =>
                     <Grid.Row columns={4} key={instance.instanceid}>
-                      <Grid.Column>
+                      <Grid.Column width={6}>
                         <Input size='mini'
                           fluid
                           iconPosition='left'
@@ -258,7 +258,7 @@ class Profile extends React.Component {
                           id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
                          />
                       </Grid.Column>
-                      <Grid.Column>
+                      <Grid.Column width={4}>
                         <Input size='mini'
                           fluid
                           placeholder='yyyy-mm'
@@ -267,7 +267,7 @@ class Profile extends React.Component {
                           value={!instance.datefrom ? '' : instance.datefrom}
                         />
                       </Grid.Column>
-                      <Grid.Column>
+                      <Grid.Column width={4}>
                         <Input size='mini'
                           fluid
                           placeholder='yyyy-mm'
@@ -276,9 +276,10 @@ class Profile extends React.Component {
                           value={!instance.dateto ? '' : instance.dateto}
                         />
                       </Grid.Column>
-                      <Grid.Column>
+                      <Grid.Column width={1}
+                        verticalAlign='middle' textAlign='left'>
                         {
-                          instance.instanceid !== '0' && 
+                          instance.company !== '' && 
                           <Popup className='popup' inverted flowing hoverable
                             content='Delete row'
                             trigger={
@@ -391,11 +392,10 @@ class Profile extends React.Component {
 
   async updateuserinfo(event){
     if(this.state.isfirstnamevalid && this.state.islastnamevalid){
-      console.log('VALID');
 
       try{
         const requeststr = this.state.apihost + '/users'
-        const response = await axios.put(requeststr,
+        const response = await axios.post(requeststr,
           {
             firstname:this.state.firstname,
             lastname:this.state.lastname,
@@ -421,7 +421,6 @@ class Profile extends React.Component {
       }  
     }
     else{
-      console.log('INVALID');
       this.setState({userinfoupdateok: false});
       this.setState({userinfoupdatemsg: 'Incomplete information'});
     }

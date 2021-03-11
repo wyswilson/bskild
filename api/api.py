@@ -54,16 +54,49 @@ def registerinquiry():
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users', methods=['GET'])
+@app.route('/v1/users/career/<occupationid>/<instanceid>', methods=['DELETE'])
 @func.requiretoken
-def uservalidate(userid,token):
-	print('hit [uservalidate] with [%s]' % (userid))
+def deleteusercareerinstance(userid,token,occupationid,instanceid):
+	print('hit [deleteusercareerinstance]')
+	
+	status = "User career instance deleted"
+	statuscode = 200
+	
+	func.deletecareerinstance(userid,occupationid,instanceid)
 
-	records = func.finduserbyid(userid,'full')
+	return func.jsonifyoutput(statuscode,status,"","",[])
 
-	return func.jsonifyoutput(200,"identity verified","users","",func.jsonifyusers(records),{'Access-Token': token, 'Name': records[0][1]})
+@app.route('/v1/users/career/<occupationid>', methods=['POST'])
+@func.requiretoken
+def updateusercareer(userid,token,occupationid):
+	print('hit [updateusercareer]')
+	
+	status = "User career updated"
+	statuscode = 200
 
-@app.route('/v1/users', methods=['PUT'])
+	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
+	instances = jsondata[0]['instances']
+	
+	func.updatecareerinstances(userid,occupationid,instances)
+
+	return func.jsonifyoutput(statuscode,status,"","",[])
+
+@app.route('/v1/users/career', methods=['PUT'])
+@func.requiretoken
+def setusercareer(userid,token):
+	print('hit [setusercareer]')
+
+	status = "New role added to user profile"
+	statuscode = 200
+
+	jsondata 	= json.loads(flask.request.get_data().decode('UTF-8'))
+	occupationid= jsondata["occupationId"]
+
+	func.saveuserroles(userid,occupationid)
+
+	return func.jsonifyoutput(statuscode,status,"","",[])
+
+@app.route('/v1/users', methods=['POST'])
 @func.requiretoken
 def updateuser(userid,token):
 	print('hit [userupdate]')
@@ -81,86 +114,58 @@ def updateuser(userid,token):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/careers/<occupationid>/<instanceid>', methods=['DELETE'])
+@app.route('/v1/users/auth', methods=['PUT'])
 @func.requiretoken
-def deleteusercareerinstance(userid,token,occupationid,instanceid):
-	print('hit [deleteusercareerinstance]')
-	
-	status = "User career instance deleted"
-	statuscode = 200
-	
-	func.deletecareerinstance(userid,occupationid,instanceid)
-
-	return func.jsonifyoutput(statuscode,status,"","",[])
-
-@app.route('/v1/careers/<occupationid>', methods=['PUT'])
-@func.requiretoken
-def updateusercareer(userid,token,occupationid):
-	print('hit [updateusercareer]')
-	
-	status = "User career updated"
-	statuscode = 200
+def registeruser(userid,token):
+	print('hit [registeruser]')
 
 	jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
-	instances = jsondata[0]['instances']
-	
-	func.updatecareerinstances(userid,occupationid,instances)
+	email 		= jsondata["email"]
+	password 	= jsondata["password"]
+	firstname	= jsondata["firstname"]
+	lastname	= jsondata["lastname"]
 
-	return func.jsonifyoutput(statuscode,status,"","",[])
-
-@app.route('/v1/careers', methods=['POST'])
-@func.requiretoken
-def setusercareer(userid,token):
-	print('hit [setusercareer]')
-
-	status = "New role added to user's profile"
-	statuscode = 200
-
-	jsondata 	= json.loads(flask.request.get_data().decode('UTF-8'))
-	occupationid= jsondata["occupationId"]
-
-	func.saveuserroles(userid,occupationid)
-
-	return func.jsonifyoutput(statuscode,status,"","",[])
-
-@app.route('/v1/users', methods=['POST'])
-def addorloginuser():
-	print('hit [addorloginuser]')
-
-	auth = flask.request.authorization
-	if auth is not None:
-		email = auth.username
-		password = auth.password
-		if not email or not password:
-			return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
-		else:
-			userid,firstname,passwordhashed = func.finduserbyid(email,'lite')
-			if userid != "" and func.checkpassword(passwordhashed,password):
-				token = func.generatejwt(userid,firstname)
-				tokenstr = token.decode('UTF-8')
-				return func.jsonifyoutput(200,"login successful","","",[],{'Access-Token': tokenstr, 'Name': firstname})
-			else:
-				return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
+	#,use_blacklist=True check_mx=True, from_address='wyswilson@live.com', helo_host='my.host.name', smtp_timeout=10, dns_timeout=10, 
+	#if validate_email.validate_email(email_address=email):
+	if func.validateemail(email) and firstname != '' and lastname != '':
+		try:
+			func.addnewuser(email,firstname,lastname,func.generatehash(password))
+			return func.jsonifyoutput(200,"user registered","","",[])
+		except:
+			return func.jsonifyoutput(403,"user already exists","","",[])
+	elif firstname == '' or lastname == '':
+		return func.jsonifyoutput(412,"invalid user name - try again","","",[])
 	else:
-		jsondata = json.loads(flask.request.get_data().decode('UTF-8'))
-		email 		= jsondata["email"]
-		password 	= jsondata["password"]
-		firstname	= jsondata["firstname"]
-		lastname	= jsondata["lastname"]
+		return func.jsonifyoutput(412,"invalid user email - try again","","",[])
 
-		#,use_blacklist=True check_mx=True, from_address='wyswilson@live.com', helo_host='my.host.name', smtp_timeout=10, dns_timeout=10, 
-		#if validate_email.validate_email(email_address=email):
-		if func.validateemail(email) and firstname != '' and lastname != '':
-			try:
-				func.addnewuser(email,firstname,lastname,func.generatehash(password))
-				return func.jsonifyoutput(200,"user registered","","",[])
-			except:
-				return func.jsonifyoutput(403,"user already exists","","",[])
-		elif fullname == '':
-			return func.jsonifyoutput(412,"invalid fullname - try again","","",[])
+@app.route('/v1/users/auth', methods=['GET'])
+@func.requiretoken
+def uservalidate(userid,token):
+	print('hit [uservalidate] with [%s]' % (userid))
+
+	records = func.finduserbyid(userid,'full')
+
+	return func.jsonifyoutput(200,"identity verified","users","",func.jsonifyusers(records),{'Access-Token': token, 'Name': records[0][1]})
+
+@app.route('/v1/users/auth', methods=['POST'])
+def loginuser():
+	print('hit [loginuser]')
+
+	auth 		= flask.request.authorization
+	email 		= auth.username
+	password 	= auth.password
+
+	if not email or not password:
+		return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
+	else:
+		userid,firstname,passwordhashed = func.finduserbyid(email,'lite')
+		if userid != "" and func.checkpassword(passwordhashed,password):
+			token = func.generatejwt(userid,firstname)
+			tokenstr = token.decode('UTF-8')
+			return func.jsonifyoutput(200,"login successful","","",[],{'Access-Token': tokenstr, 'Name': firstname})
 		else:
-			return func.jsonifyoutput(412,"invalid user email - try again","","",[])
-
+			return func.jsonifyoutput(401,"unable to verify identity","","",[],{'WWW.Authentication': 'Basic realm: "login required"'})	
+		
 @app.route("/v1/gazetteer/states/<countrycode>", methods=['GET'])
 def getstates(countrycode):
 	print('hit [getstates]')
