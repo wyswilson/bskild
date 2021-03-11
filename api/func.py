@@ -170,7 +170,7 @@ def deletecareerinstance(userid,occupationid,instanceid):
 	SELECT
 	  	count(*)
 	FROM careers
-	WHERE userId = %s OR occupationUri = %s
+	WHERE userId = %s AND occupationUri = %s
 	"""
 	cursor = _execute(db,query1,(userid,concepturi))
 	records = cursor.fetchall()
