@@ -167,12 +167,32 @@ def deletecareerinstance(userid,occupationid,instanceid):
 	concepturi = "%s/occupation/%s" % (idprefix,occupationid)
 
 	query1 = """
-		DELETE FROM careers 
-		WHERE userId = %s AND occupationUri = %s AND instanceId = %s
+	SELECT
+	  	count(*)
+	FROM careers
+	WHERE userId = %s OR occupationUri = %s
 	"""
-	cursor = _execute(db,query1,(userid,concepturi,instanceid))
-	db.commit()
+	cursor = _execute(db,query1,(userid,concepturi))
+	records = cursor.fetchall()
 	cursor.close()
+
+	instancecnt = records[0][0]
+	if instancecnt > 1:
+		query2 = """
+			DELETE FROM careers 
+			WHERE userId = %s AND occupationUri = %s AND instanceId = %s
+		"""
+		cursor = _execute(db,query2,(userid,concepturi,instanceid))
+		db.commit()
+		cursor.close()
+	else:
+		query2 = """
+			UPDATE careers SET company = '', dateFrom = '0000-00-00', dateTo = '0000-00-00'
+			WHERE userId = %s AND occupationUri = %s AND instanceId = %s
+		"""
+		cursor = _execute(db,query2,(userid,concepturi,instanceid))
+		db.commit()
+		cursor.close()
 
 def updatecareerinstances(userid,occupationid,instances):
 	concepturi = "%s/occupation/%s" % (idprefix,occupationid)
