@@ -352,9 +352,13 @@ def finduserbyid(emailoruserid,mode):
 		records = cursor.fetchall()
 		cursor.close()
 
-		userid = records[0][0]
-		fname = records[0][1]
-		pwdhashed = records[0][2]
+		userid = ''
+		fname = ''
+		pwdhashed = ''
+		if records:
+			userid = records[0][0]
+			fname = records[0][1]
+			pwdhashed = records[0][2]
 
 		return userid,fname,pwdhashed
 

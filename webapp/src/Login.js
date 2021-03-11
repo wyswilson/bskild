@@ -10,8 +10,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      apihost: 'http://bskild.xyz/v1',
-      //apihost: 'http://127.0.0.1:8888/v1',      
+      //apihost: 'http://bskild.xyz/v1',
+      apihost: 'http://127.0.0.1:8888/v1',      
       token: getToken(),
       email: '',
       password: '',
@@ -84,8 +84,10 @@ class Login extends React.Component {
         });
     }
     catch(err){
-      console.log('login error [' + err + ']');   
-      this.setState({loginmsg: 'Login error'});  
+      if(err.response){
+        console.log('login error [' + err + ']');   
+        this.setState({loginmsg: 'Login error'});  
+      }
     }
   }
 
@@ -359,7 +361,7 @@ class Login extends React.Component {
               <Grid.Column width={4} textAlign='left'>
                 {
                   this.state.loginmsg !== '' &&
-                  <Message negative size='small' fluid
+                  <Message negative size='small'
                     style={{paddingTop:'0.65em',paddingBottom:'0.65em'}}
                   >
                     <Message.Content>
