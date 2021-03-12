@@ -113,7 +113,6 @@ class Profile extends React.Component {
     });
 
     _.each(hasnullinstance, (value, occid) => {
-      console.log(occid + '-' + value);
       let careerinstancenew = {};
       careerinstancenew['instanceid'] = '0';
       careerinstancenew['company'] = '';
@@ -349,7 +348,7 @@ class Profile extends React.Component {
 
   async loadlocationdata(){
     try{
-      const requeststr = this.state.apihost + '/gazetteer/countries'
+      const requeststr = this.state.apihost + '/gazetteer/countries';
       const response = await axios.get(requeststr);
       console.log('get countries [' + response.data['message'] + ']');
       const rawcountries = response.data['countries'];
@@ -394,7 +393,7 @@ class Profile extends React.Component {
     if(this.state.isfirstnamevalid && this.state.islastnamevalid){
 
       try{
-        const requeststr = this.state.apihost + '/users'
+        const requeststr = this.state.apihost + '/users';
         const response = await axios.post(requeststr,
           {
             firstname:this.state.firstname,
@@ -428,7 +427,7 @@ class Profile extends React.Component {
 
   loadusercompetency(){
     try{
-      const requeststr = this.state.apihost + '/users/competency'
+      const requeststr = this.state.apihost + '/users/competency';
       const response = axios.get(requeststr,
         {
           headers: {
@@ -439,8 +438,7 @@ class Profile extends React.Component {
       );
       console.log('get user competency [' + response.data['message'] + ']');
       
-
-      this.setState({countries: response.data['competency']});
+      console.log( response.data['competency'] );
     }
     catch(err){
       console.log('get user competency [' + err + ']');     
