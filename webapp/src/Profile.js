@@ -226,7 +226,13 @@ class Profile extends React.Component {
     _.each(this.state.competency, (item, i) => {
       usercompetencypanel.push(
         <Table.Row key={item.id}>
-          <Table.Cell>{item.name}</Table.Cell>
+          <Table.Cell>
+            <span className='actionlink'>
+              <a href={'/home?q=' + item.id + '&m=s'}>
+              {item.name}
+              </a>
+            </span>
+          </Table.Cell>
         </Table.Row>
       )
     });
@@ -597,7 +603,7 @@ class Profile extends React.Component {
                     </Grid.Row>
                   </Grid>
                 </Segment>
-                
+
                 <Segment raised>
                   {this.renderusercareer()}
                 </Segment>
