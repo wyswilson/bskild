@@ -127,7 +127,6 @@ def updateuser(userid,token):
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
 @app.route('/v1/users/auth', methods=['PUT'])
-@func.requiretoken
 def registeruser(userid,token):
 	print('hit [registeruser]')
 
