@@ -96,12 +96,12 @@ def setusercareer(userid,token):
 
 	return func.jsonifyoutput(statuscode,status,"","",[])
 
-@app.route('/v1/users/competence', methods=['GET'])
+@app.route('/v1/users/competency', methods=['GET'])
 @func.requiretoken
-def getusercompetence(userid,token):
-	print('hit [getusercompetence]')
+def getusercompetency(userid,token):
+	print('hit [getusercompetency]')
 
-	status = "User competence fetched"
+	status = "User competency fetched"
 	statuscode = 200
 
 	records = func.computeusercompetence(userid)

@@ -426,9 +426,31 @@ class Profile extends React.Component {
     }
   }
 
+  loadusercompetency(){
+    try{
+      const requeststr = this.state.apihost + '/users/competency'
+      const response = await axios.get(requeststr,
+        {
+          headers: {
+            "content-type": "application/json",
+            "access-token": this.state.token
+          }
+        }
+      );
+      console.log('get user competency [' + response.data['message'] + ']');
+      
+
+      this.setState({countries: response.data['competency']});
+    }
+    catch(err){
+      console.log('get user competency [' + err + ']');     
+    }  
+  }
+
   async componentDidMount() {
     await this.loadlocationdata();
     await this.validateusertoken();
+    await this.loadusercompetency();
   }
 
   render() {
@@ -465,13 +487,8 @@ class Profile extends React.Component {
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
         >
-          <Grid columns='equal' doubling stackable>
-            <Grid.Row columns={2}>
-              <Grid.Column>
-                <Segment raised>
-                {this.renderusercareer()}
-                </Segment>
-              </Grid.Column>
+          <Grid columns='equal' doubling stackable columns={2}>
+            <Grid.Row>              
               <Grid.Column>
                 <Segment raised>
                   <Grid columns='equal' doubling stackable>
@@ -562,7 +579,19 @@ class Profile extends React.Component {
                   </Grid>
                 </Segment>
               </Grid.Column>
-            </Grid.Row>            
+              <Grid.Column>
+                <Segment raised>
+                  bla bla
+                </Segment>
+              </Grid.Column>
+            </Grid.Row>  
+            <Grid.Row stretched>
+              <Grid.Column>
+              <Segment raised>
+                {this.renderusercareer()}
+              </Segment>
+              </Grid.Column>
+            </Grid.Row>          
           </Grid>
         </div>
       </div>
