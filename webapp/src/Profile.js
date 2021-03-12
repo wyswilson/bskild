@@ -429,7 +429,7 @@ class Profile extends React.Component {
   loadusercompetency(){
     try{
       const requeststr = this.state.apihost + '/users/competency'
-      const response = await axios.get(requeststr,
+      const response = axios.get(requeststr,
         {
           headers: {
             "content-type": "application/json",
