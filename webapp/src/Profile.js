@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Popup, Item, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
+import { Table, Popup, Divider, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import validator from 'validator';
 
@@ -28,7 +28,8 @@ class Profile extends React.Component {
       userinfoupdatemsg: '',
       userinfoupdateok: true,
       userprofile: [],
-      usercareer: {}
+      usercareer: {},
+      competency: []
     };
   }
 
@@ -219,92 +220,112 @@ class Profile extends React.Component {
     console.log(this.state.usercareer);
   }
 
+  renderusercompetency(){
+    let usercompetencypanel = [];
+
+    _.each(this.state.competency, (item, i) => {
+      usercompetencypanel.push(
+        <Table.Row key={item.id}>
+          <Table.Cell>{item.name}</Table.Cell>
+        </Table.Row>
+      )
+    });
+
+    return (
+      <Table>
+        <Table.Body>
+        {usercompetencypanel}
+        </Table.Body>
+      </Table>
+    );
+
+  }
+
   renderusercareer(){
     let usercareerpanel = [];
 
     _.each(this.state.usercareer, (item, i) => {
       usercareerpanel.push(
-          <Item key={item.id}>
-            <Item.Content>
-              <Item.Header>
-                <span className='actionlink'>
-                  <a href={'/home?q=' + item.id + '&m=o'}>
-                  {item.name}
-                  </a>
-                </span>
-                { ' ' }
-                <Popup className='popup' inverted flowing hoverable
-                  content='Save your changes'
-                  trigger={
-                    <Icon name='save' size='small' link
-                      color='green'
-                      onClick={this.updatecareerdata.bind(this,item.id)}
-                    />
-                  }
-                />
-              </Item.Header>
-              <Item.Extra>
-                <Grid stackable>
-                {
-                  item.instances.map((instance, j) =>
-                    <Grid.Row columns={4} key={instance.instanceid}>
-                      <Grid.Column width={6}>
-                        <Input size='mini'
-                          fluid
-                          iconPosition='left'
-                          icon='at' placeholder='Company'
-                          onChange={this.handlecompanychange.bind(this,i,j)}
-                          id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
-                         />
-                      </Grid.Column>
-                      <Grid.Column width={4}>
-                        <Input size='mini'
-                          fluid
-                          placeholder='yyyy-mm'
-                          onChange={this.handledatechange.bind(this,'datefrom',i,j)}
-                          id={'datefrom-' + i + '-' + j}
-                          value={!instance.datefrom ? '' : instance.datefrom}
-                        />
-                      </Grid.Column>
-                      <Grid.Column width={4}>
-                        <Input size='mini'
-                          fluid
-                          placeholder='yyyy-mm'
-                          onChange={this.handledatechange.bind(this,'dateto',i,j)}
-                          id={'dateto-' + i + '-' + j}
-                          value={!instance.dateto ? '' : instance.dateto}
-                        />
-                      </Grid.Column>
-                      <Grid.Column width={1}
-                        verticalAlign='middle' textAlign='left'>
-                        {
-                          instance.company !== '' && 
-                          <Popup className='popup' inverted flowing hoverable
-                            content='Delete row'
-                            trigger={
-                              <Icon name='delete' size='small' link
-                                inverted
-                                color='green'
-                                onClick={this.deletecareerrow.bind(this,item.id,instance.instanceid)}
-                              />
-                            }
-                          />
-                        }
-                      </Grid.Column>
-                    </Grid.Row>
-                  )
+          <Table.Row key={item.id}>
+            <Table.Cell>
+              <span className='actionlink'>
+                <a href={'/home?q=' + item.id + '&m=o'}>
+                {item.name}
+                </a>
+              </span>
+              { ' ' }
+              <Popup className='popup' inverted flowing hoverable
+                content='Save your changes'
+                trigger={
+                  <Icon name='save' size='small' link
+                    color='green'
+                    onClick={this.updatecareerdata.bind(this,item.id)}
+                  />
                 }
-                </Grid>
-              </Item.Extra>
-            </Item.Content>
-          </Item>
+              />
+              <Divider />
+              <Grid stackable>
+              {
+                item.instances.map((instance, j) =>
+                  <Grid.Row columns={4} key={instance.instanceid}>
+                    <Grid.Column width={6}>
+                      <Input size='mini'
+                        fluid
+                        iconPosition='left'
+                        icon='at' placeholder='Company'
+                        onChange={this.handlecompanychange.bind(this,i,j)}
+                        id={'company-' + i + '-' + j} value={!instance.company ? '' : instance.company}
+                       />
+                    </Grid.Column>
+                    <Grid.Column width={4}>
+                      <Input size='mini'
+                        fluid
+                        placeholder='yyyy-mm'
+                        onChange={this.handledatechange.bind(this,'datefrom',i,j)}
+                        id={'datefrom-' + i + '-' + j}
+                        value={!instance.datefrom ? '' : instance.datefrom}
+                      />
+                    </Grid.Column>
+                    <Grid.Column width={4}>
+                      <Input size='mini'
+                        fluid
+                        placeholder='yyyy-mm'
+                        onChange={this.handledatechange.bind(this,'dateto',i,j)}
+                        id={'dateto-' + i + '-' + j}
+                        value={!instance.dateto ? '' : instance.dateto}
+                      />
+                    </Grid.Column>
+                    <Grid.Column width={1}
+                      verticalAlign='middle' textAlign='left'>
+                      {
+                        instance.company !== '' && 
+                        <Popup className='popup' inverted flowing hoverable
+                          content='Delete row'
+                          trigger={
+                            <Icon name='delete' size='small' link
+                              inverted
+                              color='green'
+                              onClick={this.deletecareerrow.bind(this,item.id,instance.instanceid)}
+                            />
+                          }
+                        />
+                      }
+                    </Grid.Column>
+                  </Grid.Row>
+                )
+              }
+              </Grid>
+            </Table.Cell>
+          </Table.Row> 
         )
     });
 
     return (
-      <Item.Group divided>
-      {usercareerpanel}
-      </Item.Group>
+      <Table>
+        <Table.Body>
+          {usercareerpanel}
+        </Table.Body>
+      </Table>
     );
   }
 
@@ -425,10 +446,10 @@ class Profile extends React.Component {
     }
   }
 
-  loadusercompetency(){
+  async loadusercompetency(){
     try{
       const requeststr = this.state.apihost + '/users/competency';
-      const response = axios.get(requeststr,
+      const response = await axios.get(requeststr,
         {
           headers: {
             "content-type": "application/json",
@@ -436,9 +457,9 @@ class Profile extends React.Component {
           }
         }
       );
+      console.log(response);
       console.log('get user competency [' + response.data['message'] + ']');
-      
-      console.log( response.data['competency'] );
+      this.setState({competency: response.data['competency']});
     }
     catch(err){
       console.log('get user competency [' + err + ']');     
@@ -576,18 +597,17 @@ class Profile extends React.Component {
                     </Grid.Row>
                   </Grid>
                 </Segment>
-              </Grid.Column>
-              <Grid.Column>
+                
                 <Segment raised>
-                  bla bla
+                  {this.renderusercompetency()}
                 </Segment>
               </Grid.Column>
             </Grid.Row>  
-            <Grid.Row stretched>
+            <Grid.Row>
               <Grid.Column>
-              <Segment raised>
-                {this.renderusercareer()}
-              </Segment>
+                <Segment raised>
+                  {this.renderusercareer()}
+                </Segment>
               </Grid.Column>
             </Grid.Row>          
           </Grid>
