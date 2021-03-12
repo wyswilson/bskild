@@ -487,7 +487,7 @@ class Profile extends React.Component {
         <div
           className={isMobile ? "bodymain mobile" : "bodymain"}
         >
-          <Grid columns='equal' doubling stackable columns={2}>
+          <Grid doubling stackable columns={2}>
             <Grid.Row>              
               <Grid.Column>
                 <Segment raised>
