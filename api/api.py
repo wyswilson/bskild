@@ -139,11 +139,15 @@ def registeruser(userid,token):
 	#,use_blacklist=True check_mx=True, from_address='wyswilson@live.com', helo_host='my.host.name', smtp_timeout=10, dns_timeout=10, 
 	#if validate_email.validate_email(email_address=email):
 	if func.validateemail(email) and firstname != '' and lastname != '':
-		try:
-			func.addnewuser(email,firstname,lastname,func.generatehash(password))
-			return func.jsonifyoutput(200,"user registered","","",[])
-		except:
-			return func.jsonifyoutput(403,"user already exists","","",[])
+		userid,firstname,passwordhashed = func.finduserbyid(email,'lite')
+		if userid == '':
+			try:
+				func.addnewuser(email,firstname,lastname,func.generatehash(password))
+				return func.jsonifyoutput(200,"user registered","","",[])
+			except:
+				return func.jsonifyoutput(403,"user already exists","","",[])
+		else:
+			return func.jsonifyoutput(412,"user account already exists","","",[])
 	elif firstname == '' or lastname == '':
 		return func.jsonifyoutput(412,"invalid user name - try again","","",[])
 	else:
