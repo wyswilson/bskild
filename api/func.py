@@ -362,6 +362,40 @@ def finduserbyid(emailoruserid,mode):
 
 		return userid,fname,pwdhashed
 
+def computeusercompetence(userid):
+	query1 = """
+	SELECT
+		tenureDays*instanceCnt AS score,
+		skillUri,skillName,skillDesc,
+		skillType,skillReusability,tenureDays,instanceCnt
+	FROM(
+		SELECT
+			s.conceptUri AS skillUri, s.preferredLabel AS skillName, s.description AS skillDesc,
+			s.skillType AS skillType, s.reuseLevel AS skillReusability,
+			SUM(
+			case 
+				when DATEDIFF(c.dateTo, c.dateFrom) then DATEDIFF(c.dateTo, c.dateFrom)
+				when DATEDIFF(CURDATE(), c.dateFrom) then DATEDIFF(CURDATE(), c.dateFrom) 
+				ELSE 0
+			END) AS tenureDays,
+			COUNT(DISTINCT(c.instanceId)) AS instanceCnt
+		FROM careers AS c
+		JOIN occupations AS o
+		ON c.occupationUri = o.conceptUri
+		JOIN occupations_skills AS os
+		ON c.occupationUri = os.occupationUri
+		JOIN skills AS s
+		ON os.skillUri = s.conceptUri
+		WHERE c.userId = %s
+		GROUP BY 1,2,3,4
+	) AS competence
+	"""
+	cursor = _execute(db,query1,(userid,))
+	records = cursor.fetchall()
+	cursor.close()
+
+	return records
+
 def addnewuser(email,fname,lname,pwdHashed):
 	userid = hashlib.md5(email.encode('utf-8')).hexdigest()
 	query1 = "INSERT INTO users (userId,email,firstName,lastName,pwdHashed) VALUES (%s,%s,%s,%s,%s)"
@@ -403,6 +437,32 @@ def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records,auth=None
 		response = flask.jsonify(respobj),statuscode
 
 	return response
+
+def jsonifycompetence(records):
+	results = []
+	for record in records:
+		score       	= record[0]
+		skillUri		= record[1]
+		skillName  		= record[2]
+		skillDesc  		= record[3]
+		skillType  		= record[4]
+		skillReusability= record[5]
+		tenureDays  	= record[6]
+		instanceCnt  	= record[7]
+
+		skillId = skillUri.split("/skill/")[1]
+
+		skilldetails = {}
+		skilldetails['id'] = skillId
+		skilldetails['name'] = skillName
+		skilldetails['desc'] = skillDesc
+		skilldetails['type'] = skillType
+		skilldetails['reusability'] = skillReusability	
+		skilldetails['experiencedIn'] = instanceCnt		
+
+		results.append(skilldetails)
+		
+	return results
 
 def jsonifyskillswithoccupations(records):
 	results = []
