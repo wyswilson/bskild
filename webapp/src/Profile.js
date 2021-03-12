@@ -599,14 +599,12 @@ class Profile extends React.Component {
                 </Segment>
                 
                 <Segment raised>
-                  {this.renderusercompetency()}
+                  {this.renderusercareer()}
                 </Segment>
               </Grid.Column>
-            </Grid.Row>  
-            <Grid.Row>
               <Grid.Column>
                 <Segment raised>
-                  {this.renderusercareer()}
+                  {this.renderusercompetency()}
                 </Segment>
               </Grid.Column>
             </Grid.Row>          
