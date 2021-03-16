@@ -390,7 +390,7 @@ def computeusercompetency(userid):
 		GROUP BY 1,2,3,4,5
 	) AS competence
 	ORDER BY 1 DESC
-	LIMIT 10
+	LIMIT 30
 	"""
 	cursor = _execute(db,query1,(userid,))
 	records = cursor.fetchall()
