@@ -362,7 +362,14 @@ def finduserbyid(emailoruserid,mode):
 
 		return userid,fname,pwdhashed
 
-def computeusercompetency(userid):
+def computeusercompetency(userid,count):
+
+	topn = 1000
+	try:
+		topn = int(count) 
+	except:
+		pass
+
 	query1 = """
 	SELECT
 		tenureDays*instanceCnt AS score,
@@ -389,10 +396,11 @@ def computeusercompetency(userid):
 		WHERE c.userId = %s
 		GROUP BY 1,2,3,4,5
 	) AS competence
+	WHERE tenureDays > 0
 	ORDER BY 1 DESC
-	LIMIT 30
+	LIMIT %s
 	"""
-	cursor = _execute(db,query1,(userid,))
+	cursor = _execute(db,query1,(userid,topn))
 	records = cursor.fetchall()
 	cursor.close()
 
@@ -894,14 +902,8 @@ def searchoccupationrelated_exact(occupationid,count):
 
 	return records	
 
-def searchoccupations_exact(occupationid,count):
+def searchoccupations_exact(occupationid):
 	conceptUri = "%s/occupation/%s" % (idprefix,occupationid)
-
-	topn = 10
-	try:
-		topn = int(count) 
-	except:
-		pass
 
 	query1 = """
 	SELECT

@@ -104,7 +104,9 @@ def getusercompetency(userid,token):
 	status = "User competency fetched"
 	statuscode = 200
 
-	records = func.computeusercompetency(userid)
+	count = flask.request.query_string.decode('UTF-8')
+
+	records = func.computeusercompetency(userid,count)
 
 	return func.jsonifyoutput(statuscode,status,"competency","",func.jsonifycompetency(records))
 
@@ -277,7 +279,7 @@ def getrelatedoccupations(occupation):
 
 	return func.jsonifyoutput(statuscode,status,"occupations","",func.jsonifyoccupations(records,'full'))
 
-@app.route('/v1/occupations/<occupation>/job-postings', methods=['GET'])
+@app.route('/v1/occupations/<occupation>/jobpostings', methods=['GET'])
 def getjobposting(occupation):
 	print('hit [getjobposting]')
 
