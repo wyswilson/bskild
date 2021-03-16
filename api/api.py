@@ -104,7 +104,7 @@ def getusercompetency(userid,token):
 	status = "User competency fetched"
 	statuscode = 200
 
-	records = func.computeusercompetence(userid)
+	records = func.computeusercompetency(userid)
 
 	return func.jsonifyoutput(statuscode,status,"competency","",func.jsonifycompetency(records))
 

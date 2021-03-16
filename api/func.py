@@ -387,10 +387,8 @@ def computeusercompetency(userid):
 		JOIN skills AS s
 		ON os.skillUri = s.conceptUri
 		WHERE c.userId = %s
-		GROUP BY 1,2,3,4
+		GROUP BY 1,2,3,4,5
 	) AS competence
-	ORDER BY 1 DESC
-	LIMIT 50
 	"""
 	cursor = _execute(db,query1,(userid,))
 	records = cursor.fetchall()
