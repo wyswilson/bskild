@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isMobile } from 'react-device-detect';
 import { getToken, removeUserSession } from './utils/common';
 
-import { Table, Popup, Divider, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
+import { Header, List, Popup, Message, Button, Dropdown, Input, Segment, Image, Grid, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import validator from 'validator';
 
@@ -225,24 +225,20 @@ class Profile extends React.Component {
 
     _.each(this.state.competency, (item, i) => {
       usercompetencypanel.push(
-        <Table.Row key={item.id}>
-          <Table.Cell>
-            <span className='actionlink'>
-              <a href={'/home?q=' + item.id + '&m=s'}>
-              {item.name}
-              </a>
-            </span>
-          </Table.Cell>
-        </Table.Row>
+        <List.Item key={item.id} style={{ paddingTop: '1em'}}>
+          <List.Header className='actionlink'>
+            <a href={'/home?q=' + item.id + '&m=s'}>
+            {item.name}
+            </a>
+          </List.Header>
+        </List.Item>
       )
     });
 
     return (
-      <Table>
-        <Table.Body>
+      <List verticalAlign='middle'>
         {usercompetencypanel}
-        </Table.Body>
-      </Table>
+      </List>
     );
 
   }
@@ -252,13 +248,13 @@ class Profile extends React.Component {
 
     _.each(this.state.usercareer, (item, i) => {
       usercareerpanel.push(
-          <Table.Row key={item.id}>
-            <Table.Cell>
-              <span className='actionlink'>
-                <a href={'/home?q=' + item.id + '&m=o'}>
-                {item.name}
-                </a>
-              </span>
+          <List.Item key={item.id} style={{ paddingTop: '1em'}}>
+            <List.Header className='actionlink'
+              style={{ paddingTop: '0em', paddingBottom: '1em'}}
+            >
+              <a href={'/home?q=' + item.id + '&m=o'}>
+              {item.name}
+              </a>
               { ' ' }
               <Popup className='popup' inverted flowing hoverable
                 content='Save your changes'
@@ -269,8 +265,10 @@ class Profile extends React.Component {
                   />
                 }
               />
-              <Divider />
-              <Grid stackable>
+            </List.Header>
+            
+            <List.List style={{ paddingLeft: '0em'}}>
+              <Grid>
               {
                 item.instances.map((instance, j) =>
                   <Grid.Row columns={4} key={instance.instanceid}>
@@ -321,17 +319,15 @@ class Profile extends React.Component {
                 )
               }
               </Grid>
-            </Table.Cell>
-          </Table.Row> 
+            </List.List>
+          </List.Item>
         )
     });
 
     return (
-      <Table>
-        <Table.Body>
+      <List verticalAlign='middle'>
           {usercareerpanel}
-        </Table.Body>
-      </Table>
+      </List>
     );
   }
 
@@ -515,7 +511,11 @@ class Profile extends React.Component {
           <Grid doubling stackable columns={2}>
             <Grid.Row>              
               <Grid.Column>
-                <Segment raised>
+
+                <Header as='h4' attached='top' block>
+                  PERSONAL DETAILS
+                </Header>
+                <Segment attached>
                   <Grid columns='equal' doubling stackable>
                     <Grid.Row columns={3}>
                       <Grid.Column width={4} verticalAlign='middle'>
@@ -604,14 +604,23 @@ class Profile extends React.Component {
                   </Grid>
                 </Segment>
 
-                <Segment raised>
+                <Header as='h4' attached='top' block>
+                  CAREER
+                </Header>
+                <Segment attached>
                   {this.renderusercareer()}
                 </Segment>
+
               </Grid.Column>
               <Grid.Column>
-                <Segment raised>
+
+                <Header as='h4' attached='top' block>
+                  COMPETENCY
+                </Header>
+                <Segment attached>
                   {this.renderusercompetency()}
                 </Segment>
+
               </Grid.Column>
             </Grid.Row>          
           </Grid>

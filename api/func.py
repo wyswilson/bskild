@@ -362,7 +362,7 @@ def finduserbyid(emailoruserid,mode):
 
 		return userid,fname,pwdhashed
 
-def computeusercompetence(userid):
+def computeusercompetency(userid):
 	query1 = """
 	SELECT
 		tenureDays*instanceCnt AS score,
@@ -389,6 +389,8 @@ def computeusercompetence(userid):
 		WHERE c.userId = %s
 		GROUP BY 1,2,3,4
 	) AS competence
+	ORDER BY 1 DESC
+	LIMIT 50
 	"""
 	cursor = _execute(db,query1,(userid,))
 	records = cursor.fetchall()
@@ -438,7 +440,7 @@ def jsonifyoutput(statuscode,message,primaryresp,secondaryresp,records,auth=None
 
 	return response
 
-def jsonifycompetence(records):
+def jsonifycompetency(records):
 	results = []
 	for record in records:
 		score       	= record[0]

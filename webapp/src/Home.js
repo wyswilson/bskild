@@ -534,7 +534,7 @@ class Home extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Top roles related to {value}</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>TOP RELATED ROLES</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -544,7 +544,7 @@ class Home extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='3'><Header as='h4'>Main skills for a {value}</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='3'><Header as='h4'>MAIN SKILLS</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -571,7 +571,7 @@ class Home extends React.Component {
         <Table celled striped compact>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan='2'><Header as='h4'>Roles that require the skill</Header></Table.HeaderCell>
+              <Table.HeaderCell colSpan='2'><Header as='h4'>ROLES THAT REQUIRE SKILL</Header></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -597,7 +597,7 @@ class Home extends React.Component {
              <Card key={item.key} raised
               fluid={mode !== 'lite' ? true : false}
              >
-              <Card.Content>
+              <Card.Content style={ isMobile ? { paddingLeft: '0em'} : { paddingLeft: '1em'}}>
                 <Label corner='right'>
                   <Icon
                     name={item.type === 'occupations' ? 'user outline'  : 'list'}
@@ -648,7 +648,7 @@ class Home extends React.Component {
                     <Table.Row key='descriptionheader'>
                       <Table.HeaderCell>
                         <Header as='h4'>
-                          { item.type === 'occupations' ? 'Description of the role'  : 'Description of the skill'}
+                          { item.type === 'occupations' ? 'DESCRIPTION OF ROLE'  : 'DESCRIPTION OF SKILL'}
                         </Header>
                       </Table.HeaderCell>
                     </Table.Row>

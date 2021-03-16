@@ -106,7 +106,7 @@ def getusercompetency(userid,token):
 
 	records = func.computeusercompetence(userid)
 
-	return func.jsonifyoutput(statuscode,status,"competency","",func.jsonifycompetence(records))
+	return func.jsonifyoutput(statuscode,status,"competency","",func.jsonifycompetency(records))
 
 @app.route('/v1/users', methods=['POST'])
 @func.requiretoken
