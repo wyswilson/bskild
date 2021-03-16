@@ -389,6 +389,8 @@ def computeusercompetency(userid):
 		WHERE c.userId = %s
 		GROUP BY 1,2,3,4,5
 	) AS competence
+	ORDER BY 1 DESC
+	LIMIT 10
 	"""
 	cursor = _execute(db,query1,(userid,))
 	records = cursor.fetchall()
