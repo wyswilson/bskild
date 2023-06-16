@@ -6,6 +6,8 @@ We have adopted the [ESCO](https://ec.europa.eu/esco/portal) standard and ontolo
 
 The idea is to use the occupations and skills data to build out an offering that allows direct and enterprise users to understand where and how they're positioned in their (or their teams') careers and the skills gap that need to be filled.
 
+Any secrets you may come across in the repo are no longer valid.
+
 ## Core Resources (API v1)
 
 ### Occupations
